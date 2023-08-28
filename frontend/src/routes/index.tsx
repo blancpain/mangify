@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Root from './root';
+import { Root } from './root';
 
-export default function AppRoutes() {
+export function AppRoutes() {
   const router = createBrowserRouter([
     {
       path: '/',
