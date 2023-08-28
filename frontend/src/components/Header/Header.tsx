@@ -77,11 +77,14 @@ const useStyles = createStyles((theme) => ({
 
 export function HeaderMegaMenu() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+  //! check if below needed
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const { classes, theme } = useStyles();
 
+  //! replace below w/ react router links
+
   return (
-    <Box pb={120}>
+    <Box>
       <Header height={90} px="md">
         <Group position="apart" sx={{ height: '100%' }}>
           <Group spacing={3}>
@@ -90,7 +93,6 @@ export function HeaderMegaMenu() {
               mangify
             </Title>
           </Group>
-
           <Group sx={{ height: '100%' }} spacing={0} className={classes.hiddenMobile}>
             <a href="#" className={classes.link}>
               Home
@@ -102,7 +104,6 @@ export function HeaderMegaMenu() {
               Learn
             </a>
           </Group>
-
           <Group className={classes.hiddenMobile}>
             <ThemeSwitcher />
             <Button variant="default">Log in</Button>
