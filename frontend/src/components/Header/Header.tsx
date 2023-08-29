@@ -1,4 +1,3 @@
-import { IconSalad } from '@tabler/icons-react';
 import {
   createStyles,
   Header,
@@ -10,10 +9,10 @@ import {
   Drawer,
   ScrollArea,
   rem,
-  Title,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
+import { Logo } from '@/components/Logo';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -87,12 +86,7 @@ export function HeaderMegaMenu() {
     <Box>
       <Header height={90} px="md">
         <Group position="apart" sx={{ height: '100%' }}>
-          <Group spacing={3}>
-            <IconSalad color="green" size={35} />
-            <Title order={1} color="green">
-              mangify
-            </Title>
-          </Group>
+          <Logo />
           <Group sx={{ height: '100%' }} spacing={0} className={classes.hiddenMobile}>
             <a href="#" className={classes.link}>
               Home

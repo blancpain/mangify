@@ -81,9 +81,10 @@ export function Hero() {
       <Container className={classes.container}>
         <Title className={classes.title}>Plan. Shop. Cook. Eat.</Title>
         <Text className={classes.description} size="xl" mt="xl">
-          Use this simple and free meal planner to remove the hassle of constantly worrying what to
-          cook. This app can help you gain control of your life by suggesting easy, nutrutious meals
-          that are in line with your preferences and also provide a shopping list for you to use.
+          Use this simple and free of charge meal planner to remove the hassle of constantly
+          worrying about what to cook. This app can help you gain control of your life by suggesting
+          easy, nutrutious meals that fit your needs and turning them into shopping lists and
+          recipes.
         </Text>
 
         <Button variant="gradient" size="xl" radius="xl" className={classes.control}>
