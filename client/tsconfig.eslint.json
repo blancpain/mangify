@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    // all the directories and files
+    // that we want to lint go here
+    "src",
+    "tests",
+
+    // all files where we see
+    // the "parserOptions.project" error go here
+    ".eslintrc.js",
+    "vite.config.ts"
+  ]
+}
