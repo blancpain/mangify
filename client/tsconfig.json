@@ -24,7 +24,8 @@
     /* Absolute imports */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@shared/*": ["./../shared/*"]
     }
   },
   "include": ["src", ".eslintrc.cjs", "tsconfig.eslint.json"],
