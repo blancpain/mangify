@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import {
   createStyles,
   Header,
@@ -9,6 +10,7 @@ import {
   Drawer,
   ScrollArea,
   rem,
+  Text,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
@@ -76,32 +78,32 @@ const useStyles = createStyles((theme) => ({
 
 export function HeaderMegaMenu() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-  //! check if below needed
-  const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const { classes, theme } = useStyles();
 
-  //! replace below w/ react router links
-
   return (
-    <Box>
+    <Box component="header">
       <Header height={90} px="md">
         <Group position="apart" sx={{ height: '100%' }}>
           <Logo />
           <Group sx={{ height: '100%' }} spacing={0} className={classes.hiddenMobile}>
-            <a href="#" className={classes.link}>
+            <Text component={NavLink} to="/" className={classes.link}>
               Home
-            </a>
-            <a href="#" className={classes.link}>
+            </Text>
+            <Text component={NavLink} to="/" className={classes.link}>
               Features
-            </a>
-            <a href="#" className={classes.link}>
+            </Text>
+            <Text component={NavLink} to="/" className={classes.link}>
               Learn
-            </a>
+            </Text>
           </Group>
           <Group className={classes.hiddenMobile}>
             <ThemeSwitcher />
-            <Button variant="default">Log in</Button>
-            <Button>Sign up</Button>
+            <Button variant="default" component={NavLink} to="/login">
+              Log in
+            </Button>
+            <Button component={NavLink} to="/sign-up">
+              Sign up
+            </Button>
           </Group>
           <Group className={classes.hiddenDesktop}>
             <ThemeSwitcher />
@@ -122,21 +124,25 @@ export function HeaderMegaMenu() {
         <ScrollArea h={`calc(100vh - ${rem(60)})`} mx="-md">
           <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
 
-          <a href="#" className={classes.link}>
+          <Text component={NavLink} to="/" className={classes.link}>
             Home
-          </a>
-          <a href="#" className={classes.link}>
+          </Text>
+          <Text component={NavLink} to="/" className={classes.link}>
             Features
-          </a>
-          <a href="#" className={classes.link}>
+          </Text>
+          <Text component={NavLink} to="/" className={classes.link}>
             Learn
-          </a>
+          </Text>
 
           <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
 
           <Group position="center" grow pb="xl" px="md">
-            <Button variant="default">Log in</Button>
-            <Button>Sign up</Button>
+            <Button variant="default" component={NavLink} to="/login">
+              Log in
+            </Button>
+            <Button component={NavLink} to="/sign-up">
+              Sign up
+            </Button>
           </Group>
         </ScrollArea>
       </Drawer>
