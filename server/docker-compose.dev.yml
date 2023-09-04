@@ -30,4 +30,7 @@ services:
       dockerfile: dev.Dockerfile
     volumes:
       - .:/usr/src/app
+      - /usr/src/app/node_modules
     container_name: mangify-server-dev
+    environment:
+      POSTGRES_HOST: postgres

@@ -22,6 +22,25 @@ module.exports = {
     '@typescript-eslint/no-unsafe-member-access': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     'no-case-declarations': 'off',
+    'no-restricted-imports': [
+      'error',
+      {
+        patterns: ['@/features/*/*'],
+      },
+    ],
+    'import/no-default-export': 'error',
+    'import/prefer-default-export': 'off',
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        '': 'never',
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
