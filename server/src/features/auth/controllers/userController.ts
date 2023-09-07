@@ -6,8 +6,10 @@ const getAll = async (_req: Request, res: Response, _next: NextFunction): Promis
   res.json(allUsers);
 };
 
-export const userController = { getAll };
+const getOne = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
+  const { id } = req.params;
+  const user = await userService.getOne(id);
+  res.json(user);
+};
 
-//! Set up Winston & Morgan - look at guide.......commit as soon as this is set up since one route is ready
-//! then commit on every route .e.g creating user, deleting user etc....
-//! also considering setting up helmet middleware => should be good for security external shit can go in src/lib
+export const userController = { getAll, getOne };

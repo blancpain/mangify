@@ -21,3 +21,5 @@ app.use(cors());
 app.use(morganMiddleware);
 
 app.use('/api/users', userRouter);
+
+//! consider setting up helmet middleware => should be good for security external stuff can go in src/lib

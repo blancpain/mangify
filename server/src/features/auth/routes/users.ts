@@ -5,7 +5,7 @@ const userRouter = express.Router();
 
 userRouter.get('/', userController.getAll as RequestHandler);
 
-// router.get('/:id', (req, res) => {});
+userRouter.get('/:id', userController.getOne as RequestHandler);
 
 // router.post('/', (req, res) => {});
 

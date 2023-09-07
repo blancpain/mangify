@@ -13,4 +13,19 @@ const getAll = async (): Promise<NonSensitiveUser[]> => {
   return allUsers;
 };
 
-export const userService = { getAll };
+const getOne = async (id: string): Promise<NonSensitiveUser | null> => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+    },
+  });
+  return user;
+};
+
+export const userService = { getAll, getOne };
