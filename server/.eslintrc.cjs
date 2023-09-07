@@ -10,10 +10,10 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   env: {
     browser: true,
-    es6: true,
+    es2020: true,
     node: true,
   },
-  ignorePatterns: ['**/prisma/*'],
+  ignorePatterns: ['**/prisma/*', '.eslintrc.cjs', 'node_modules/*'],
   rules: {
     '@typescript-eslint/semi': ['error'],
     '@typescript-eslint/explicit-function-return-type': 'off',
@@ -45,6 +45,8 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
     project: 'tsconfig.json',
     tsconfigRootDir: __dirname,
   },

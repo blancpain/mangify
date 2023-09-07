@@ -1,3 +1,4 @@
+import { signUpSchema } from '@shared/types';
 import { NextFunction, Request, Response } from 'express';
 import { userService } from '../services/userService';
 
@@ -12,4 +13,21 @@ const getOne = async (req: Request, res: Response, _next: NextFunction): Promise
   res.json(user);
 };
 
-export const userController = { getAll, getOne };
+const addUser = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
+  // eslint-disable-next-line prefer-destructuring
+  const body: unknown = req.body;
+  const result = signUpSchema.safeParse(body);
+  let zodErrors = {};
+
+  if (!result.success) {
+    result.error.issues.forEach((issue) => {
+      zodErrors = { ...zodErrors, [issue.path[0]]: issue.message };
+    });
+    res.status(400).json({ errors: zodErrors });
+  } else {
+    const savedUser = await userService.createUser(result.data);
+    res.status(201).json(savedUser);
+  }
+};
+
+export const userController = { getAll, getOne, addUser };

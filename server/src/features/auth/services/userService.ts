@@ -1,3 +1,5 @@
+import * as bcrypt from 'bcryptjs';
+import { TSignUpSchema } from '@shared/types';
 import { prisma } from '@/utils';
 import { NonSensitiveUser } from '@/types';
 
@@ -28,4 +30,25 @@ const getOne = async (id: string): Promise<NonSensitiveUser | null> => {
   return user;
 };
 
-export const userService = { getAll, getOne };
+const createUser = async (newUser: TSignUpSchema): Promise<NonSensitiveUser | null> => {
+  const saltRounds = 10;
+  const passwordHash = await bcrypt.hash(newUser.password, saltRounds);
+
+  const addedUser = prisma.user.create({
+    data: {
+      name: newUser.name ? newUser.name : '',
+      email: newUser.email,
+      passwordHash,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+    },
+  });
+
+  return addedUser;
+};
+
+export const userService = { getAll, getOne, createUser };

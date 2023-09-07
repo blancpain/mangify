@@ -7,7 +7,7 @@ userRouter.get('/', userController.getAll as RequestHandler);
 
 userRouter.get('/:id', userController.getOne as RequestHandler);
 
-// router.post('/', (req, res) => {});
+userRouter.post('/', userController.addUser as RequestHandler);
 
 // router.delete('/:id', (req, res) => {});
 
