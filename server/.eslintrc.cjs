@@ -13,6 +13,7 @@ module.exports = {
     es6: true,
     node: true,
   },
+  ignorePatterns: ['**/prisma/*'],
   rules: {
     '@typescript-eslint/semi': ['error'],
     '@typescript-eslint/explicit-function-return-type': 'off',
