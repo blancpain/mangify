@@ -1,0 +1,99 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(uuid())
+  name         String?
+  email        String    @unique
+  passwordHash String
+  role         Role      @default(BASIC)
+  disabled     Boolean   @default(false)
+  UserData     UserData?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([email, role])
+  @@map("users")
+}
+
+model UserData {
+  id               String       @id @default(uuid())
+  diet             String?
+  max_calories     Int?
+  favorite_recipes Recipes[]    @relation("RecipesLikedBy")
+  recipes_to_avoid Recipes[]    @relation("RecipesAvoidedBy")
+  favorite_foods   Foods[]      @relation("FoodsLikedBy")
+  foods_to_avoid   Foods[]      @relation("FoodsAvoidedBy")
+  meal_plan        MealPlan[]   @relation("UserMealPlans")
+  ingredients      Ingredient[] @relation("UserIngredients")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
+
+  @@index([diet, max_calories])
+  @@map("user_data")
+}
+
+model Foods {
+  id          String     @id @default(uuid())
+  external_id String
+  likedBy     UserData[] @relation("FoodsLikedBy")
+  avoidedBy   UserData[] @relation("FoodsAvoidedBy")
+
+  @@map("foods")
+}
+
+model Recipes {
+  id          String     @id @default(uuid())
+  external_id String
+  likedBy     UserData[] @relation("RecipesLikedBy")
+  avoidedBy   UserData[] @relation("RecipesAvoidedBy")
+
+  @@map("recipes")
+}
+
+model MealPlan {
+  id          String @id @default(uuid())
+  external_id String
+
+  user        UserData[]   @relation("UserMealPlans")
+  ingredients Ingredient[]
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("meal_plans")
+}
+
+model Ingredient {
+  id         String  @id @default(uuid())
+  foodId     String
+  quantity   Float?
+  unit       String?
+  measurment String?
+
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  MealPlan   MealPlan   @relation(fields: [mealPlanId], references: [id])
+  mealPlanId String
+  user       UserData[] @relation("UserIngredients")
+
+  @@map("ingredients")
+}
+
+enum Role {
+  BASIC
+  ADMIN
+}
