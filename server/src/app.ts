@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import 'express-async-errors';
+import helmet from 'helmet';
 import { connectToDatabase } from '@/utils';
 import { Logger } from '@/lib';
 
@@ -11,6 +12,7 @@ import { userRouter } from '@/features/auth';
 import { morganMiddleware } from '@/middleware';
 
 export const app = express();
+app.use(helmet());
 
 connectToDatabase().catch((_e) => {
   Logger.debug('An error occurred during app initialization:');
@@ -21,5 +23,3 @@ app.use(cors());
 app.use(morganMiddleware);
 
 app.use('/api/users', userRouter);
-
-//! consider setting up helmet middleware => should be good for security external stuff can go in src/lib
