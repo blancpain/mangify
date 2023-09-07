@@ -9,6 +9,6 @@ userRouter.get('/:id', userController.getOne as RequestHandler);
 
 userRouter.post('/', userController.addUser as RequestHandler);
 
-// router.delete('/:id', (req, res) => {});
+userRouter.delete('/:id', userController.deleteUser as RequestHandler);
 
 export { userRouter };

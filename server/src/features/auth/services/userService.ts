@@ -51,4 +51,19 @@ const createUser = async (newUser: TSignUpSchema): Promise<NonSensitiveUser | nu
   return addedUser;
 };
 
-export const userService = { getAll, getOne, createUser };
+const deleteUser = async (id: string): Promise<NonSensitiveUser | null> => {
+  const deletedUser = await prisma.user.delete({
+    where: {
+      id,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      role: true,
+    },
+  });
+  return deletedUser;
+};
+
+export const userService = { getAll, getOne, createUser, deleteUser };

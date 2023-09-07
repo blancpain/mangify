@@ -30,4 +30,15 @@ const addUser = async (req: Request, res: Response, _next: NextFunction): Promis
   }
 };
 
-export const userController = { getAll, getOne, addUser };
+const deleteUser = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
+  const { id } = req.params;
+  const userToBeDeleted = await userService.deleteUser(id);
+
+  if (!userToBeDeleted) {
+    res.status(404).json({ error: 'user not found' });
+    return;
+  }
+  res.status(204).end();
+};
+
+export const userController = { getAll, getOne, addUser, deleteUser };
