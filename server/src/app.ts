@@ -2,7 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import 'express-async-errors';
 import helmet from 'helmet';
-import { connectToDatabase } from '@/utils';
+import { connectToDatabase, connectToRedis } from '@/utils';
 import { Logger } from '@/lib';
 
 // routers
@@ -15,7 +15,11 @@ export const app = express();
 app.use(helmet());
 
 connectToDatabase().catch((_e) => {
-  Logger.debug('An error occurred during app initialization:');
+  Logger.debug('An error occurred during postgres initialization:');
+});
+
+connectToRedis().catch((_e) => {
+  Logger.debug('An error occurred during redis initialization:');
 });
 
 app.use(express.json());
