@@ -1,9 +1,9 @@
 import * as bcrypt from 'bcryptjs';
 import { TLoginSchema } from '@shared/types';
 import { prisma, exclude } from '@/utils';
-import { UserIdAndEmail } from '@/types';
+import { UserForAuth } from '@/types';
 
-const login = async (user: TLoginSchema): Promise<UserIdAndEmail | null> => {
+const login = async (user: TLoginSchema): Promise<UserForAuth | null> => {
   const { email, password } = user;
   const targetedUser = await prisma.user.findUnique({
     where: {
@@ -12,7 +12,9 @@ const login = async (user: TLoginSchema): Promise<UserIdAndEmail | null> => {
     select: {
       id: true,
       email: true,
+      role: true,
       passwordHash: true,
+      disabled: true,
     },
   });
 

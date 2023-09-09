@@ -10,7 +10,7 @@ import { Logger } from '@/lib';
 import { userRouter, sessionRouter } from '@/features/auth';
 
 // middleware
-import { morganMiddleware, sessionOptions } from '@/middleware';
+import { morganMiddleware, sessionOptions, isAuthenticated, isAdmin } from '@/middleware';
 
 export const app = express();
 app.use(helmet());
@@ -18,7 +18,7 @@ app.use(helmet());
 // Augment express-session at root. For some reason having this as a separate *.d.ts file does not work globally
 declare module 'express-session' {
   interface SessionData {
-    user: { id: string; email: string };
+    user: { id: string; email: string; role: string; disabled: boolean };
   }
 }
 
@@ -36,5 +36,5 @@ app.use(cors());
 app.use(session(sessionOptions));
 app.use(morganMiddleware);
 
-app.use('/api/users', userRouter);
+app.use('/api/users', isAuthenticated, isAdmin, userRouter);
 app.use('/api/login', sessionRouter);
