@@ -10,7 +10,7 @@ import { Logger } from '@/lib';
 import { userRouter, sessionRouter } from '@/features/auth';
 
 // middleware
-import { morganMiddleware, sessionOptions, isAuthenticated, isAdmin } from '@/middleware';
+import { morganMiddleware, sessionOptions } from '@/middleware';
 
 export const app = express();
 app.use(helmet());
@@ -36,5 +36,5 @@ app.use(cors());
 app.use(session(sessionOptions));
 app.use(morganMiddleware);
 
-app.use('/api/users', isAuthenticated, isAdmin, userRouter);
-app.use('/api/login', sessionRouter);
+app.use('/api/users', userRouter);
+app.use('/api/session', sessionRouter);

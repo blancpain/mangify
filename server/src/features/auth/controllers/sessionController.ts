@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { loginSchema } from '@shared/types';
 import { sessionService } from '../services/sessionService';
+import { Logger } from '@/lib';
 
 const login = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
   // eslint-disable-next-line prefer-destructuring
@@ -30,6 +31,13 @@ const login = async (req: Request, res: Response, _next: NextFunction): Promise<
   }
 };
 
-export const sessionController = { login };
+const logout = (req: Request, res: Response, _next: NextFunction): void => {
+  req.session.destroy((err) => {
+    if (err) {
+      Logger.error('Error when destroying session');
+    }
+  });
+  res.status(204).end();
+};
 
-//! destroy any previous sessions w/ req.session.destroy() ?
+export const sessionController = { login, logout };
