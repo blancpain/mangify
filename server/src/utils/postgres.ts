@@ -19,9 +19,9 @@ const connectToDatabase = async () => {
   try {
     // check if a raw SQL query will fail or not to determine connection status
     await prisma.$queryRaw`SELECT 1`;
-    Logger.debug('Connected to database successfully');
+    Logger.debug('Connected to postgres database successfully');
   } catch (_e) {
-    Logger.error('Failed to connect to database');
+    Logger.error('Failed to connect to postgres database');
     return process.exit(1);
   }
   return null;

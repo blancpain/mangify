@@ -17,10 +17,22 @@ services:
       - ./src/db/postgres_data:/var/lib/postgresql/data
     container_name: postgres-mangify-dev
 
+  # redis db
+  redis:
+    image: redis
+    ports:
+      - 6378:6379
+    command: ['redis-server', '--appendonly', 'yes']
+    volumes:
+      - ./src/db/redis_data:/data
+    container_name: redis-mangify-dev
+
   # server
   server:
     image: mangify-server-dev
     depends_on:
+      redis:
+        condition: service_started
       postgres:
         condition: service_healthy
     ports:
