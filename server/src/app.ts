@@ -8,6 +8,7 @@ import { Logger } from '@/lib';
 
 // routers
 import { userRouter, sessionRouter } from '@/features/auth';
+import { mealGeneratorShowcaseRouter } from '@/features/meal_generator_showcase';
 
 // middleware
 import { morganMiddleware, sessionOptions } from '@/middleware';
@@ -38,3 +39,4 @@ app.use(morganMiddleware);
 
 app.use('/api/users', userRouter);
 app.use('/api/session', sessionRouter);
+app.use('/api/meal-generator-showcase', mealGeneratorShowcaseRouter);
