@@ -41,8 +41,8 @@ services:
       context: .
       dockerfile: dev.Dockerfile
     volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
+      - .:/usr/src/server
+      - /usr/src/server/node_modules
       - ./../shared:/usr/src/shared
     container_name: mangify-server-dev
     environment:

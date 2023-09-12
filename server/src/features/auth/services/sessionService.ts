@@ -1,7 +1,6 @@
 import * as bcrypt from 'bcryptjs';
-import { TLoginSchema } from '@shared/types';
+import { TLoginSchema, UserForAuth } from '@shared/types';
 import { prisma, exclude } from '@/utils';
-import { UserForAuth } from '@/types';
 
 const login = async (user: TLoginSchema): Promise<UserForAuth | null> => {
   const { email, password } = user;

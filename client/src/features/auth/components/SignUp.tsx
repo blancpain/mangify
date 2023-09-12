@@ -36,6 +36,10 @@ export function SignUp(props: PaperProps) {
     },
   });
 
+  //! if reg not successful we stay at the same page and show error
+  //! if it is succesful we navigate to Dashboard - use Navigate React Router?
+  //! Make sure that clicking "back" once logged in doesn't break the app,
+  //! in eatThisMuch once logged in clicking back just seems to refresh the page = nice feature, also the URL is "/"
   const onSubmit: SubmitHandler<TSignUpSchema> = async (data) => {
     console.log(data);
 

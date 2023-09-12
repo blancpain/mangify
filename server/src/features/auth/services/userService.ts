@@ -1,7 +1,6 @@
 import * as bcrypt from 'bcryptjs';
-import { TSignUpSchema } from '@shared/types';
+import { TSignUpSchema, NonSensitiveUser } from '@shared/types';
 import { prisma } from '@/utils';
-import { NonSensitiveUser } from '@/types';
 
 const getAll = async (): Promise<NonSensitiveUser[]> => {
   const allUsers = await prisma.user.findMany({

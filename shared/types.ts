@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { User } from "../server/node_modules/.prisma/client/index";
 
 export const MealGeneratorLandingSchema = z.object({
   meals: z.string().min(1, { message: "Please specify the number of meals" }),
@@ -30,10 +31,17 @@ export const loginSchema = z.object({
 
 export type TLoginSchema = z.infer<typeof loginSchema>;
 
-/* Spoonacular (external API) types
+/*
+  Prisma types
+*/
 
-  Generated with the help of quicktype
+export type NonSensitiveUser = Pick<User, "id" | "name" | "email" | "role">;
+export type UserForAuth = Pick<User, "id" | "email" | "role" | "disabled">;
 
+/* Prisma types */
+
+/*
+  Spoonacular types ( Generated with the help of quicktype )
 */
 
 export const ConsistencySchema = z.enum(["LIQUID", "SOLID"]);
@@ -147,4 +155,4 @@ export const RecipeListSchema = z.object({
 });
 export type RecipeList = z.infer<typeof RecipeListSchema>;
 
-/* spoonacular types */
+/* Spoonacular types */
