@@ -10,6 +10,7 @@ const login = async (req: Request, res: Response, _next: NextFunction): Promise<
   let zodErrors = {};
 
   if (!result.success) {
+    req.session.destroy(() => {});
     result.error.issues.forEach((issue) => {
       zodErrors = { ...zodErrors, [issue.path[0]]: issue.message };
     });
@@ -17,6 +18,7 @@ const login = async (req: Request, res: Response, _next: NextFunction): Promise<
   } else {
     const loggedUser = await sessionService.login(result.data);
     if (!loggedUser) {
+      req.session.destroy(() => {});
       res.status(401).json({ error: 'Invalid email or password' });
       return;
     }
@@ -32,7 +34,7 @@ const login = async (req: Request, res: Response, _next: NextFunction): Promise<
 };
 
 const logout = (req: Request, res: Response, _next: NextFunction): void => {
-  req.session.destroy((err) => {
+  req.session.destroy((err: unknown) => {
     if (err) {
       Logger.error('Error when destroying session');
     }
