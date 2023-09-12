@@ -10,6 +10,10 @@ const getAll = async (_req: Request, res: Response, _next: NextFunction): Promis
 const getOne = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
   const { id } = req.params;
   const user = await userService.getOne(id);
+  if (!user) {
+    res.status(404).json({ error: 'user not found' });
+    return;
+  }
   res.json(user);
 };
 
@@ -20,6 +24,7 @@ const addUser = async (req: Request, res: Response, _next: NextFunction): Promis
   let zodErrors = {};
 
   if (!result.success) {
+    req.session.destroy(() => {});
     result.error.issues.forEach((issue) => {
       zodErrors = { ...zodErrors, [issue.path[0]]: issue.message };
     });

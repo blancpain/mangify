@@ -11,7 +11,7 @@ import { userRouter, sessionRouter } from '@/features/auth';
 import { mealGeneratorShowcaseRouter } from '@/features/meal_generator_showcase';
 
 // middleware
-import { morganMiddleware, sessionOptions } from '@/middleware';
+import { morganMiddleware, sessionOptions, errorHandler } from '@/middleware';
 
 export const app = express();
 app.use(helmet());
@@ -40,3 +40,4 @@ app.use(morganMiddleware);
 app.use('/api/users', userRouter);
 app.use('/api/session', sessionRouter);
 app.use('/api/meal-generator-showcase', mealGeneratorShowcaseRouter);
+app.use(errorHandler);
