@@ -11,7 +11,7 @@ const getOne = async (req: Request, res: Response, _next: NextFunction): Promise
   const { id } = req.params;
   const user = await userService.getOne(id);
   if (!user) {
-    res.status(404).json({ error: 'user not found' });
+    res.status(404).json({ errors: 'user not found' });
     return;
   }
   res.json(user);
@@ -40,7 +40,7 @@ const deleteUser = async (req: Request, res: Response, _next: NextFunction): Pro
   const userToBeDeleted = await userService.deleteUser(id);
 
   if (!userToBeDeleted) {
-    res.status(404).json({ error: 'user not found' });
+    res.status(404).json({ errors: 'user not found' });
     return;
   }
   res.status(204).end();
