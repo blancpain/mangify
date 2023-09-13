@@ -85,6 +85,7 @@ export function SignUp(props: PaperProps) {
                   <TextInput label="Name" placeholder="Your name" radius="md" {...field} />
                 )}
               />
+              {errors.name && <Text color="red" size="xs">{`${errors.name.message}`}</Text>}
               <Controller
                 name="email"
                 control={control}
