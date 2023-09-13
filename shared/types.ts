@@ -2,7 +2,9 @@ import { z } from "zod";
 import { User } from "../server/node_modules/.prisma/client/index";
 
 export const MealGeneratorLandingSchema = z.object({
-  meals: z.string().min(1, { message: "Please specify the number of meals" }),
+  numberOfMeals: z
+    .string()
+    .min(1, { message: "Please specify the number of meals" }),
   diet: z.string().optional(),
 });
 
@@ -12,7 +14,7 @@ export type TMealGeneratorLandingSchema = z.infer<
 
 export const signUpSchema = z
   .object({
-    name: z.string().optional(),
+    name: z.string().min(1, "Please enter your name"),
     email: z.string().email(),
     password: z.string().min(10, "Password must be at least 10 characters"),
     confirmPassword: z.string(),
@@ -36,7 +38,11 @@ export type TLoginSchema = z.infer<typeof loginSchema>;
 */
 
 export type NonSensitiveUser = Pick<User, "id" | "name" | "email" | "role">;
-export type UserForAuth = Pick<User, "id" | "email" | "role" | "disabled">;
+export type UserForAuth = Pick<
+  User,
+  "id" | "email" | "role" | "disabled" | "name"
+>;
+export type LoggedUser = Pick<User, "email" | "name">;
 
 /* Prisma types */
 
