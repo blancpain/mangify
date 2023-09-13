@@ -8,6 +8,8 @@ export function isAuthenticated(req: Request, res: Response, next: NextFunction)
     req.session.destroy(() => {});
     return res.status(401).json({ message: 'Unauthorized' });
   }
+
+  //! do we even need the below? As we aren't refreshing the DB constantly
   if (user && user.disabled) {
     req.session.destroy(() => {});
     return res.status(401).json({ message: 'User is disabled, please contact admin' });

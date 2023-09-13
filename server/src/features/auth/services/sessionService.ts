@@ -10,6 +10,7 @@ const login = async (user: TLoginSchema): Promise<UserForAuth | null> => {
     },
     select: {
       id: true,
+      name: true,
       email: true,
       role: true,
       passwordHash: true,
