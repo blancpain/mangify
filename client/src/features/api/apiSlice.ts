@@ -12,7 +12,8 @@ export const mangifyApi = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: 'http://localhost:3001/api/',
-    credentials: 'include',
+    credentials: 'same-origin',
+    mode: 'cors',
   }),
   endpoints: (build) => ({
     generateShowcaseMeals: build.query<RecipeList, TMealGeneratorLandingSchema>({

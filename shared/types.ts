@@ -15,7 +15,7 @@ export type TMealGeneratorLandingSchema = z.infer<
 export const signUpSchema = z
   .object({
     name: z.string().min(1, "Please enter your name"),
-    email: z.string().email(),
+    email: z.string().min(1, "Please enter your email").email(),
     password: z.string().min(10, "Password must be at least 10 characters"),
     confirmPassword: z.string(),
   })

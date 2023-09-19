@@ -16,6 +16,9 @@ import {
 } from '@mantine/core';
 import { GoogleButton, FacebookButton } from '@/components/Buttons';
 
+//! Make sure that clicking "back" once logged in doesn't break the app,
+//! in eatThisMuch once logged in clicking back just seems to refresh the page = nice feature, also the URL is "/"
+
 export function Login(props: PaperProps) {
   return (
     <Box

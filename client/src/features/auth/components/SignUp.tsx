@@ -1,6 +1,7 @@
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { signUpSchema, TSignUpSchema } from '@shared/types';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   TextInput,
@@ -19,12 +20,15 @@ import {
   Container,
 } from '@mantine/core';
 import { GoogleButton, FacebookButton } from '@/components/Buttons';
+import { useRegisterUserMutation } from '@/features/api';
+import { isFetchBaseQueryError, isErrorWithMessage } from '@/utils';
 
 export function SignUp(props: PaperProps) {
   const {
     control,
     handleSubmit,
     reset,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<TSignUpSchema>({
     resolver: zodResolver(signUpSchema),
@@ -36,17 +40,64 @@ export function SignUp(props: PaperProps) {
     },
   });
 
-  //! if reg not successful we stay at the same page and show error
-  //! if it is succesful we navigate to Dashboard - use Navigate React Router?
-  //! Make sure that clicking "back" once logged in doesn't break the app,
-  //! in eatThisMuch once logged in clicking back just seems to refresh the page = nice feature, also the URL is "/"
+  const [registerUser] = useRegisterUserMutation();
+  const navigate = useNavigate();
+  const [genericError, setGenericError] = useState('');
+
   const onSubmit: SubmitHandler<TSignUpSchema> = async (data) => {
-    console.log(data);
+    setGenericError('');
+    try {
+      await registerUser(data).unwrap();
+      navigate('/login');
+      reset();
+    } catch (error: unknown) {
+      /*
+       * Error handling flow:
 
-    // just for mocking purposes, add server stuff later
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+       * if the error is a fetchBaseQuery error we check the 'errors' property first
+       * if it is an object we can assume this is a zodError due to how we set up the backend (i.e. {"errors": {"error1": "msg", "error2": "msg"} ... })
+       * we go through all possible form validation errors
+       * if the error is not a zodError we check if 'errors' is a string as this is how we set up all other errors in the backend (i.e. {"errors" : "msg"})
+       * if the error is not a zodError or one of our custom errors we fall back to a generic error msg
+       * finally if we are dealing with a broader generic error (i.e. not a fetchBaseQuery error) we use a type predicate to narrow the error down to an object with a message property
 
-    reset();
+       */
+      if (isFetchBaseQueryError(error)) {
+        if (
+          error.data &&
+          typeof error.data === 'object' &&
+          'errors' in error.data &&
+          error.data.errors &&
+          typeof error.data.errors === 'object'
+        ) {
+          const allErrors = error.data.errors;
+
+          if ('name' in allErrors && typeof allErrors.name === 'string') {
+            setError('name', { type: 'custom', message: allErrors.name });
+          } else if ('email' in allErrors && typeof allErrors.email === 'string') {
+            setError('email', { type: 'custom', message: allErrors.email });
+          } else if ('password' in allErrors && typeof allErrors.password === 'string') {
+            setError('email', { type: 'custom', message: allErrors.password });
+          } else if (
+            'confirmPassword' in allErrors &&
+            typeof allErrors.confirmPassword === 'string'
+          ) {
+            setError('email', { type: 'custom', message: allErrors.confirmPassword });
+          }
+        } else if (
+          error.data &&
+          typeof error.data === 'object' &&
+          'errors' in error.data &&
+          typeof error.data.errors === 'string'
+        ) {
+          setGenericError(error.data.errors);
+        } else {
+          setGenericError('Something went wrong. Please try again');
+        }
+      } else if (isErrorWithMessage(error)) {
+        setGenericError(error.message);
+      }
+    }
   };
 
   return (
@@ -64,7 +115,13 @@ export function SignUp(props: PaperProps) {
     >
       <Title>Create your mangify account</Title>
       <Container size="xs" p="xl">
-        <Paper radius="md" p="xl" withBorder {...props}>
+        <Paper
+          radius="md"
+          p="xl"
+          withBorder
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...props}
+        >
           <Text size="xl" weight={500} align="center">
             Sign in with
           </Text>
@@ -82,6 +139,7 @@ export function SignUp(props: PaperProps) {
                 name="name"
                 control={control}
                 render={({ field }) => (
+                  // eslint-disable-next-line react/jsx-props-no-spreading
                   <TextInput label="Name" placeholder="Your name" radius="md" {...field} />
                 )}
               />
@@ -94,6 +152,7 @@ export function SignUp(props: PaperProps) {
                     label="Email"
                     placeholder="example@google.com"
                     radius="md"
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...field}
                   />
                 )}
@@ -107,6 +166,7 @@ export function SignUp(props: PaperProps) {
                     label="Password"
                     placeholder="Your password"
                     radius="md"
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...field}
                   />
                 )}
@@ -120,6 +180,7 @@ export function SignUp(props: PaperProps) {
                     label="Confirm password"
                     placeholder="Confirm your password"
                     radius="md"
+                    // eslint-disable-next-line react/jsx-props-no-spreading
                     {...field}
                   />
                 )}
@@ -140,6 +201,11 @@ export function SignUp(props: PaperProps) {
               </Button>
             </Group>
           </form>
+          {genericError !== '' ? (
+            <Text color="red" size="md" mt={10}>{`${genericError}`}</Text>
+          ) : (
+            ''
+          )}
         </Paper>
       </Container>
     </Box>
