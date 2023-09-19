@@ -1,6 +1,10 @@
 import { z } from "zod";
 import { User } from "../server/node_modules/.prisma/client/index";
 
+/*
+  Zod types
+*/
+
 export const MealGeneratorLandingSchema = z.object({
   numberOfMeals: z
     .string()
@@ -27,11 +31,13 @@ export const signUpSchema = z
 export type TSignUpSchema = z.infer<typeof signUpSchema>;
 
 export const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
+  email: z.string().min(1, "Please enter your email").email(),
+  password: z.string().min(1, "Please enter your password"),
 });
 
 export type TLoginSchema = z.infer<typeof loginSchema>;
+
+/* Zod types */
 
 /*
   Prisma types
