@@ -1,7 +1,14 @@
 import { z } from "zod";
+import { User } from "../server/node_modules/.prisma/client/index";
+
+/*
+  Zod types
+*/
 
 export const MealGeneratorLandingSchema = z.object({
-  meals: z.string().min(1, { message: "Please specify the number of meals" }),
+  numberOfMeals: z
+    .string()
+    .min(1, { message: "Please specify the number of meals" }),
   diet: z.string().optional(),
 });
 
@@ -11,8 +18,8 @@ export type TMealGeneratorLandingSchema = z.infer<
 
 export const signUpSchema = z
   .object({
-    name: z.string().optional(),
-    email: z.string().email(),
+    name: z.string().min(1, "Please enter your name"),
+    email: z.string().min(1, "Please enter your email").email(),
     password: z.string().min(10, "Password must be at least 10 characters"),
     confirmPassword: z.string(),
   })
@@ -24,16 +31,29 @@ export const signUpSchema = z
 export type TSignUpSchema = z.infer<typeof signUpSchema>;
 
 export const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
+  email: z.string().min(1, "Please enter your email").email(),
+  password: z.string().min(1, "Please enter your password"),
 });
 
 export type TLoginSchema = z.infer<typeof loginSchema>;
 
-/* Spoonacular (external API) types
+/* Zod types */
 
-  Generated with the help of quicktype
+/*
+  Prisma types
+*/
 
+export type NonSensitiveUser = Pick<User, "id" | "name" | "email" | "role">;
+export type UserForAuth = Pick<
+  User,
+  "id" | "email" | "role" | "disabled" | "name"
+>;
+export type LoggedUser = Pick<User, "email" | "name">;
+
+/* Prisma types */
+
+/*
+  Spoonacular types ( Generated with the help of quicktype )
 */
 
 export const ConsistencySchema = z.enum(["LIQUID", "SOLID"]);
@@ -147,4 +167,4 @@ export const RecipeListSchema = z.object({
 });
 export type RecipeList = z.infer<typeof RecipeListSchema>;
 
-/* spoonacular types */
+/* Spoonacular types */

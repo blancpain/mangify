@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useLocalStorage, useHotkeys } from '@mantine/hooks';
 import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
+import { Provider } from 'react-redux';
+import { store } from '@/stores';
 
 type AppProviderProps = {
   children: React.ReactNode;
@@ -22,7 +24,7 @@ export function AppProvider({ children }: AppProviderProps) {
   return (
     <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
       <MantineProvider withGlobalStyles withNormalizeCSS theme={{ colorScheme }}>
-        {children}
+        <Provider store={store}>{children}</Provider>
       </MantineProvider>
     </ColorSchemeProvider>
   );

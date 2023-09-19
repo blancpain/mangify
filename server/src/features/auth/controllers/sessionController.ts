@@ -19,7 +19,12 @@ const login = async (req: Request, res: Response, _next: NextFunction): Promise<
     const loggedUser = await sessionService.login(result.data);
     if (!loggedUser) {
       req.session.destroy(() => {});
-      res.status(401).json({ error: 'Invalid email or password' });
+      res.status(401).json({ errors: 'Invalid email or password' });
+      return;
+    }
+    if (loggedUser.disabled) {
+      req.session.destroy(() => {});
+      res.status(401).json({ errors: 'User is disabled, please contact admin' });
       return;
     }
     req.session.user = {
@@ -29,7 +34,12 @@ const login = async (req: Request, res: Response, _next: NextFunction): Promise<
       disabled: loggedUser.disabled,
     };
     req.session.save();
-    res.status(200).send({ message: 'Successful login' });
+
+    const userToBeReturned = {
+      name: loggedUser.name,
+      email: loggedUser.email,
+    };
+    res.status(200).json({ user: userToBeReturned });
   }
 };
 

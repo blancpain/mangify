@@ -1,4 +1,4 @@
-import { SignUp } from '@/features/sign-up';
+import { SignUp } from '@/features/auth';
 
 export function SignUpRoute() {
   return <SignUp />;

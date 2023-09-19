@@ -19,7 +19,7 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
 
   //! catch-all below if none of the paths are successful
   //! - decide if this should be kept or not? We never go to next() as is?
-  res.status(500).json({ message: 'Something went wrong' });
+  res.status(500).json({ errors: 'Something went wrong' });
 
   return next(err);
 };
