@@ -25,4 +25,5 @@ redis_data
 *.njsproj
 *.sln
 *.sw?
+server/src/features/meal_generator_showcase/services/exampleData.json
 

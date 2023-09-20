@@ -56,6 +56,8 @@ export type LoggedUser = Pick<User, "email" | "name">;
   Spoonacular types ( Generated with the help of quicktype )
 */
 
+// Full recipe list returned from random meal API endpoint
+
 export const ConsistencySchema = z.enum(["LIQUID", "SOLID"]);
 export type Consistency = z.infer<typeof ConsistencySchema>;
 
@@ -166,5 +168,15 @@ export const RecipeListSchema = z.object({
   recipes: z.union([z.array(RecipeSchema), z.null()]).optional(),
 });
 export type RecipeList = z.infer<typeof RecipeListSchema>;
+
+// Meal generator - showcase types
+
+export type ShowCaseRecipe = {
+  extendedIngredients?: string[];
+  title?: string | null;
+  calories?: number | null;
+  dishType?: string | null;
+  steps?: string | string[];
+};
 
 /* Spoonacular types */

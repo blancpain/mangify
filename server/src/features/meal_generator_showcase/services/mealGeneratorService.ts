@@ -1,13 +1,35 @@
 import axios from 'axios';
-import { RecipeList } from '@shared/types';
+import { RecipeList, ShowCaseRecipe } from '@shared/types';
+import { extractCalories } from '@/utils';
 
-//! below is currently hardcoded to return 1 item, for prod we need this to be a query depending on user input between 1-5
-const getRecipes = async (): Promise<RecipeList[]> => {
-  const { data } = await axios.get<RecipeList[]>(
-    `https://api.spoonacular.com/recipes/random?apiKey=${process.env.API_KEY}&number=1&tags=vegetarian`,
+const getRecipes = async (
+  numberOfMeals: number,
+  type: string,
+): Promise<ShowCaseRecipe[] | null> => {
+  const { data } = await axios.get<RecipeList>(
+    `https://api.spoonacular.com/recipes/random?apiKey=${process.env.API_KEY}&number=${numberOfMeals}&type=${type}`,
   );
 
-  return data;
+  if (data.recipes) {
+    const transformedData: ShowCaseRecipe[] = data.recipes.map((recipe) => ({
+      //* below uses Set to remove duplicates and filters array to only return the ingredient names
+      extendedIngredients: [
+        ...new Set(
+          recipe.extendedIngredients?.map((ingredient) =>
+            ingredient.name ? ingredient.name.toString() : '',
+          ),
+        ),
+      ],
+      title: recipe.title,
+      dishType: recipe.dishTypes?.[0],
+      calories: recipe.summary ? extractCalories(recipe.summary) : null,
+      steps: recipe.analyzedInstructions?.[0].steps
+        ? recipe.analyzedInstructions[0].steps.map((step) => (step.step ? step.step : ''))
+        : '',
+    }));
+    return transformedData;
+  }
+  return null;
 };
 
 export const mealGeneratorService = { getRecipes };
