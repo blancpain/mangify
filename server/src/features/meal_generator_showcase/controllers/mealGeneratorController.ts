@@ -7,9 +7,11 @@ const getRecipes = async (req: Request, res: Response, _next: NextFunction): Pro
   //* type casting here should be OK since frontend user inputs are hardcoded as number and string...
   const recipes = await mealGeneratorService.getRecipes(Number(numberOfMeals), type as string);
   if (recipes) {
+    // avoid creating sessions for unlogged users
+    req.session.destroy(() => {});
     res.json(recipes);
   } else {
-    res.status(502).json({ errors: 'external service not responding' });
+    res.status(502).json({ errors: 'External service not responding' });
   }
 };
 

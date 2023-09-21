@@ -72,7 +72,7 @@ export function FeaturesOverview() {
   ));
 
   return (
-    <Container size="lg" pt={30} pb={50}>
+    <Container size="lg" pt={50} pb={40}>
       <Grid
         gutter={80}
         sx={() => ({

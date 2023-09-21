@@ -174,9 +174,10 @@ export type RecipeList = z.infer<typeof RecipeListSchema>;
 export type ShowCaseRecipe = {
   extendedIngredients?: string[];
   title?: string | null;
+  image?: string | null;
   calories?: number | null;
   dishType?: string | null;
-  steps?: string | string[];
+  steps?: string[];
 };
 
 /* Spoonacular types */
