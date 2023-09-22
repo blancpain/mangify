@@ -11,6 +11,7 @@ import {
   Stack,
   Container,
 } from '@mantine/core';
+import { NavLink } from 'react-router-dom';
 import { IconFlame, IconChecklist, IconShoppingCart } from '@tabler/icons-react';
 
 const useStyles = createStyles((theme) => ({
@@ -94,11 +95,19 @@ export function FeaturesOverview() {
           </Text>
 
           <Stack>
-            <Button variant="filled" color="green" size="lg" radius="md" mt="xl">
+            <Button
+              variant="filled"
+              color="green"
+              size="lg"
+              radius="md"
+              mt="xl"
+              component={NavLink}
+              to="/sign-up"
+            >
               Sign-up
             </Button>
             <span>
-              Already have an account? <a href="#">Log in here</a>
+              Already have an account? <NavLink to="/login">Log in here</NavLink>
             </span>
           </Stack>
         </Col>

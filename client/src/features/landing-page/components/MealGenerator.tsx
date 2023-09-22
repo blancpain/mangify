@@ -125,7 +125,7 @@ export function MealGenerator() {
           />
         </Flex>
         <Flex justify="center" p={10} mb={10} pt={0}>
-          <Button color="green" size="xl" radius="xl" type="submit">
+          <Button color="green" size="xl" radius="xl" type="submit" id="meal-generator">
             Generate
           </Button>
         </Flex>
