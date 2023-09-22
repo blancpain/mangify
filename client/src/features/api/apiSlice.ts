@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {
-  RecipeList,
+  ShowCaseRecipe,
   TMealGeneratorLandingSchema,
   TSignUpSchema,
   NonSensitiveUser,
@@ -16,9 +16,11 @@ export const mangifyApi = createApi({
     mode: 'cors',
   }),
   endpoints: (build) => ({
-    generateShowcaseMeals: build.query<RecipeList, TMealGeneratorLandingSchema>({
-      query: ({ numberOfMeals, diet }) =>
-        `/meal-generator-showcase/?number=${numberOfMeals}?dietType=${diet}`,
+    generateShowcaseMeals: build.mutation<ShowCaseRecipe[], TMealGeneratorLandingSchema>({
+      query: ({ numberOfMeals, diet }) => ({
+        url: `/meal-generator-showcase/?numberOfMeals=${numberOfMeals}&type=${diet}`,
+        method: 'GET',
+      }),
     }),
     registerUser: build.mutation<NonSensitiveUser, TSignUpSchema>({
       query: ({ ...user }) => ({
@@ -41,7 +43,7 @@ export const mangifyApi = createApi({
 });
 
 export const {
-  useGenerateShowcaseMealsQuery,
+  useGenerateShowcaseMealsMutation,
   useRegisterUserMutation,
   useLoginMutation,
   useLogoutMutation,

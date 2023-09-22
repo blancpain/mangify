@@ -1,12 +1,12 @@
 import { Prisma } from '@prisma/client';
 import { Request, Response, NextFunction } from 'express';
+import { AxiosError } from 'axios';
 import { Logger } from '@/lib';
 
-//! TODO: add handling for more status codes Prisma + failed food API calls
+//! TODO: add handling for more status codes Prisma + different axios errors?
 
 export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   Logger.error(err);
-  Logger.error(err.message);
 
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     // avoid creating new sessions if there are errors
@@ -15,10 +15,12 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
       // ? avoid revealing if email is taken
       return res.status(400).json({ errors: 'Invalid username or password' });
     }
+  } else if (err instanceof AxiosError) {
+    req.session.destroy(() => {});
+    return res.status(502).json({ errors: 'Unable to reach external service' });
   }
 
-  //! catch-all below if none of the paths are successful
-  //! - decide if this should be kept or not? We never go to next() as is?
+  //! catch-all below if none of the paths are successful, decide if this should be kept or not?
   res.status(500).json({ errors: 'Something went wrong' });
 
   return next(err);

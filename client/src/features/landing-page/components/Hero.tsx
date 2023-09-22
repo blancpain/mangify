@@ -1,3 +1,4 @@
+import { HashLink } from 'react-router-hash-link';
 import { createStyles, Overlay, Container, Title, Button, Text, rem } from '@mantine/core';
 import heroBg from '../../../assets/hero-bg.jpg';
 
@@ -75,6 +76,7 @@ const useStyles = createStyles((theme) => ({
 
 //! Photo by <a href="https://unsplash.com/@louishansel?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Louis Hansel</a> on <a href="https://unsplash.com/photos/phEaeqe555M?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
 //! check https://mantine.dev/core/aspect-ratio/ for image
+
 export function Hero() {
   const { classes } = useStyles();
 
@@ -93,8 +95,16 @@ export function Hero() {
           easy, nutrutious meals that fit your needs and turning them into shopping lists and
           recipes.
         </Text>
-        <Button color="green" size="xl" radius="xl" className={classes.control}>
-          Get started
+        <Button
+          color="green"
+          size="xl"
+          radius="xl"
+          className={classes.control}
+          component={HashLink}
+          to="/#meal-generator"
+          scroll={(el) => el.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+        >
+          Try it out!
         </Button>
       </Container>
     </div>

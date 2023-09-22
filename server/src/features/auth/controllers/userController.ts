@@ -23,6 +23,9 @@ const addUser = async (req: Request, res: Response, _next: NextFunction): Promis
   const result = signUpSchema.safeParse(body);
   let zodErrors = {};
 
+  // avoid creating sessions at registration point
+  req.session.destroy(() => {});
+
   if (!result.success) {
     req.session.destroy(() => {});
     result.error.issues.forEach((issue) => {
