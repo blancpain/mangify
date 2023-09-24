@@ -2,12 +2,7 @@ import { Outlet } from 'react-router-dom';
 import { HeaderMegaMenu } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 
-//! one approach is to add a user check here and display a different root route dependin on
-//! user being logged in or not - also check how they do it in react bulletproof
-
-//! actiually might have to change routes/index.tsx...
-//! Look at public vs protected paths in bulletproof
-export function Root() {
+export function PublicRoot() {
   return (
     <>
       <HeaderMegaMenu />
