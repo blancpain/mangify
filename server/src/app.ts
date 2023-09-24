@@ -19,7 +19,7 @@ app.use(helmet());
 // Augment express-session at root. For some reason having this as a separate *.d.ts file does not work globally
 declare module 'express-session' {
   interface SessionData {
-    user: { id: string; email: string; role: string; disabled: boolean };
+    user: { id: string; email: string; role: string; disabled: boolean; name: string };
   }
 }
 
@@ -33,7 +33,12 @@ connectToRedis().catch((_e) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  }),
+);
 app.use(session(sessionOptions));
 app.use(morganMiddleware);
 
