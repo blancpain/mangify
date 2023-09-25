@@ -39,7 +39,7 @@ export const mangifyApi = createApi({
         method: 'GET',
       }),
     }),
-    logout: build.mutation({
+    logout: build.mutation<void, void>({
       query: () => '/session/logout',
     }),
   }),
