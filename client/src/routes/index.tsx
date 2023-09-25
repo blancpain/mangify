@@ -5,19 +5,12 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { setUser, logout, selectUser } from '@/stores';
 
 // public routes
-import { PublicRoot } from './public/root';
-import { Landing } from './public/landing';
-import { SignUpRoute } from './public/sign-up';
-import { LoginRoute } from './public/login';
+import { PublicRoot, Landing, SignUpRoute, LoginRoute } from '@/routes/public';
 
 // protected routes
-import { PrivateRoot } from './protected/root';
-
-// TODO Make sure that clicking "back" once logged in doesn't break the app!!!
-// TODO in eatThisMuch once logged in clicking back just seems to refresh the page = nice feature, also the URL is "/"
+import { DashboardLayout } from '@/routes/protected';
 
 //! consider moving below to a custom hook?
-//! fix weird refresh issue...spinner while user is being fetched to show something else instead of flashing....
 
 //! for testing:
 //! lili@gmail.com / kotkata123456
@@ -42,10 +35,10 @@ export function AppRoutes() {
   const protectedRoutes = createBrowserRouter([
     {
       path: '/',
-      element: <PrivateRoot />,
+      element: <DashboardLayout />,
       children: [
         {
-          element: <p>Hello {name}!</p>,
+          element: <p>Hello!</p>,
           index: true,
         },
       ],
