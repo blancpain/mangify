@@ -9,7 +9,7 @@ const redisStore = new RedisStore({
 
 export const sessionOptions = {
   secret: process.env.SESSION_SECRET as string,
-  // maxAge = 1 day
+  //* maxAge is currently set to 1 day
   cookie: { maxAge: 3600000 * 24, httpOnly: true, signed: true },
   saveUninitialized: true,
   resave: false,

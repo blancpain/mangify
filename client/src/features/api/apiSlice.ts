@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import {
   ShowCaseRecipe,
   TMealGeneratorLandingSchema,
@@ -7,14 +7,11 @@ import {
   LoggedUser,
   TLoginSchema,
 } from '@shared/types';
+import { baseQueryWithReauth } from '@/lib';
 
 export const mangifyApi = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:3001/api/',
-    credentials: 'same-origin',
-    mode: 'cors',
-  }),
+  baseQuery: baseQueryWithReauth,
   endpoints: (build) => ({
     generateShowcaseMeals: build.mutation<ShowCaseRecipe[], TMealGeneratorLandingSchema>({
       query: ({ numberOfMeals, diet }) => ({
@@ -36,6 +33,12 @@ export const mangifyApi = createApi({
         body: user,
       }),
     }),
+    authCheck: build.mutation<LoggedUser, void>({
+      query: () => ({
+        url: `/session/auth-check`,
+        method: 'GET',
+      }),
+    }),
     logout: build.mutation({
       query: () => '/session/logout',
     }),
@@ -47,4 +50,5 @@ export const {
   useRegisterUserMutation,
   useLoginMutation,
   useLogoutMutation,
+  useAuthCheckMutation,
 } = mangifyApi;

@@ -27,11 +27,14 @@ const login = async (req: Request, res: Response, _next: NextFunction): Promise<
       res.status(401).json({ errors: 'User is disabled, please contact admin' });
       return;
     }
+
+    //* the req.session.user type is set in src/app.ts
     req.session.user = {
       id: loggedUser.id,
       email: loggedUser.email,
       role: loggedUser.role,
       disabled: loggedUser.disabled,
+      name: loggedUser.name,
     };
     req.session.save();
 
@@ -39,7 +42,7 @@ const login = async (req: Request, res: Response, _next: NextFunction): Promise<
       name: loggedUser.name,
       email: loggedUser.email,
     };
-    res.status(200).json({ user: userToBeReturned });
+    res.status(200).json({ ...userToBeReturned });
   }
 };
 
@@ -52,4 +55,27 @@ const logout = (req: Request, res: Response, _next: NextFunction): void => {
   res.status(204).end();
 };
 
-export const sessionController = { login, logout };
+const authCheck = (req: Request, res: Response, _next: NextFunction): void => {
+  const { user } = req.session;
+
+  if (user) {
+    res.json({ name: user.name, email: user.email });
+  } else {
+    req.session.destroy(() => {});
+    res.status(401).json({ errors: 'Unauthorized' });
+  }
+};
+
+const refreshSession = (req: Request, res: Response, _next: NextFunction): void => {
+  const { user } = req.session;
+
+  if (user) {
+    req.session.touch();
+    res.status(200).json({ status: 'OK' });
+  } else {
+    req.session.destroy(() => {});
+    res.status(401).json({ errors: 'Unauthorized' });
+  }
+};
+
+export const sessionController = { login, logout, authCheck, refreshSession };

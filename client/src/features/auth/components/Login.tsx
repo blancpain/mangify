@@ -21,12 +21,8 @@ import {
 import { GoogleButton, FacebookButton } from '@/components/Buttons';
 import { useLoginMutation } from '@/features/api';
 import { isFetchBaseQueryError, isErrorWithMessage } from '@/utils';
-
-// TODO Make sure that clicking "back" once logged in doesn't break the app,
-// TODO in eatThisMuch once logged in clicking back just seems to refresh the page = nice feature, also the URL is "/"
-// TODO logging in should direct user to user dashboard and this becomes the new "/" ...
-
-//! FOR testing: emaiL: wesdasd@adasd.com // pass: ashdkjahskdjhaskj123
+import { useAppDispatch } from '@/hooks';
+import { setUser } from '@/stores';
 
 export function Login(props: PaperProps) {
   const {
@@ -47,15 +43,18 @@ export function Login(props: PaperProps) {
   const navigate = useNavigate();
   const [genericError, setGenericError] = useState('');
 
+  const dispatch = useAppDispatch();
+
   const onSubmit: SubmitHandler<TLoginSchema> = async (data) => {
     setGenericError('');
     try {
-      await login(data).unwrap();
-
-      // todo change below to user-dashboard
-      navigate('/');
+      const userData = await login(data).unwrap();
+      dispatch(setUser(userData));
+      // TODO add toast effects here
+      navigate('/', { replace: true });
       reset();
     } catch (error: unknown) {
+      // TODO add toast effects here
       if (isFetchBaseQueryError(error)) {
         if (
           error.data &&

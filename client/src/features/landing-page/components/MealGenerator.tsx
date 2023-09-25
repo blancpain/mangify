@@ -1,5 +1,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createStyles, rem, Select, Flex, Button, Text, Title } from '@mantine/core';
+import {
+  createStyles,
+  rem,
+  Select,
+  Flex,
+  Button,
+  Text,
+  Title,
+  Loader,
+  Center,
+} from '@mantine/core';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import {
   MealGeneratorLandingSchema,
@@ -49,7 +59,7 @@ type LocalError = null | string;
 export function MealGenerator() {
   const [recipes, setRecipes] = useState<RecipesList>(null);
   const [genericError, setGenericError] = useState<LocalError>(null);
-  const [generateMeals] = useGenerateShowcaseMealsMutation();
+  const [generateMeals, { isLoading }] = useGenerateShowcaseMealsMutation();
   const { classes } = useStyles();
   const {
     control,
@@ -134,6 +144,12 @@ export function MealGenerator() {
         <Text color="red" align="center">{`${errors.numberOfMeals.message}`}</Text>
       )}
       {genericError && <Text color="red" align="center">{`${genericError}`}</Text>}
+
+      {isLoading && (
+        <Center>
+          <Loader color="green" size="xl" variant="dots" mt="xl" />
+        </Center>
+      )}
       {recipes && (
         <>
           <MealsCarousel recipes={recipes} />
