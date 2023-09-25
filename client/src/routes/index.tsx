@@ -73,9 +73,5 @@ export function AppRoutes() {
     },
   ]);
 
-  return isLoading ? (
-    <p>Loading...</p>
-  ) : (
-    <RouterProvider router={name ? protectedRoutes : publicRoutes} />
-  );
+  return isLoading ? <> </> : <RouterProvider router={name ? protectedRoutes : publicRoutes} />;
 }

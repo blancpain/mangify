@@ -51,7 +51,7 @@ export function Login(props: PaperProps) {
       const userData = await login(data).unwrap();
       dispatch(setUser(userData));
       // TODO add toast effects here
-      navigate('/');
+      navigate('/', { replace: true });
       reset();
     } catch (error: unknown) {
       // TODO add toast effects here
