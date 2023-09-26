@@ -8,7 +8,7 @@ import { setUser, logout, selectUser } from '@/stores';
 import { PublicRoot, Landing, SignUpRoute, LoginRoute } from '@/routes/public';
 
 // protected routes
-import { DashboardLayout } from '@/routes/protected';
+import { DashboardLayout, MealPlannerRoute } from '@/routes/protected';
 
 //! consider moving below to a custom hook?
 
@@ -38,7 +38,7 @@ export function AppRoutes() {
       element: <DashboardLayout />,
       children: [
         {
-          element: <p>Hello!</p>,
+          element: <MealPlannerRoute />,
           index: true,
         },
       ],

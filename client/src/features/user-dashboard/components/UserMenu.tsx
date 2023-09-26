@@ -69,7 +69,7 @@ export function UserMenu() {
       </Menu.Target>
 
       <Menu.Dropdown>
-        <Menu.Label>Application</Menu.Label>
+        <Menu.Label>User</Menu.Label>
         <Menu.Item icon={<IconSettings size={14} />}>Settings</Menu.Item>
         <Menu.Item icon={<IconMessageCircle size={14} />}>Messages</Menu.Item>
 
