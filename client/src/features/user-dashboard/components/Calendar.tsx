@@ -1,27 +1,41 @@
-import { useState } from 'react';
 import { Group } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
+import { useAppSelector, useAppDispatch } from '@/hooks';
+import { setDayRange, setWeekStart, setWeekEnd, selectCalendar } from '@/stores';
 
-//! move to overall components?
-//! below should take a prop day vs week and show the corresponding calendar view...
+type CalendarProps = {
+  day: boolean;
+};
 
-export type DateRange = 'day' | 'week';
+export function Calendar({ day }: CalendarProps) {
+  const dispatch = useAppDispatch();
+  const { dayRange, weekRange } = useAppSelector(selectCalendar);
 
-interface CalendarProps {
-  range: DateRange;
-}
+  const convertedDayRange = new Date(dayRange);
+  const convertedWeekStart = new Date(weekRange[0]);
+  const convertedWeekEnd = new Date(weekRange[1]);
 
-export function Calendar({ range }: CalendarProps) {
-  const [valueRange, setValueRange] = useState<[Date | null, Date | null]>([null, null]);
-  const [valueDay, setValueDay] = useState<Date | null>(null);
+  const handleWeekChange = (val: [Date, Date]) => {
+    dispatch(setWeekStart(val[0].toISOString()));
+    if (val[1]) {
+      dispatch(setWeekEnd(val[1].toISOString()));
+    }
+  };
+  const handleDayChange = (val: Date) => {
+    dispatch(setDayRange(val.toISOString()));
+  };
 
-  return range === 'week' ? (
+  return day ? (
     <Group position="center">
-      <DatePicker type="range" value={valueRange} onChange={setValueRange} />
+      <DatePicker value={convertedDayRange} onChange={(val: Date) => handleDayChange(val)} />
     </Group>
   ) : (
     <Group position="center">
-      <DatePicker value={valueDay} onChange={setValueDay} />
+      <DatePicker
+        type="range"
+        defaultValue={[convertedWeekStart, convertedWeekEnd]}
+        onChange={(val) => handleWeekChange(val as [Date, Date])}
+      />
     </Group>
   );
 }
