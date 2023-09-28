@@ -1,3 +1,4 @@
 export * from './components/Sidebar';
 export * from './components/Dashboard';
-export * from './components/MealPlanner';
+export * from './components/MealSettings';
+export * from './components/meal-planner/MealPlanner';

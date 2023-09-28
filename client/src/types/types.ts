@@ -8,3 +8,7 @@ export type CalendarState = {
   weekRange: [string, string];
   dayRange: string;
 };
+
+export type MealSettings = {
+  numberOfMeals: number;
+};
