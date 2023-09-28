@@ -1,12 +1,17 @@
 import { useDisclosure } from '@mantine/hooks';
-import { startOfTomorrow } from 'date-fns';
 import { Modal, Group, SegmentedControl, ActionIcon, Button, Flex, rem } from '@mantine/core';
 import { IconCalendar, IconArrowBadgeLeft, IconArrowBadgeRight } from '@tabler/icons-react';
 import { Calendar } from './Calendar';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { setCalendar, selectCalendar, incrementDay } from '@/stores';
+import {
+  setCalendar,
+  selectCalendar,
+  incrementDay,
+  decrementDay,
+  incrementWeek,
+  decrementWeek,
+} from '@/stores';
 
-//! figure out how to show today/weekrange etc - check rendering react children...
 export function MealPlanner() {
   const [opened, { open, close }] = useDisclosure(false);
   const { day, dayRange, weekRange } = useAppSelector(selectCalendar);
@@ -29,13 +34,19 @@ export function MealPlanner() {
           sx={{ border: '1px solid gray' }}
         />
         <Group position="center">
-          <ActionIcon size="lg">
+          <ActionIcon
+            size="lg"
+            onClick={() => (day ? dispatch(decrementDay()) : dispatch(decrementWeek()))}
+          >
             <IconArrowBadgeLeft />
           </ActionIcon>
           <ActionIcon onClick={open} size="lg" variant="filled" color="teal" radius="md">
             <IconCalendar />
           </ActionIcon>
-          <ActionIcon size="lg" onClick={() => dispatch(incrementDay())}>
+          <ActionIcon
+            size="lg"
+            onClick={() => (day ? dispatch(incrementDay()) : dispatch(incrementWeek()))}
+          >
             <IconArrowBadgeRight />
           </ActionIcon>
         </Group>
