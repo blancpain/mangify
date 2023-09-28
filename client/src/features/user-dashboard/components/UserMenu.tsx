@@ -22,9 +22,7 @@ export function UserMenu() {
   const handleLogout = async () => {
     await processLogout();
     dispatch(logout());
-    // refresh the page
-    navigate(0);
-    navigate('/');
+    navigate('/', { replace: true });
   };
 
   return (

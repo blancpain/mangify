@@ -8,12 +8,12 @@ import { setUser, selectUser, logout } from '@/stores';
 import { PublicRoot, Landing, SignUpRoute, LoginRoute } from '@/routes/public';
 
 // protected routes
-import { DashboardLayout, MealPlannerRoute } from '@/routes/protected';
+import { DashboardLayout, MealPlannerRoute, MealSettingsRoute } from '@/routes/protected';
 
 //! for testing: lili@gmail.com / kotkata123456
 
 export function AppRoutes() {
-  const [authCheck, { isLoading }] = useAuthCheckMutation();
+  const [authCheck, { isLoading, isUninitialized }] = useAuthCheckMutation();
   const dispatch = useAppDispatch();
   const { name } = useAppSelector(selectUser);
 
@@ -37,6 +37,10 @@ export function AppRoutes() {
         {
           element: <MealPlannerRoute />,
           index: true,
+        },
+        {
+          element: <MealSettingsRoute />,
+          path: 'meal-settings',
         },
       ],
     },
@@ -63,5 +67,9 @@ export function AppRoutes() {
     },
   ]);
 
-  return isLoading ? <> </> : <RouterProvider router={name ? protectedRoutes : publicRoutes} />;
+  return isLoading || isUninitialized ? (
+    <> </>
+  ) : (
+    <RouterProvider router={name ? protectedRoutes : publicRoutes} />
+  );
 }
