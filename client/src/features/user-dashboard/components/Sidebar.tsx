@@ -1,4 +1,10 @@
-import { IconCalendar, IconShoppingBag, IconMessages } from '@tabler/icons-react';
+import {
+  IconCalendar,
+  IconShoppingBag,
+  IconHeart,
+  IconSettings,
+  IconChartPie2,
+} from '@tabler/icons-react';
 import { ThemeIcon, UnstyledButton, Group, Text } from '@mantine/core';
 import { nanoid } from '@reduxjs/toolkit';
 
@@ -8,7 +14,7 @@ interface MainLinkProps {
   label: string;
 }
 
-function SideBar({ icon, color, label }: MainLinkProps) {
+function SideBarLinks({ icon, color, label }: MainLinkProps) {
   return (
     <UnstyledButton
       sx={(theme) => ({
@@ -36,14 +42,16 @@ function SideBar({ icon, color, label }: MainLinkProps) {
 }
 
 const linkData = [
-  { icon: <IconCalendar size="1rem" />, color: 'blue', label: 'Meal Planner' },
+  { icon: <IconCalendar size="1rem" />, color: 'teal', label: 'Meal Planner' },
   { icon: <IconShoppingBag size="1rem" />, color: 'teal', label: 'Shopping List' },
-  { icon: <IconMessages size="1rem" />, color: 'violet', label: 'Link 3 ...' },
+  { icon: <IconHeart size="1rem" />, color: 'teal', label: 'Favorites' },
+  { icon: <IconChartPie2 size="1rem" />, color: 'teal', label: 'Diet & Nutrition Preferences' },
+  { icon: <IconSettings size="1rem" />, color: 'teal', label: 'Settings' },
 ];
 
-export function SideBarLinks() {
+export function SideBar() {
   const links = linkData.map((link) => (
-    <SideBar icon={link.icon} label={link.label} color={link.color} key={nanoid()} />
+    <SideBarLinks icon={link.icon} label={link.label} color={link.color} key={nanoid()} />
   ));
   return <div>{links}</div>;
 }

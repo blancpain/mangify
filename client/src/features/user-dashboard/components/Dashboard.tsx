@@ -9,7 +9,7 @@ import {
   useMantineTheme,
 } from '@mantine/core';
 import { Outlet } from 'react-router-dom';
-import { SideBarLinks } from './Sidebar';
+import { SideBar } from './Sidebar';
 import { UserMenu } from './UserMenu';
 import { Logo } from '@/components/Logo';
 import { ThemeSwitcher } from '@/components/ThemeSwitcher';
@@ -28,9 +28,9 @@ export function Dashboard() {
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
       navbar={
-        <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 150, lg: 250 }}>
+        <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 300, lg: 350 }}>
           <Navbar.Section grow mt="xs">
-            <SideBarLinks />
+            <SideBar />
           </Navbar.Section>
           <Navbar.Section>
             <UserMenu />

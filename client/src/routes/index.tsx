@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useAuthCheckMutation } from '@/features/api';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { setUser, logout, selectUser } from '@/stores';
+import { setUser, selectUser, logout } from '@/stores';
 
 // public routes
 import { PublicRoot, Landing, SignUpRoute, LoginRoute } from '@/routes/public';
@@ -10,10 +10,7 @@ import { PublicRoot, Landing, SignUpRoute, LoginRoute } from '@/routes/public';
 // protected routes
 import { DashboardLayout, MealPlannerRoute } from '@/routes/protected';
 
-//! consider moving below to a custom hook?
-
-//! for testing:
-//! lili@gmail.com / kotkata123456
+//! for testing: lili@gmail.com / kotkata123456
 
 export function AppRoutes() {
   const [authCheck, { isLoading }] = useAuthCheckMutation();
