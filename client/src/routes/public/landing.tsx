@@ -1,4 +1,4 @@
-import { Hero, MealGenerator } from '@/features/landing-page';
+import { Hero, MealGenerator } from '@/features/landing';
 
 export function Landing() {
   return (

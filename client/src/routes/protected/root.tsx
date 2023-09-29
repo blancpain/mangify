@@ -1,4 +1,4 @@
-import { Dashboard } from '@/features/user-dashboard';
+import { Dashboard } from '@/features/users';
 
 export function DashboardLayout() {
   return <Dashboard />;
