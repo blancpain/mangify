@@ -13,8 +13,6 @@ import {
   UserSettingsRoute,
 } from '@/routes/protected';
 
-//! for testing: lili@gmail.com / kotkata123456
-
 export function AppRoutes() {
   const { user, isLoading, isUninitialized } = useAuth();
 
