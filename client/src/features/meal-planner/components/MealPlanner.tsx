@@ -10,14 +10,21 @@ import {
   decrementDay,
   incrementWeek,
   decrementWeek,
+  selectNutritionPreferences,
 } from '@/stores';
+import { SingleDayMealPlan } from './SingleDayMealPlan';
 
 export function MealPlanner() {
   const [opened, { open, close }] = useDisclosure(false);
   const { day, dayRange, weekRange } = useAppSelector(selectCalendar);
+  const { nutritionProfile } = useAppSelector(selectNutritionPreferences);
   const dispatch = useAppDispatch();
 
-  // const convertedDay = new Date(dayRange).toDateString();
+  const convertedDay = new Date(dayRange).toLocaleDateString(undefined, {
+    weekday: 'long',
+    day: '2-digit',
+    month: 'long',
+  });
   // const convertedStartOfWeek = new Date(weekRange[0]).toDateString();
   // const convertedEndOfWeek = new Date(weekRange[1]).toDateString();
 
@@ -62,6 +69,7 @@ export function MealPlanner() {
           </Flex>
         </Modal>
       </Flex>
+      {day && <SingleDayMealPlan day={convertedDay} calories={nutritionProfile?.calories} />}
     </>
   );
 }
