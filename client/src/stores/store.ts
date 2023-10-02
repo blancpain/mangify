@@ -4,12 +4,14 @@ import { mangifyApi } from '@/features/api';
 import { userReducer } from './slices/userSlice';
 import { calendarReducer } from './slices/calendarSlice';
 import { mealSettingsReducer } from './slices/mealSettingsSlice';
+import { nutritionPreferencesReducer } from './slices/nutritionPreferencesSlice';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     calendar: calendarReducer,
     mealSettings: mealSettingsReducer,
+    nutritionPreferences: nutritionPreferencesReducer,
     [mangifyApi.reducerPath]: mangifyApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(mangifyApi.middleware),
