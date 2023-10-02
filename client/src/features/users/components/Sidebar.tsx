@@ -1,11 +1,6 @@
-import {
-  IconCalendar,
-  IconShoppingBag,
-  IconHeart,
-  IconSettings,
-  IconChartPie2,
-} from '@tabler/icons-react';
-import { SidebarSoloLink } from './SidebarSoloLinks';
+import { IconCalendar, IconShoppingBag, IconHeart, IconChartPie2 } from '@tabler/icons-react';
+import { SidebarSoloLink } from './SidebarSoloLink';
+import { SideBarDropdownLink } from './SideBarDropdownLink';
 
 export function SideBar() {
   return (
@@ -29,12 +24,7 @@ export function SideBar() {
         label="Diet & Nutrition Preferences"
         link="/nutrition-preferences"
       />
-      <SidebarSoloLink
-        icon={<IconSettings size="1rem" />}
-        color="teal"
-        label="Settings"
-        link="/meal-settings"
-      />
+      <SideBarDropdownLink />
     </div>
   );
 }
