@@ -41,9 +41,9 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-interface MealProps {
+type MealProps = {
   recipe: ShowCaseRecipe;
-}
+};
 
 export function Meal({ recipe }: MealProps) {
   const { classes } = useStyles();

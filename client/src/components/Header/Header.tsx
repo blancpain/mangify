@@ -124,23 +124,23 @@ export function HeaderMegaMenu() {
         <ScrollArea h={`calc(100vh - ${rem(60)})`} mx="-md">
           <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
 
-          <Text component={NavLink} to="/" className={classes.link}>
+          <Text component={NavLink} to="/" className={classes.link} onClick={closeDrawer}>
             Home
           </Text>
-          <Text component={NavLink} to="/" className={classes.link}>
+          <Text component={NavLink} to="/" className={classes.link} onClick={closeDrawer}>
             Features
           </Text>
-          <Text component={NavLink} to="/" className={classes.link}>
+          <Text component={NavLink} to="/" className={classes.link} onClick={closeDrawer}>
             Learn
           </Text>
 
           <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />
 
           <Group position="center" grow pb="xl" px="md">
-            <Button variant="default" component={NavLink} to="/login">
+            <Button variant="default" component={NavLink} to="/login" onClick={closeDrawer}>
               Log in
             </Button>
-            <Button component={NavLink} to="/sign-up">
+            <Button component={NavLink} to="/sign-up" onClick={closeDrawer}>
               Sign up
             </Button>
           </Group>
