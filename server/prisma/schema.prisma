@@ -26,16 +26,23 @@ model User {
   @@map("users")
 }
 
+///? do we need to save nutrition profile in db as well?
 model UserData {
-  id               String       @id @default(uuid())
-  diet             String?
-  max_calories     Int?
-  favorite_recipes Recipes[]    @relation("RecipesLikedBy")
-  recipes_to_avoid Recipes[]    @relation("RecipesAvoidedBy")
-  favorite_foods   Foods[]      @relation("FoodsLikedBy")
-  foods_to_avoid   Foods[]      @relation("FoodsAvoidedBy")
-  meal_plan        MealPlan[]   @relation("UserMealPlans")
-  ingredients      Ingredient[] @relation("UserIngredients")
+  id                String        @id @default(uuid())
+  diet              String?
+  sex               Sex?
+  activity_level    ActivityLevel @default(MODERATE)
+  goal              Goal?         @default(MAINTAIN)
+  age               Int?
+  height            Int?
+  weight            Int?
+  intolerances      String[]
+  favorite_cuisines String[]
+  meals_per_day     Int
+  favorite_recipes  Recipes[]     @relation("RecipesLikedBy")
+  recipes_to_avoid  Recipes[]     @relation("RecipesAvoidedBy")
+  meals             Meals[]       @relation("UserMealPlans")
+  ingredients       Ingredients[] @relation("UserIngredients")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -43,17 +50,8 @@ model UserData {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
 
-  @@index([diet, max_calories])
+  @@index([diet, sex, activity_level, goal, height, weight])
   @@map("user_data")
-}
-
-model Foods {
-  id          String     @id @default(uuid())
-  external_id String
-  likedBy     UserData[] @relation("FoodsLikedBy")
-  avoidedBy   UserData[] @relation("FoodsAvoidedBy")
-
-  @@map("foods")
 }
 
 model Recipes {
@@ -65,30 +63,27 @@ model Recipes {
   @@map("recipes")
 }
 
-model MealPlan {
+model Meals {
+  id                 String @id @default(uuid())
+  recipe_external_id String
+
+  user        UserData[]    @relation("UserMealPlans")
+  ingredients Ingredients[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@map("meals")
+}
+
+model Ingredients {
   id          String @id @default(uuid())
   external_id String
 
-  user        UserData[]   @relation("UserMealPlans")
-  ingredients Ingredient[]
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-
-  @@map("meal_plans")
-}
-
-model Ingredient {
-  id         String  @id @default(uuid())
-  foodId     String
-  quantity   Float?
-  unit       String?
-  measurment String?
-
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  MealPlan   MealPlan   @relation(fields: [mealPlanId], references: [id])
-  mealPlanId String
-  user       UserData[] @relation("UserIngredients")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Meals     Meals      @relation(fields: [mealId], references: [id])
+  mealId    String
+  user      UserData[] @relation("UserIngredients")
 
   @@map("ingredients")
 }
@@ -96,4 +91,22 @@ model Ingredient {
 enum Role {
   BASIC
   ADMIN
+}
+
+enum Sex {
+  MALE
+  FEMALE
+}
+
+enum ActivityLevel {
+  SEDENTARY
+  LIGHT
+  MODERATE
+  VERYACTIVE
+}
+
+enum Goal {
+  LOSEWEIGHT
+  MAINTAIN
+  GAINWEIGHT
 }
