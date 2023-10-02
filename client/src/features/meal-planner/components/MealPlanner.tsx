@@ -17,9 +17,9 @@ export function MealPlanner() {
   const { day, dayRange, weekRange } = useAppSelector(selectCalendar);
   const dispatch = useAppDispatch();
 
-  const convertedDay = new Date(dayRange).toDateString();
-  const convertedStartOfWeek = new Date(weekRange[0]).toDateString();
-  const convertedEndOfWeek = new Date(weekRange[1]).toDateString();
+  // const convertedDay = new Date(dayRange).toDateString();
+  // const convertedStartOfWeek = new Date(weekRange[0]).toDateString();
+  // const convertedEndOfWeek = new Date(weekRange[1]).toDateString();
 
   return (
     <>
@@ -62,11 +62,6 @@ export function MealPlanner() {
           </Flex>
         </Modal>
       </Flex>
-      <p>App</p>
-
-      <p>Day: {convertedDay}</p>
-      <p>Week start: {convertedStartOfWeek}</p>
-      <p>Week end: {convertedEndOfWeek}</p>
     </>
   );
 }
