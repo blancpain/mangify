@@ -1,4 +1,5 @@
-import { useState } from 'react';
+// import { useState } from 'react';
+import { useDisclosure } from '@mantine/hooks';
 import {
   AppShell,
   Navbar,
@@ -17,7 +18,9 @@ import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 export function Dashboard() {
   const theme = useMantineTheme();
 
-  const [opened, setOpened] = useState(false);
+  // const [opened, setOpened] = useState(false);
+  const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+
   return (
     <AppShell
       styles={{
@@ -28,9 +31,9 @@ export function Dashboard() {
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
       navbar={
-        <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 300, lg: 350 }}>
+        <Navbar p="md" hiddenBreakpoint="sm" hidden={!drawerOpened} width={{ sm: 300, lg: 350 }}>
           <Navbar.Section grow mt="xs">
-            <SideBar />
+            <SideBar closeDrawer={closeDrawer} />
           </Navbar.Section>
           <Navbar.Section>
             <UserMenu />
@@ -41,7 +44,7 @@ export function Dashboard() {
         <Header height={{ base: 70, md: 70 }} p="md">
           <Group sx={{ height: '100%' }} position="apart">
             <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
-              <Burger opened={opened} onClick={() => setOpened((o) => !o)} size="md" mr="xl" />
+              <Burger opened={drawerOpened} onClick={toggleDrawer} size="md" mr="xl" />
             </MediaQuery>
             <Logo />
             <ThemeSwitcher />

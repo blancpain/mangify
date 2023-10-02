@@ -2,7 +2,11 @@ import { IconCalendar, IconShoppingBag, IconHeart, IconChartPie2 } from '@tabler
 import { SidebarSoloLink } from './SidebarSoloLink';
 import { SideBarDropdownLink } from './SideBarDropdownLink';
 
-export function SideBar() {
+type SideBarProps = {
+  closeDrawer: () => void;
+};
+
+export function SideBar({ closeDrawer }: SideBarProps) {
   return (
     <div>
       <SidebarSoloLink
@@ -10,21 +14,30 @@ export function SideBar() {
         color="teal"
         label="Meal Planner"
         link="/"
+        closeDrawer={closeDrawer}
       />
       <SidebarSoloLink
         icon={<IconShoppingBag size="1rem" />}
         color="teal"
         label="Shopping List"
         link="/"
+        closeDrawer={closeDrawer}
       />
-      <SidebarSoloLink icon={<IconHeart size="1rem" />} color="teal" label="Favorites" link="/" />
+      <SidebarSoloLink
+        icon={<IconHeart size="1rem" />}
+        color="teal"
+        label="Favorites"
+        link="/"
+        closeDrawer={closeDrawer}
+      />
       <SidebarSoloLink
         icon={<IconChartPie2 size="1rem" />}
         color="teal"
         label="Diet & Nutrition Preferences"
         link="/nutrition-preferences"
+        closeDrawer={closeDrawer}
       />
-      <SideBarDropdownLink />
+      <SideBarDropdownLink closeDrawer={closeDrawer} />
     </div>
   );
 }

@@ -6,9 +6,10 @@ type MainLinkProps = {
   color: string;
   label: string;
   link: string;
+  closeDrawer: () => void;
 };
 
-export function SidebarSoloLink({ icon, color, label, link }: MainLinkProps) {
+export function SidebarSoloLink({ icon, color, label, link, closeDrawer }: MainLinkProps) {
   return (
     <UnstyledButton
       sx={(theme) => ({
@@ -25,6 +26,7 @@ export function SidebarSoloLink({ icon, color, label, link }: MainLinkProps) {
       })}
       component={NavLink}
       to={link}
+      onClick={closeDrawer}
     >
       <Group>
         <ThemeIcon color={color} variant="light">

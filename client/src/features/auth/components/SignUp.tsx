@@ -113,7 +113,7 @@ export function SignUp(props: PaperProps) {
       }}
       component="main"
     >
-      <Title>Create your mangify account</Title>
+      <Title align="center">Create your mangify account</Title>
       <Container size="xs" p="xl">
         <Paper
           radius="md"

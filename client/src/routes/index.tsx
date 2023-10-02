@@ -18,7 +18,6 @@ import {
 export function AppRoutes() {
   const { user, isLoading, isUninitialized } = useAuth();
 
-  // TODO add spinner below...
   if (isLoading || isUninitialized) {
     return <> </>;
   }
