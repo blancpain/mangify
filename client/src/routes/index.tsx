@@ -1,33 +1,27 @@
-import { useEffect } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { useAuthCheckMutation } from '@/features/api';
-import { useAppDispatch, useAppSelector } from '@/hooks';
-import { setUser, selectUser, logout } from '@/stores';
+import { useAuth } from '@/hooks';
 
 // public routes
 import { PublicRoot, Landing, SignUpRoute, LoginRoute } from '@/routes/public';
 
 // protected routes
-import { DashboardLayout, MealPlannerRoute, MealSettingsRoute } from '@/routes/protected';
+import {
+  DashboardLayout,
+  MealPlannerRoute,
+  MealSettingsRoute,
+  NutritionSettingsRoute,
+  UserSettingsRoute,
+} from '@/routes/protected';
 
 //! for testing: lili@gmail.com / kotkata123456
 
 export function AppRoutes() {
-  const [authCheck, { isLoading, isUninitialized }] = useAuthCheckMutation();
-  const dispatch = useAppDispatch();
-  const { name } = useAppSelector(selectUser);
+  const { user, isLoading, isUninitialized } = useAuth();
 
-  useEffect(() => {
-    const verifyUser = async () => {
-      try {
-        const userData = await authCheck().unwrap();
-        dispatch(setUser(userData));
-      } catch (_err) {
-        dispatch(logout());
-      }
-    };
-    verifyUser();
-  }, [authCheck, dispatch]);
+  // TODO add spinner below...
+  if (isLoading || isUninitialized) {
+    return <> </>;
+  }
 
   const protectedRoutes = createBrowserRouter([
     {
@@ -41,6 +35,14 @@ export function AppRoutes() {
         {
           element: <MealSettingsRoute />,
           path: 'meal-settings',
+        },
+        {
+          element: <NutritionSettingsRoute />,
+          path: 'nutrition-preferences',
+        },
+        {
+          element: <UserSettingsRoute />,
+          path: 'user-settings',
         },
       ],
     },
@@ -67,9 +69,7 @@ export function AppRoutes() {
     },
   ]);
 
-  return isLoading || isUninitialized ? (
-    <> </>
-  ) : (
-    <RouterProvider router={name ? protectedRoutes : publicRoutes} />
-  );
+  const routesToRender = user ? protectedRoutes : publicRoutes;
+
+  return <RouterProvider router={routesToRender} />;
 }
