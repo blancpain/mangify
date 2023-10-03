@@ -5,6 +5,7 @@ import { User } from "../server/node_modules/.prisma/client/index";
   Zod types
 */
 
+// meal generator - showcase
 export const MealGeneratorLandingSchema = z.object({
   numberOfMeals: z
     .string()
@@ -15,6 +16,8 @@ export const MealGeneratorLandingSchema = z.object({
 export type TMealGeneratorLandingSchema = z.infer<
   typeof MealGeneratorLandingSchema
 >;
+
+// sign-up and login
 
 export const signUpSchema = z
   .object({
@@ -36,6 +39,21 @@ export const loginSchema = z.object({
 });
 
 export type TLoginSchema = z.infer<typeof loginSchema>;
+
+// user settings
+
+export enum Sex {
+  MALE = "MALE",
+  FEMALE = "FEMALE",
+}
+
+// export const SexSchema = z.nativeEnum(Sex);
+
+export const SexSchema = z.object({
+  sex: z.nativeEnum(Sex),
+});
+
+export type TSexSchema = z.infer<typeof SexSchema>;
 
 /* Zod types */
 

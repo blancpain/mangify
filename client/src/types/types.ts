@@ -5,8 +5,8 @@ export type UserState = {
 };
 
 export enum Sex {
-  Male = 'male',
-  Female = 'female',
+  MALE = 'MALE',
+  FEMALE = 'FEMALE',
 }
 
 export enum ActivityLevel {

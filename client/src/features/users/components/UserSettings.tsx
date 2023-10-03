@@ -60,12 +60,12 @@ export function UserSettings() {
         </Title>
         <Select
           w="40%"
-          value={settings.sex}
+          value={settings.sex?.toString()}
           placeholder="Your sex"
-          onChange={(val: Sex) => dispatch(setSex(val))}
+          onChange={(val) => dispatch(setSex(val as Sex))}
           data={[
-            { value: Sex.Male, label: 'Male' },
-            { value: Sex.Female, label: 'Female' },
+            { value: Sex.MALE, label: 'Male' },
+            { value: Sex.FEMALE, label: 'Female' },
           ]}
         />
         <Title order={4} mb="md" mt="md">
