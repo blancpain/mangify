@@ -11,13 +11,13 @@ datasource db {
 }
 
 model User {
-  id           String    @id @default(uuid())
+  id           String   @id @default(uuid())
   name         String
-  email        String    @unique
+  email        String   @unique
   passwordHash String
-  role         Role      @default(BASIC)
-  disabled     Boolean   @default(false)
-  UserData     UserData?
+  role         Role     @default(BASIC)
+  disabled     Boolean  @default(false)
+  profile      Profile?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -27,8 +27,9 @@ model User {
 }
 
 ///? do we need to save nutrition profile in db as well?
-model UserData {
+model Profile {
   id                String        @id @default(uuid())
+  user              User          @relation(fields: [userId], references: [id])
   diet              String?
   sex               Sex?
   activity_level    ActivityLevel @default(MODERATE)
@@ -38,7 +39,7 @@ model UserData {
   weight            Int?
   intolerances      String[]
   favorite_cuisines String[]
-  meals_per_day     Int
+  meals_per_day     Int           @default(3)
   favorite_recipes  Recipes[]     @relation("RecipesLikedBy")
   recipes_to_avoid  Recipes[]     @relation("RecipesAvoidedBy")
   meals             Meals[]       @relation("UserMealPlans")
@@ -46,19 +47,17 @@ model UserData {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique
+  userId    String   @unique
 
   @@index([diet, sex, activity_level, goal, height, weight])
-  @@map("user_data")
+  @@map("profile")
 }
 
 model Recipes {
-  id          String     @id @default(uuid())
+  id          String    @id @default(uuid())
   external_id String
-  likedBy     UserData[] @relation("RecipesLikedBy")
-  avoidedBy   UserData[] @relation("RecipesAvoidedBy")
+  likedBy     Profile[] @relation("RecipesLikedBy")
+  avoidedBy   Profile[] @relation("RecipesAvoidedBy")
 
   @@map("recipes")
 }
@@ -67,7 +66,7 @@ model Meals {
   id                 String @id @default(uuid())
   recipe_external_id String
 
-  user        UserData[]    @relation("UserMealPlans")
+  user        Profile[]     @relation("UserMealPlans")
   ingredients Ingredients[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
@@ -79,11 +78,11 @@ model Ingredients {
   id          String @id @default(uuid())
   external_id String
 
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  Meals     Meals      @relation(fields: [mealId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Meals     Meals     @relation(fields: [mealId], references: [id])
   mealId    String
-  user      UserData[] @relation("UserIngredients")
+  user      Profile[] @relation("UserIngredients")
 
   @@map("ingredients")
 }
