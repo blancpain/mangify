@@ -1,9 +1,12 @@
-import { z } from "zod";
-import { User } from "../server/node_modules/.prisma/client/index";
+import { z, ZodType } from "zod";
+import { User, Profile } from "../server/node_modules/.prisma/client/index";
 
 /*
-  Zod types
+  Zod types and schemas
 */
+
+// wrapper to allow us to pass generic schemas
+export type ZodSchemaGenericWrapper<T> = ZodType<T>;
 
 // meal generator - showcase
 export const MealGeneratorLandingSchema = z.object({
@@ -18,14 +21,15 @@ export type TMealGeneratorLandingSchema = z.infer<
 >;
 
 // sign-up and login
-
 export const signUpSchema = z
+
   .object({
     name: z.string().min(1, "Please enter your name"),
     email: z.string().min(1, "Please enter your email").email(),
     password: z.string().min(10, "Password must be at least 10 characters"),
     confirmPassword: z.string(),
   })
+
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords must match",
     path: ["confirmPassword"],
@@ -46,37 +50,121 @@ export enum Sex {
   MALE = "MALE",
   FEMALE = "FEMALE",
 }
-
-// export const SexSchema = z.nativeEnum(Sex);
-
 export const SexSchema = z.object({
   sex: z.nativeEnum(Sex),
 });
-
 export type TSexSchema = z.infer<typeof SexSchema>;
+
+export enum ActivityLevel {
+  SEDENTARY = "SEDENTARY",
+  LIGHT = "LIGHT",
+  MODERATE = "MODERATE",
+  VERYACTIVE = "VERYACTIVE",
+}
+export const ActivitySchema = z.object({
+  activity: z.nativeEnum(ActivityLevel),
+});
+export type TActivitySchema = z.infer<typeof ActivitySchema>;
+
+export enum Goal {
+  LOSEWEIGHT = "LOSEWEIGHT",
+  MAINTAIN = "MAINTAIN",
+  GAINWEIGHT = "GAINWEIGHT",
+}
+export const GoalSchema = z.object({
+  goal: z.nativeEnum(Goal),
+});
+export type TGoalSchema = z.infer<typeof GoalSchema>;
+
+export enum Diet {
+  ANYTHING = "ANYTHING",
+  VEGETARIAN = "VEGETARIAN",
+  VEGAN = "VEGAN",
+  KETOGENIC = "KETOGENIC",
+  PALEO = "PALEO",
+  PESCETARIAN = "PESCETARIAN",
+}
+export const DietSchema = z.object({
+  diet: z.nativeEnum(Diet),
+});
+export type TDietSchema = z.infer<typeof DietSchema>;
+
+export const AgeSchema = z.object({
+  age: z.number(),
+});
+export type TAgeSchema = z.infer<typeof AgeSchema>;
+
+export const WeightSchema = z.object({
+  weight: z.number(),
+});
+export type TWeightSchema = z.infer<typeof WeightSchema>;
+
+export const HeightSchema = z.object({
+  height: z.number(),
+});
+export type THeightSchema = z.infer<typeof HeightSchema>;
+
+export const NumberOfMealsSchema = z.object({
+  numberOfMeals: z.number(),
+});
+export type TNumberOfMealsSchema = z.infer<typeof NumberOfMealsSchema>;
+
+export const CuisinesSchema = z.object({
+  cuisines: z.string().array(),
+});
+export type TCuisinesSchema = z.infer<typeof CuisinesSchema>;
+
+export const IntolerancesSchema = z.object({
+  intolerances: z.string().array(),
+});
+export type TIntolerancesSchema = z.infer<typeof IntolerancesSchema>;
 
 /* Zod types */
 
 /*
+
   Prisma types
+
 */
 
 export type NonSensitiveUser = Pick<User, "id" | "name" | "email" | "role">;
+
 export type UserForAuth = Pick<
   User,
   "id" | "email" | "role" | "disabled" | "name"
 >;
+
 export type LoggedUser = Pick<User, "email" | "name">;
+
+export type MainUserProfile = Omit<
+  Profile,
+  | "id"
+  | "userId"
+  | "createdAt"
+  | "updatedAt"
+  | "activity_level"
+  | "goal"
+  | "sex"
+>;
+
+type NonNullableProperties<T> = {
+  [K in keyof T]: NonNullable<T[K]>;
+};
+
+export type MainUserProfileNonNullable = NonNullableProperties<MainUserProfile>;
 
 /* Prisma types */
 
 /*
+
   Spoonacular types ( Generated with the help of quicktype )
+
 */
 
 // Full recipe list returned from random meal API endpoint
 
 export const ConsistencySchema = z.enum(["LIQUID", "SOLID"]);
+
 export type Consistency = z.infer<typeof ConsistencySchema>;
 
 export const MetricSchema = z.object({
@@ -84,12 +172,14 @@ export const MetricSchema = z.object({
   unitShort: z.union([z.null(), z.string()]).optional(),
   unitLong: z.union([z.null(), z.string()]).optional(),
 });
+
 export type Metric = z.infer<typeof MetricSchema>;
 
 export const MeasuresSchema = z.object({
   us: z.union([MetricSchema, z.null()]).optional(),
   metric: z.union([MetricSchema, z.null()]).optional(),
 });
+
 export type Measures = z.infer<typeof MeasuresSchema>;
 
 export const ExtendedIngredientSchema = z.object({
@@ -106,12 +196,14 @@ export const ExtendedIngredientSchema = z.object({
   meta: z.union([z.array(z.string()), z.null()]).optional(),
   measures: z.union([MeasuresSchema, z.null()]).optional(),
 });
+
 export type ExtendedIngredient = z.infer<typeof ExtendedIngredientSchema>;
 
 export const LengthSchema = z.object({
   number: z.union([z.number(), z.null()]).optional(),
   unit: z.union([z.null(), z.string()]).optional(),
 });
+
 export type Length = z.infer<typeof LengthSchema>;
 
 export const EntSchema = z.object({
@@ -121,6 +213,7 @@ export const EntSchema = z.object({
   image: z.union([z.null(), z.string()]).optional(),
   temperature: z.union([LengthSchema, z.null()]).optional(),
 });
+
 export type Ent = z.infer<typeof EntSchema>;
 
 export const StepSchema = z.object({
@@ -130,12 +223,14 @@ export const StepSchema = z.object({
   equipment: z.union([z.array(EntSchema), z.null()]).optional(),
   length: z.union([LengthSchema, z.null()]).optional(),
 });
+
 export type Step = z.infer<typeof StepSchema>;
 
 export const AnalyzedInstructionSchema = z.object({
   name: z.union([z.null(), z.string()]).optional(),
   steps: z.union([z.array(StepSchema), z.null()]).optional(),
 });
+
 export type AnalyzedInstruction = z.infer<typeof AnalyzedInstructionSchema>;
 
 export const RecipeSchema = z.object({
@@ -180,11 +275,12 @@ export const RecipeSchema = z.object({
   originalId: z.null().optional(),
   spoonacularSourceUrl: z.union([z.null(), z.string()]).optional(),
 });
-export type Recipe = z.infer<typeof RecipeSchema>;
 
+export type Recipe = z.infer<typeof RecipeSchema>;
 export const RecipeListSchema = z.object({
   recipes: z.union([z.array(RecipeSchema), z.null()]).optional(),
 });
+
 export type RecipeList = z.infer<typeof RecipeListSchema>;
 
 // Meal generator - showcase types
