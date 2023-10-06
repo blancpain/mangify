@@ -2,6 +2,8 @@ import { NextFunction, Request, Response } from 'express';
 import { loginSchema } from '@shared/types';
 import { sessionService } from '../services/sessionService';
 import { Logger } from '@/lib';
+import { prisma } from '@/utils';
+// import { prisma } from '@/utils';
 
 const login = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
   // eslint-disable-next-line prefer-destructuring
@@ -55,23 +57,46 @@ const logout = (req: Request, res: Response, _next: NextFunction): void => {
   res.status(204).end();
 };
 
-const authCheck = (req: Request, res: Response, _next: NextFunction): void => {
+const authCheck = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
   const { user } = req.session;
 
   if (user) {
-    res.json({ name: user.name, email: user.email });
+    //* we add the below check is well to ensure that users deleted from the DB cannot continue to have an active session
+    const userInDB = await prisma.user.findUnique({
+      where: {
+        id: user?.id,
+      },
+    });
+
+    if (userInDB) {
+      res.json({ name: user.name, email: user.email });
+    } else {
+      req.session.destroy(() => {});
+      res.status(401).json({ errors: 'Unauthorized' });
+    }
   } else {
     req.session.destroy(() => {});
     res.status(401).json({ errors: 'Unauthorized' });
   }
 };
 
-const refreshSession = (req: Request, res: Response, _next: NextFunction): void => {
+const refreshSession = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
   const { user } = req.session;
 
+  //* as above
   if (user) {
-    req.session.touch();
-    res.status(200).json({ status: 'OK' });
+    const userInDB = await prisma.user.findUnique({
+      where: {
+        id: user?.id,
+      },
+    });
+    if (userInDB) {
+      req.session.touch();
+      res.status(200).json({ status: 'OK' });
+    } else {
+      req.session.destroy(() => {});
+      res.status(401).json({ errors: 'Unauthorized' });
+    }
   } else {
     req.session.destroy(() => {});
     res.status(401).json({ errors: 'Unauthorized' });
