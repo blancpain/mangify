@@ -10,6 +10,7 @@ import { Logger } from '@/lib';
 import { userRouter, sessionRouter } from '@/features/auth';
 import { mealGeneratorShowcaseRouter } from '@/features/meal_generator_showcase';
 import { userSettingsRouter } from '@/features/users';
+import { mealsRouter } from '@/features/meal_planner';
 
 // middleware
 import { morganMiddleware, sessionOptions, errorHandler } from '@/middleware';
@@ -47,4 +48,5 @@ app.use('/api/users', userRouter);
 app.use('/api/session', sessionRouter);
 app.use('/api/meal-generator-showcase', mealGeneratorShowcaseRouter);
 app.use('/api/user', userSettingsRouter);
+app.use('/api/meals', mealsRouter);
 app.use(errorHandler);
