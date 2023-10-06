@@ -38,6 +38,9 @@ const createUser = async (newUser: TSignUpSchema): Promise<NonSensitiveUser | nu
       name: newUser.name ? newUser.name : '',
       email: newUser.email,
       passwordHash,
+      profile: {
+        create: {},
+      },
     },
     select: {
       id: true,
