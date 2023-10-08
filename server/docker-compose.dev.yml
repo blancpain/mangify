@@ -47,3 +47,4 @@ services:
     container_name: mangify-server-dev
     environment:
       POSTGRES_HOST: postgres
+      CHOKIDAR_USEPOLLING: true
