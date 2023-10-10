@@ -27,4 +27,5 @@ redis_data
 *.sw?
 server/src/features/meal_generator_showcase/services/exampleData.json
 server/src/features/meal_planner/services/exampleData.json
+server/src/features/meal_planner/services/exampleRefreshData.json
 

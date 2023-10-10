@@ -1,10 +1,12 @@
 import { fetchBaseQuery } from '@reduxjs/toolkit/query';
 import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { logout } from '@/stores';
+import { backendPort } from '@/config';
+
+const serverUrl = `${backendPort}`;
 
 //* As per redux docs we apply a light wrapper around the base query to implement interceptors on network requests similar to axios
-
-const baseQuery = fetchBaseQuery({ baseUrl: 'http://localhost:3001/api/', credentials: 'include' });
+const baseQuery = fetchBaseQuery({ baseUrl: serverUrl, credentials: 'include' });
 export const baseQueryWithReauth: BaseQueryFn<
   string | FetchArgs,
   unknown,
