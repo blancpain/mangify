@@ -1,7 +1,9 @@
 export type UserState = {
-  name: string | null;
-  email: string | null;
-  settings: UserSettings;
+  user: {
+    name: string | null;
+    email: string | null;
+  };
+  profile: UserSettings;
 };
 
 export enum Sex {
@@ -23,12 +25,20 @@ export enum Goal {
 }
 
 export type UserSettings = {
+  diet: string | undefined;
   sex: Sex | undefined;
-  age: number | undefined;
-  weight: number | undefined;
-  height: number | undefined;
-  activity: ActivityLevel | undefined;
+  activityLevel: ActivityLevel | undefined;
   goal: Goal | undefined;
+  age: number | undefined;
+  height: number | undefined;
+  weight: number | undefined;
+  intolerances: string[] | undefined;
+  favoriteCuisines: string[] | undefined;
+  mealsPerDay: number | undefined;
+  recipesToAvoid: string[] | undefined;
+  meals: string[] | undefined;
+  shoppingList: string[] | undefined;
+  favoriteRecipes: string[] | undefined;
 };
 
 // using utility types to 1) make all user settings optional and then 2) remove undefined as an option for all

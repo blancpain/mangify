@@ -1,5 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import { MealRecipe, TComplexMealSearchSchema, ZodSchemaGenericWrapper } from '@shared/types';
+import {
+  MealRecipe,
+  TComplexMealSearchSchema,
+  ZodSchemaGenericWrapper,
+  TRefreshMealSchema,
+  FullUserProfile,
+} from '@shared/types';
 import { prisma } from './postgres';
 
 // type guards
@@ -83,6 +89,41 @@ export const transformMealData = (data: TComplexMealSearchSchema): MealRecipe[] 
   return null;
 };
 
+// ? Lots of repetition w/ above, probably can refactor but the refresh meal endpoint returns an array and not data.results...
+export const transformMealDataForRefresh = (data: TRefreshMealSchema[]): MealRecipe[] | null => {
+  if (data) {
+    const transformedData: MealRecipe[] = data.map((recipe) => ({
+      id: recipe.id,
+      ingredients: recipe.extendedIngredients?.map((ingredient) => ({
+        id: ingredient.id,
+        ingredient: ingredient.name ? ingredient.name.toString() : '',
+        ingredientImage: ingredient.image,
+        amount: ingredient.measures?.metric?.amount,
+        unit: ingredient.measures?.metric?.unitShort,
+      })),
+      title: recipe.title,
+      image: recipe.image,
+      fullNutritionProfile: {
+        calories: recipe.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Calories')
+          ?.amount,
+        protein: recipe.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Protein')
+          ?.amount,
+        fats: recipe.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Fat')?.amount,
+        carbs: recipe.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Carbohydrates')
+          ?.amount,
+      },
+      directions: [
+        ...(recipe.analyzedInstructions?.[0].steps
+          ? recipe.analyzedInstructions[0].steps.map((step) => (step.step ? step.step : ''))
+          : ''),
+      ],
+      fullRecipeURL: recipe.spoonacularSourceUrl,
+    }));
+    return transformedData;
+  }
+  return null;
+};
+
 // this is the UserMeal type but we need to spread it out for the function to work as overlaps on utility types not allowed
 export const findMeal = async (
   mealId: number,
@@ -101,4 +142,42 @@ export const findMeal = async (
   });
   if (!meal) return null;
   return meal;
+};
+
+export const extractUserProfileId = async (userId: string): Promise<string | null> => {
+  const userProfileId = await prisma.profile.findUnique({
+    where: {
+      userId,
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (userProfileId) return userProfileId.id;
+  return null;
+};
+
+export const extractUserProfile = async (userId: string): Promise<FullUserProfile | null> => {
+  const userProfileId = await prisma.profile.findUnique({
+    where: {
+      userId,
+    },
+  });
+
+  if (userProfileId) return userProfileId;
+  return null;
+};
+
+export const extractUserIdFromEmail = async (email: string): Promise<string | null> => {
+  const userId = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+    select: {
+      id: true,
+    },
+  });
+  if (userId) return userId.id;
+  return null;
 };

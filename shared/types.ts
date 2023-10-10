@@ -1,9 +1,5 @@
 import { z, ZodType } from "zod";
-import {
-  User,
-  Profile,
-  Meal,
-} from "../server/node_modules/.prisma/client/index";
+import { User, Profile } from "../server/node_modules/.prisma/client/index";
 
 /*
 
@@ -140,26 +136,25 @@ export type UserForAuth = Pick<
   "id" | "email" | "role" | "disabled" | "name"
 >;
 
-export type LoggedUser = Pick<User, "email" | "name">;
+export type FullUserProfile = Profile;
 
-export type MainUserProfile = Omit<
-  Profile,
-  | "id"
-  | "userId"
-  | "createdAt"
-  | "updatedAt"
-  | "activity_level"
-  | "goal"
-  | "sex"
+export type UserProfileForAuth = Omit<
+  FullUserProfile,
+  "id" | "userId" | "updatedAt" | "createdAt"
 >;
 
-type NonNullableProperties<T> = {
-  [K in keyof T]: NonNullable<T[K]>;
+export type FullUserForAuth = {
+  user: UserForAuth;
+  profile: UserProfileForAuth;
 };
 
-export type MainUserProfileNonNullable = NonNullableProperties<MainUserProfile>;
+type LoggedUserBasics = Pick<User, "email" | "name">;
+type LoggedUserProfile = UserProfileForAuth; 
 
-export type UserMeals = Meal;
+export type LoggedUser = {
+  user: LoggedUserBasics,
+  profile: LoggedUserProfile
+}
 
 /* Prisma types */
 
@@ -234,8 +229,8 @@ export const AnalyzedInstructionSchema = z.object({
   name: z.union([z.null(), z.string()]).optional(),
   steps: z.union([z.array(StepSchema), z.null()]).optional(),
 });
-export type AnalyzedInstruction = z.infer<typeof AnalyzedInstructionSchema>;
 
+export type AnalyzedInstruction = z.infer<typeof AnalyzedInstructionSchema>;
 export const RecipeSchema = z.object({
   vegetarian: z.union([z.boolean(), z.null()]).optional(),
   vegan: z.union([z.boolean(), z.null()]).optional(),
@@ -444,5 +439,137 @@ export type MealRecipe = {
   directions?: string[];
   fullRecipeURL?: string | null;
 };
+
+// Schema and types for Get Recipe Info bulk endpoint
+
+export const ProductMatchSchema = z.object({
+  id: z.union([z.number(), z.null()]).optional(),
+  title: z.union([z.null(), z.string()]).optional(),
+  description: z.null().optional(),
+  price: z.union([z.null(), z.string()]).optional(),
+  imageUrl: z.union([z.null(), z.string()]).optional(),
+  averageRating: z.union([z.number(), z.null()]).optional(),
+  ratingCount: z.union([z.number(), z.null()]).optional(),
+  score: z.union([z.number(), z.null()]).optional(),
+  link: z.union([z.null(), z.string()]).optional(),
+});
+export type ProductMatch = z.infer<typeof ProductMatchSchema>;
+
+export const WinePairingSchema = z.object({
+  pairedWines: z.union([z.array(z.string()), z.null()]).optional(),
+  pairingText: z.union([z.null(), z.string()]).optional(),
+  productMatches: z.union([z.array(ProductMatchSchema), z.null()]).optional(),
+});
+export type WinePairing = z.infer<typeof WinePairingSchema>;
+
+export const FlavonoidsSchema = z.object({});
+export type Flavonoids = z.infer<typeof FlavonoidsSchema>;
+
+export const UnknownIngredientSchema = z.object({
+  name: z.union([z.null(), z.string()]).optional(),
+  longName: z.union([z.null(), z.string()]).optional(),
+  amount: z.union([z.number(), z.null()]).optional(),
+  unit: z.union([z.null(), z.string()]).optional(),
+  originalString: z.union([z.null(), z.string()]).optional(),
+  originalStringClean: z.union([z.null(), z.string()]).optional(),
+  originalName: z.union([z.null(), z.string()]).optional(),
+  metaInformation: z.union([z.array(z.any()), z.null()]).optional(),
+  sourceLanguage: z.union([z.null(), z.string()]).optional(),
+  id: z.union([z.number(), z.null()]).optional(),
+  aisle: z.null().optional(),
+  image: z.null().optional(),
+  consistency: z.union([ConsistencySchema, z.null()]).optional(),
+  ontologyName: z.null().optional(),
+  amountAndUnitMetric: z.null().optional(),
+  amountAndUnitUs: z.null().optional(),
+  ingredientId: z.null().optional(),
+  comparableName: z.union([z.null(), z.string()]).optional(),
+  nutritionId: z.null().optional(),
+  pricePerAmount: z.union([z.number(), z.null()]).optional(),
+  amountForPrice: z.null().optional(),
+  price: z.union([z.number(), z.null()]).optional(),
+  sustainable: z.union([z.boolean(), z.null()]).optional(),
+  vegetarian: z.union([z.boolean(), z.null()]).optional(),
+  vegan: z.union([z.boolean(), z.null()]).optional(),
+  glutenFree: z.union([z.boolean(), z.null()]).optional(),
+  dairyFree: z.union([z.boolean(), z.null()]).optional(),
+  nutrients: z.union([FlavonoidsSchema, z.null()]).optional(),
+  foodProperties: z.union([FlavonoidsSchema, z.null()]).optional(),
+  flavonoids: z.union([FlavonoidsSchema, z.null()]).optional(),
+  possibleUnits: z.union([z.array(z.any()), z.null()]).optional(),
+  ontologyConcept: z.null().optional(),
+  relevance: z.union([z.number(), z.null()]).optional(),
+  refuse: z.union([z.number(), z.null()]).optional(),
+  multiplier: z.union([z.number(), z.null()]).optional(),
+  immutable: z.union([z.boolean(), z.null()]).optional(),
+  amountWithUnit: z.union([z.null(), z.string()]).optional(),
+  unitLong: z.union([z.null(), z.string()]).optional(),
+  unitShort: z.union([z.null(), z.string()]).optional(),
+  metaInformationForDb: z.union([z.null(), z.string()]).optional(),
+});
+export type UnknownIngredient = z.infer<typeof UnknownIngredientSchema>;
+
+export const TipsSchema = z.object({
+  health: z.union([z.array(z.string()), z.null()]).optional(),
+  price: z.union([z.array(z.any()), z.null()]).optional(),
+  cooking: z.union([z.array(z.string()), z.null()]).optional(),
+  green: z.union([z.array(z.string()), z.null()]).optional(),
+});
+export type Tips = z.infer<typeof TipsSchema>;
+
+export const RefreshMealSchema = z.object({
+  vegetarian: z.union([z.boolean(), z.null()]).optional(),
+  vegan: z.union([z.boolean(), z.null()]).optional(),
+  glutenFree: z.union([z.boolean(), z.null()]).optional(),
+  dairyFree: z.union([z.boolean(), z.null()]).optional(),
+  veryHealthy: z.union([z.boolean(), z.null()]).optional(),
+  cheap: z.union([z.boolean(), z.null()]).optional(),
+  veryPopular: z.union([z.boolean(), z.null()]).optional(),
+  sustainable: z.union([z.boolean(), z.null()]).optional(),
+  lowFodmap: z.union([z.boolean(), z.null()]).optional(),
+  weightWatcherSmartPoints: z.union([z.number(), z.null()]).optional(),
+  gaps: z.union([z.null(), z.string()]).optional(),
+  preparationMinutes: z.union([z.number(), z.null()]).optional(),
+  cookingMinutes: z.union([z.number(), z.null()]).optional(),
+  aggregateLikes: z.union([z.number(), z.null()]).optional(),
+  healthScore: z.union([z.number(), z.null()]).optional(),
+  creditsText: z.union([z.null(), z.string()]).optional(),
+  license: z.union([z.null(), z.string()]).optional(),
+  sourceName: z.union([z.null(), z.string()]).optional(),
+  pricePerServing: z.union([z.number(), z.null()]).optional(),
+  extendedIngredients: z
+    .union([z.array(ExtendedIngredientSchema), z.null()])
+    .optional(),
+  id: z.union([z.number(), z.null()]).optional(),
+  title: z.union([z.null(), z.string()]).optional(),
+  readyInMinutes: z.union([z.number(), z.null()]).optional(),
+  servings: z.union([z.number(), z.null()]).optional(),
+  sourceUrl: z.union([z.null(), z.string()]).optional(),
+  image: z.union([z.null(), z.string()]).optional(),
+  imageType: z.union([z.null(), z.string()]).optional(),
+  nutrition: z.union([NutritionSchema, z.null()]).optional(),
+  summary: z.union([z.null(), z.string()]).optional(),
+  cuisines: z.union([z.array(z.string()), z.null()]).optional(),
+  dishTypes: z.union([z.array(z.string()), z.null()]).optional(),
+  diets: z.union([z.array(z.string()), z.null()]).optional(),
+  occasions: z.union([z.array(z.any()), z.null()]).optional(),
+  winePairing: z.union([WinePairingSchema, z.null()]).optional(),
+  instructions: z.union([z.null(), z.string()]).optional(),
+  analyzedInstructions: z
+    .union([z.array(AnalyzedInstructionSchema), z.null()])
+    .optional(),
+  report: z.null().optional(),
+  tips: z.union([TipsSchema, z.null()]).optional(),
+  openLicense: z.union([z.number(), z.null()]).optional(),
+  suspiciousDataScore: z.union([z.number(), z.null()]).optional(),
+  approved: z.union([z.number(), z.null()]).optional(),
+  unknownIngredients: z
+    .union([z.array(UnknownIngredientSchema), z.null()])
+    .optional(),
+  userTags: z.union([z.array(z.any()), z.null()]).optional(),
+  originalId: z.null().optional(),
+  spoonacularSourceUrl: z.union([z.null(), z.string()]).optional(),
+});
+export type TRefreshMealSchema = z.infer<typeof RefreshMealSchema>;
 
 /* Spoonacular types */

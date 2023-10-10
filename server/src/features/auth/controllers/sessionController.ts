@@ -19,12 +19,13 @@ const login = async (req: Request, res: Response, _next: NextFunction): Promise<
     res.status(400).json({ errors: zodErrors });
   } else {
     const loggedUser = await sessionService.login(result.data);
+
     if (!loggedUser) {
       req.session.destroy(() => {});
       res.status(401).json({ errors: 'Invalid email or password' });
       return;
     }
-    if (loggedUser.disabled) {
+    if (loggedUser.user.disabled) {
       req.session.destroy(() => {});
       res.status(401).json({ errors: 'User is disabled, please contact admin' });
       return;
@@ -32,18 +33,20 @@ const login = async (req: Request, res: Response, _next: NextFunction): Promise<
 
     //* the req.session.user type is set in src/app.ts
     req.session.user = {
-      id: loggedUser.id,
-      email: loggedUser.email,
-      role: loggedUser.role,
-      disabled: loggedUser.disabled,
-      name: loggedUser.name,
+      id: loggedUser.user.id,
+      email: loggedUser.user.email,
+      role: loggedUser.user.role,
+      disabled: loggedUser.user.disabled,
+      name: loggedUser.user.name,
     };
     req.session.save();
 
     const userToBeReturned = {
-      name: loggedUser.name,
-      email: loggedUser.email,
+      name: loggedUser.user.name,
+      email: loggedUser.user.email,
+      profile: loggedUser.profile,
     };
+
     res.status(200).json({ ...userToBeReturned });
   }
 };
