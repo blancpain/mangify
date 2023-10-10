@@ -38,8 +38,8 @@ model Profile {
   intolerances      String[]
   favorite_cuisines String[]
   meals_per_day     Int           @default(3)
-  favorite_recipes  Recipes[]     @relation("RecipesLikedBy")
-  recipes_to_avoid  Recipes[]     @relation("RecipesAvoidedBy")
+  favorite_recipes  Int[]
+  recipes_to_avoid  Int[]
   meals             Meal[]
   shopping_list     Ingredients[] @relation("UserIngredients")
 
@@ -51,15 +51,6 @@ model Profile {
 
   @@index([diet, sex, activity_level, goal, height, weight])
   @@map("profile")
-}
-
-model Recipes {
-  id          String    @id @default(uuid())
-  external_id Int
-  likedBy     Profile[] @relation("RecipesLikedBy")
-  avoidedBy   Profile[] @relation("RecipesAvoidedBy")
-
-  @@map("recipes")
 }
 
 model Meal {
