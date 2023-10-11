@@ -12,34 +12,34 @@ import {
 } from '@shared/types';
 import { NextFunction, Request, Response } from 'express';
 import { userSettingsService } from '../services/userSettingsService';
-import { parseUpdate } from '@/utils';
+import { processUpdate } from '@/utils';
 
 const updateSex = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await parseUpdate(req, res, next, SexSchema, userSettingsService.updateSex);
+  await processUpdate(req, res, next, SexSchema, userSettingsService.updateSex);
 };
 
 const updateGoal = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await parseUpdate(req, res, next, GoalSchema, userSettingsService.updateGoal);
+  await processUpdate(req, res, next, GoalSchema, userSettingsService.updateGoal);
 };
 
 const updateActivity = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await parseUpdate(req, res, next, ActivitySchema, userSettingsService.updateActivity);
+  await processUpdate(req, res, next, ActivitySchema, userSettingsService.updateActivity);
 };
 
 const updateAge = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await parseUpdate(req, res, next, AgeSchema, userSettingsService.updateAge);
+  await processUpdate(req, res, next, AgeSchema, userSettingsService.updateAge);
 };
 
 const updateHeight = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await parseUpdate(req, res, next, HeightSchema, userSettingsService.updateHeight);
+  await processUpdate(req, res, next, HeightSchema, userSettingsService.updateHeight);
 };
 
 const updateWeight = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await parseUpdate(req, res, next, WeightSchema, userSettingsService.updateWeight);
+  await processUpdate(req, res, next, WeightSchema, userSettingsService.updateWeight);
 };
 
 const updateDiet = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await parseUpdate(req, res, next, DietSchema, userSettingsService.updateDiet);
+  await processUpdate(req, res, next, DietSchema, userSettingsService.updateDiet);
 };
 
 const updateNumberOfMeals = async (
@@ -47,11 +47,11 @@ const updateNumberOfMeals = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  await parseUpdate(req, res, next, NumberOfMealsSchema, userSettingsService.updateNumberOfMeals);
+  await processUpdate(req, res, next, NumberOfMealsSchema, userSettingsService.updateNumberOfMeals);
 };
 
 const updateCuisines = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await parseUpdate(req, res, next, CuisinesSchema, userSettingsService.updateCuisines);
+  await processUpdate(req, res, next, CuisinesSchema, userSettingsService.updateCuisines);
 };
 
 const updateIntolerances = async (
@@ -59,7 +59,7 @@ const updateIntolerances = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  await parseUpdate(req, res, next, IntolerancesSchema, userSettingsService.updateIntolerances);
+  await processUpdate(req, res, next, IntolerancesSchema, userSettingsService.updateIntolerances);
 };
 
 export const userSettingsController = {

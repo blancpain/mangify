@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { Prisma } from '@prisma/client';
 import {
   MealRecipe,
   TComplexMealSearchSchema,
@@ -24,7 +25,7 @@ export const extractCalories = (input: string): number | null => {
   return null;
 };
 
-export const parseUpdate = async <T>(
+export const processUpdate = async <T>(
   req: Request,
   res: Response,
   _next: NextFunction,
@@ -52,7 +53,7 @@ export const parseUpdate = async <T>(
   }
 
   await updateFunction(user.email, result.data);
-  res.status(200).json({ message: 'OK' });
+  res.status(200).json(result.data);
 };
 
 export const transformMealData = (data: TComplexMealSearchSchema): MealRecipe[] | null => {
@@ -181,3 +182,22 @@ export const extractUserIdFromEmail = async (email: string): Promise<string | nu
   if (userId) return userId.id;
   return null;
 };
+
+export const getUserMeals = async (id: string) => {
+  const userMeals = await prisma.profile.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      meals: {
+        select: {
+          active: true,
+          recipe_external_id: true,
+        },
+      },
+    },
+  });
+  return userMeals;
+};
+
+export type TUserMeals = Prisma.PromiseReturnType<typeof getUserMeals>;

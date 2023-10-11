@@ -1,9 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import { loginSchema } from '@shared/types';
+import { loginSchema, FullUserForClient } from '@shared/types';
 import { sessionService } from '../services/sessionService';
 import { Logger } from '@/lib';
 import { prisma } from '@/utils';
-// import { prisma } from '@/utils';
 
 const login = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
   // eslint-disable-next-line prefer-destructuring
@@ -41,13 +40,16 @@ const login = async (req: Request, res: Response, _next: NextFunction): Promise<
     };
     req.session.save();
 
-    const userToBeReturned = {
-      name: loggedUser.user.name,
-      email: loggedUser.user.email,
+    const userToBeReturned: FullUserForClient = {
+      user: {
+        name: loggedUser.user.name,
+        email: loggedUser.user.email,
+      },
       profile: loggedUser.profile,
+      meals: loggedUser.meals,
     };
 
-    res.status(200).json({ ...userToBeReturned });
+    res.status(200).json(userToBeReturned);
   }
 };
 
@@ -64,15 +66,18 @@ const authCheck = async (req: Request, res: Response, _next: NextFunction): Prom
   const { user } = req.session;
 
   if (user) {
-    //* we add the below check is well to ensure that users deleted from the DB cannot continue to have an active session
-    const userInDB = await prisma.user.findUnique({
-      where: {
-        id: user?.id,
-      },
-    });
+    const userInDB = await sessionService.authCheck(user.email);
 
     if (userInDB) {
-      res.json({ name: user.name, email: user.email });
+      const userToBeReturned: FullUserForClient = {
+        user: {
+          name: userInDB.user.name,
+          email: userInDB.user.email,
+        },
+        profile: userInDB.profile,
+        meals: userInDB.meals,
+      };
+      res.status(200).json(userToBeReturned);
     } else {
       req.session.destroy(() => {});
       res.status(401).json({ errors: 'Unauthorized' });
@@ -86,7 +91,7 @@ const authCheck = async (req: Request, res: Response, _next: NextFunction): Prom
 const refreshSession = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
   const { user } = req.session;
 
-  //* as above
+  //* we add the below check is well to ensure that users deleted from the DB cannot continue to have an active session
   if (user) {
     const userInDB = await prisma.user.findUnique({
       where: {
