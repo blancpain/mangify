@@ -50,11 +50,11 @@ export function Login(props: PaperProps) {
     try {
       const userData = await login(data).unwrap();
       dispatch(setUser(userData));
-      // TODO add toast effects here
+      // TODO: add toast effects here
       navigate('/', { replace: true });
       reset();
     } catch (error: unknown) {
-      // TODO add toast effects here
+      // TODO: add toast effects here
       if (isFetchBaseQueryError(error)) {
         if (
           error.data &&

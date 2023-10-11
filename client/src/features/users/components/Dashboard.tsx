@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import {
   AppShell,
@@ -18,7 +17,6 @@ import { ThemeSwitcher } from '@/components/ThemeSwitcher';
 export function Dashboard() {
   const theme = useMantineTheme();
 
-  // const [opened, setOpened] = useState(false);
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
 
   return (
