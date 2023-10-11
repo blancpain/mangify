@@ -1,4 +1,5 @@
-import { Title, Select, Space, Flex, NumberInput, Group, Text, Button } from '@mantine/core';
+import { Title, Select, Space, Flex, NumberInput, Group, Text } from '@mantine/core';
+import { ActivityLevel, Sex, Goal } from '@shared/types';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   setSex,
@@ -6,47 +7,65 @@ import {
   setHeight,
   setWeight,
   setAge,
-  setActivityLevel,
   setGoal,
-  setNutritionProfile,
+  setActivityLevel,
 } from '@/stores';
-import { ActivityLevel, Sex, Goal } from '@/types';
-import { isNumber, calculateDailyIntake, calculateMacros, parseUserSettings } from '@/utils';
+import { isNumber } from '@/utils';
+import {
+  useSetActivityLevelMutation,
+  useSetAgeMutation,
+  useSetGoalMutation,
+  useSetHeightMutation,
+  useSetSexMutation,
+  useSetWeightMutation,
+} from '@/features/api';
 
 export function UserSettings() {
   const dispatch = useAppDispatch();
-  const { settings } = useAppSelector(selectUser);
+  const { profile } = useAppSelector(selectUser);
+  const [setUserAge] = useSetAgeMutation();
+  const [setUserSex] = useSetSexMutation();
+  const [setUserActivityLevel] = useSetActivityLevelMutation();
+  const [setUserGoal] = useSetGoalMutation();
+  const [setUserWeight] = useSetWeightMutation();
+  const [setUserHeight] = useSetHeightMutation();
 
-  const handleHeightInput = (val: unknown) => {
+  // TODO: refactor these, lots can be extracted in helper
+  // especially the error handling - currently none...
+  const handleHeightInput = async (val: unknown) => {
     if (isNumber(val)) {
       dispatch(setHeight(val));
+      await setUserWeight({ weight: val });
     }
   };
-  const handleWeightInput = (val: unknown) => {
+
+  const handleWeightInput = async (val: unknown) => {
     if (isNumber(val)) {
       dispatch(setWeight(val));
+      await setUserHeight({ height: val });
     }
   };
-  const handleAgeInput = (val: unknown) => {
+
+  const handleAgeInput = async (val: unknown) => {
     if (isNumber(val)) {
       dispatch(setAge(val));
+      await setUserAge({ age: val });
     }
   };
 
-  const saveSettings = () => {
-    const userSettings = parseUserSettings(settings);
+  const handleSexInput = async (val: Sex) => {
+    dispatch(setSex(val));
+    await setUserSex({ sex: val });
+  };
 
-    if (userSettings) {
-      const totalCalories = calculateDailyIntake(userSettings);
-      if (totalCalories) {
-        const macros = calculateMacros(userSettings.weight, totalCalories);
-        const finalNutritionProfile = {
-          calories: Math.trunc(totalCalories),
-          macros,
-        };
-        dispatch(setNutritionProfile(finalNutritionProfile));
-      }
-    }
+  const handleActivityLevelInput = async (val: ActivityLevel) => {
+    dispatch(setActivityLevel(val));
+    await setUserActivityLevel({ activity: val });
+  };
+
+  const handleGoalInput = async (val: Goal) => {
+    dispatch(setGoal(val));
+    await setUserGoal({ goal: val });
   };
 
   return (
@@ -60,9 +79,10 @@ export function UserSettings() {
         </Title>
         <Select
           w="40%"
-          value={settings.sex?.toString()}
+          value={profile.sex}
           placeholder="Your sex"
-          onChange={(val) => dispatch(setSex(val as Sex))}
+          // NOTE: type casting in this and the below enum fields should be OK since we have hardcoded them in the data array using the original type
+          onChange={handleSexInput}
           data={[
             { value: Sex.MALE, label: 'Male' },
             { value: Sex.FEMALE, label: 'Female' },
@@ -74,7 +94,7 @@ export function UserSettings() {
         <Group>
           <NumberInput
             w="40%"
-            value={settings.age}
+            value={profile.age ? profile.age : ''}
             onChange={handleAgeInput}
             min={1}
             max={150}
@@ -87,7 +107,7 @@ export function UserSettings() {
         <Group>
           <NumberInput
             w="40%"
-            value={settings.height}
+            value={profile.height ? profile.height : ''}
             onChange={handleHeightInput}
             min={10}
             max={300}
@@ -101,7 +121,7 @@ export function UserSettings() {
         <Group>
           <NumberInput
             w="40%"
-            value={settings.weight}
+            value={profile.weight ? profile.weight : ''}
             onChange={handleWeightInput}
             min={1}
             max={1000}
@@ -114,14 +134,14 @@ export function UserSettings() {
         </Title>
         <Select
           w="40%"
-          value={settings.activity?.toString()}
+          value={profile.activity_level}
           placeholder="Your activity level"
-          onChange={(val) => dispatch(setActivityLevel(Number(val)))}
+          onChange={handleActivityLevelInput}
           data={[
-            { value: ActivityLevel.Sedentary.toString(), label: 'Sedentary' },
-            { value: ActivityLevel.Light.toString(), label: 'Light' },
-            { value: ActivityLevel.Moderate.toString(), label: 'Moderate' },
-            { value: ActivityLevel.VeryActive.toString(), label: 'Active' },
+            { value: ActivityLevel.SEDENTARY, label: 'Sedentary' },
+            { value: ActivityLevel.LIGHT, label: 'Light' },
+            { value: ActivityLevel.MODERATE, label: 'Moderate' },
+            { value: ActivityLevel.VERYACTIVE, label: 'Active' },
           ]}
         />
         <Title order={4} mb="md" mt="md">
@@ -129,18 +149,15 @@ export function UserSettings() {
         </Title>
         <Select
           w="40%"
-          value={settings.goal?.toString()}
+          value={profile.goal}
           placeholder="Your goal"
-          onChange={(val) => dispatch(setGoal(Number(val)))}
+          onChange={handleGoalInput}
           data={[
-            { value: Goal.loseWeight.toString(), label: 'Lose weight' },
-            { value: Goal.maintain.toString(), label: 'Maintain' },
-            { value: Goal.gainWeight.toString(), label: 'Gain weight' },
+            { value: Goal.LOSEWEIGHT, label: 'Lose weight' },
+            { value: Goal.MAINTAIN, label: 'Maintain' },
+            { value: Goal.GAINWEIGHT, label: 'Gain weight' },
           ]}
         />
-        <Button onClick={saveSettings} variant="outline" color="teal" mt="md">
-          Save
-        </Button>
       </Flex>
     </>
   );

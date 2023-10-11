@@ -15,7 +15,7 @@ import { useLogoutMutation } from '@/features/api';
 export function UserMenu() {
   const theme = useMantineTheme();
   const navigate = useNavigate();
-  const { name: userName } = useAppSelector(selectUser);
+  const { user } = useAppSelector(selectUser);
   const [processLogout] = useLogoutMutation();
   const dispatch = useAppDispatch();
 
@@ -54,7 +54,7 @@ export function UserMenu() {
               <Avatar color="green" radius="xl">
                 <IconUser size={rem(20)} />
               </Avatar>
-              <Box sx={{ flex: 1 }}>{userName}</Box>
+              <Box sx={{ flex: 1 }}>{user.name}</Box>
 
               {theme.dir === 'ltr' ? (
                 <IconChevronRight size={rem(20)} />

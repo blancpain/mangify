@@ -1,70 +1,99 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
+import { FullUserForClient, Sex, Goal, ActivityLevel, Diet } from '@shared/types';
 import type { RootState } from '../store';
-import { UserState, ActivityLevel, Sex, Goal } from '@/types';
 
-// TODO: add user profile below, update server accordingly - USE THE SAME SETTINGS ACROSS THE BOARD
-
-const initialState: UserState = {
+const initialState: FullUserForClient = {
   user: {
     name: null,
     email: null,
   },
   profile: {
-    diet: undefined,
-    sex: undefined,
-    activityLevel: undefined,
-    goal: undefined,
-    age: undefined,
-    height: undefined,
-    weight: undefined,
-    intolerances: [''],
-    favoriteCuisines: [''],
-    mealsPerDay: undefined,
-    recipesToAvoid: [''],
-    meals: [''],
-    shoppingList: [''],
-    favoriteRecipes: [''],
+    diet: null,
+    sex: null,
+    activity_level: null,
+    goal: null,
+    age: null,
+    height: null,
+    weight: null,
+    intolerances: [],
+    favorite_cuisines: [],
+    meals_per_day: 3,
+    recipes_to_avoid: [],
+    favorite_recipes: [],
   },
+  meals: null,
 };
 
 const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    // TODO: payload needs to change and below setUser needs to set profile as well......
-    setUser: (state, action: PayloadAction<{ name: string; email: string }>) => {
-      state.user.name = action.payload.name;
-      state.user.email = action.payload.email;
+    setUser: (state, action: PayloadAction<FullUserForClient>) => {
+      state.user = action.payload.user;
+      state.profile = action.payload.profile;
+      state.meals = action.payload.meals;
     },
+
     logout: (state) => {
-      state.user.name = null;
-      state.user.email = null;
+      state.user = initialState.user;
+      state.profile = initialState.profile;
+      state.meals = initialState.meals;
     },
+
     setActivityLevel: (state, action: PayloadAction<ActivityLevel>) => {
-      state.profile.activityLevel = action.payload;
+      state.profile.activity_level = action.payload;
     },
+
     setSex: (state, action: PayloadAction<Sex>) => {
       state.profile.sex = action.payload;
     },
+
     setAge: (state, action: PayloadAction<number>) => {
       state.profile.age = action.payload;
     },
+
     setHeight: (state, action: PayloadAction<number>) => {
       state.profile.height = action.payload;
     },
+
     setWeight: (state, action: PayloadAction<number>) => {
       state.profile.weight = action.payload;
     },
+
     setGoal: (state, action: PayloadAction<Goal>) => {
       state.profile.goal = action.payload;
+    },
+    setDiet: (state, action: PayloadAction<Diet>) => {
+      state.profile.diet = action.payload;
+    },
+    setCuisines: (state, action: PayloadAction<string[]>) => {
+      state.profile.favorite_cuisines = action.payload;
+    },
+    setIntolerances: (state, action: PayloadAction<string[]>) => {
+      state.profile.intolerances = action.payload;
+    },
+    setNumberOfMeals: (state, action: PayloadAction<number>) => {
+      state.profile.meals_per_day = action.payload;
     },
   },
 });
 
-export const { setUser, logout, setActivityLevel, setAge, setHeight, setSex, setWeight, setGoal } =
-  userSlice.actions;
+export const {
+  setUser,
+  setDiet,
+  logout,
+  setActivityLevel,
+  setAge,
+  setHeight,
+  setSex,
+  setWeight,
+  setGoal,
+  setIntolerances,
+  setCuisines,
+  setNumberOfMeals,
+} = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user;
 

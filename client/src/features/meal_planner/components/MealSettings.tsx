@@ -1,10 +1,17 @@
 import { Title, Select, Space, Flex } from '@mantine/core';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { selectMealSettings, setNumberOfMeals } from '@/stores';
+import { selectUser, setNumberOfMeals } from '@/stores';
+import { useSetNumberOfMealsMutation } from '@/features/api';
 
 export function MealSettings() {
-  const { numberOfMeals } = useAppSelector(selectMealSettings);
+  const { profile } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
+  const [setUserNumberOfMeals] = useSetNumberOfMealsMutation();
+
+  const handleNumberOfMealsInput = async (val: string) => {
+    dispatch(setNumberOfMeals(Number(val)));
+    await setUserNumberOfMeals({ numberOfMeals: Number(val) });
+  };
 
   return (
     <>
@@ -14,8 +21,8 @@ export function MealSettings() {
       <Flex justify="space-between">
         <Title order={4}>Number of meals per day</Title>
         <Select
-          value={numberOfMeals.toString()}
-          onChange={(val) => dispatch(setNumberOfMeals(val as string))}
+          value={profile.meals_per_day.toString()}
+          onChange={handleNumberOfMealsInput}
           data={[
             { value: '2', label: 'Two' },
             { value: '3', label: 'Three' },

@@ -17,7 +17,7 @@ import { SingleDayMealPlan } from './SingleDayMealPlan';
 export function MealPlanner() {
   const [opened, { open, close }] = useDisclosure(false);
   const { day, dayRange, weekRange } = useAppSelector(selectCalendar);
-  const { nutritionProfile } = useAppSelector(selectNutritionPreferences);
+  const { calories, macros } = useAppSelector(selectNutritionPreferences);
   const dispatch = useAppDispatch();
 
   const convertedDay = new Date(dayRange).toLocaleDateString(undefined, {
@@ -69,7 +69,7 @@ export function MealPlanner() {
           </Flex>
         </Modal>
       </Flex>
-      {day && <SingleDayMealPlan day={convertedDay} calories={nutritionProfile?.calories} />}
+      {day && <SingleDayMealPlan day={convertedDay} calories={calories} />}
     </>
   );
 }

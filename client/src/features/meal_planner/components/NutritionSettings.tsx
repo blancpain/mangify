@@ -1,12 +1,59 @@
 import { Title, Space, Flex, Radio, MultiSelect } from '@mantine/core';
+import { Diet } from '@shared/types';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { selectNutritionPreferences, setDiet, setCuisines, setIntolerances } from '@/stores';
+import {
+  selectNutritionPreferences,
+  selectUser,
+  setCuisines,
+  setDiet,
+  setIntolerances,
+} from '@/stores';
+import {
+  useSetCuisinesMutation,
+  useSetDietMutation,
+  useSetIntolerancesMutation,
+} from '@/features/api';
 
 export function NutritionSettings() {
-  const { diet, cuisines, intolerances, nutritionProfile } = useAppSelector(
-    selectNutritionPreferences,
-  );
+  const { calories, macros } = useAppSelector(selectNutritionPreferences);
   const dispatch = useAppDispatch();
+  const { profile } = useAppSelector(selectUser);
+  const [setUserDiet] = useSetDietMutation();
+  const [setUserFavoriteCuisines] = useSetCuisinesMutation();
+  const [setUserIntolerances] = useSetIntolerancesMutation();
+
+  const handleDietInput = async (val: Diet) => {
+    dispatch(setDiet(val));
+    await setUserDiet({ diet: val });
+  };
+
+  const handleFavoriteCuisinesInput = async (val: string[]) => {
+    dispatch(setCuisines(val));
+    await setUserFavoriteCuisines({ cuisines: val });
+  };
+
+  const handleIntolerancesInput = async (val: string[]) => {
+    dispatch(setIntolerances(val));
+    await setUserIntolerances({ intolerances: val });
+  };
+
+  // TODO: - figure out how best to do below - save in DB or calc on the fly...
+
+  // const saveSettings = () => {
+  //   const userSettings = parseUserSettings(profile);
+  //
+  //   if (userSettings) {
+  //     const totalCalories = calculateDailyIntake(userSettings);
+  //     if (totalCalories) {
+  //       const macros = calculateMacros(userSettings.weight, totalCalories);
+  //       const finalNutritionProfile = {
+  //         calories: Math.trunc(totalCalories),
+  //         macros,
+  //       };
+  //       dispatch(setNutritionProfile(finalNutritionProfile));
+  //     }
+  //   }
+  // };
 
   return (
     <>
@@ -17,48 +64,48 @@ export function NutritionSettings() {
         <Title order={4}>Diet</Title>
         <Radio.Group
           size="md"
-          value={diet}
-          onChange={(val) => dispatch(setDiet(val))}
+          value={profile.diet ? profile.diet : ''}
+          onChange={handleDietInput}
           name="preferredDiet"
         >
-          <Radio color="teal" m="md" value="" label="Anything - No restrictions." />
+          <Radio color="teal" m="md" value={Diet.ANYTHING} label="Anything - No restrictions." />
           <Radio
             color="teal"
             m="md"
-            value="vegetarian"
+            value={Diet.VEGETARIAN}
             label="Vegeratian - No meat or meat by-products."
           />
-          <Radio color="teal" m="md" value="vegan" label="Vegan - No animal products." />
+          <Radio color="teal" m="md" value={Diet.VEGAN} label="Vegan - No animal products." />
           <Radio
             color="teal"
             m="md"
-            value="ketogenic"
+            value={Diet.KETOGENIC}
             label="Ketogenic - High fat, very low carbs."
           />
           <Radio
             m="md"
-            value="paleo"
+            value={Diet.PALEO}
             color="teal"
             label="Paleo - Emphasizes whole foods, like those of our Paleolithic ancestors."
           />
           <Radio
             m="md"
             color="teal"
-            value="pescetarian"
+            value={Diet.PESCETARIAN}
             label="Pescetarian - No meat, but seafood is allowed."
           />
         </Radio.Group>
         <Title order={4}>Cuisines</Title>
         <MultiSelect
           placeholder="Select your favorite cuisines or leave blank."
-          value={cuisines}
+          value={profile.favorite_cuisines}
           searchable
           clearable
           dropdownPosition="bottom"
           radius="lg"
           size="lg"
           p="lg"
-          onChange={(vals) => dispatch(setCuisines(vals))}
+          onChange={handleFavoriteCuisinesInput}
           data={[
             'African',
             'Asian',
@@ -92,14 +139,14 @@ export function NutritionSettings() {
         <Title order={4}>Intolerances</Title>
         <MultiSelect
           placeholder="Please add any introlerances you may have or leave blank."
-          value={intolerances}
+          value={profile.intolerances}
           searchable
           clearable
           dropdownPosition="top"
           radius="lg"
           size="lg"
           p="lg"
-          onChange={(vals) => dispatch(setIntolerances(vals))}
+          onChange={handleIntolerancesInput}
           data={[
             'Dairy',
             'Egg',
@@ -116,13 +163,13 @@ export function NutritionSettings() {
           ]}
         />
       </Flex>
-      {nutritionProfile && (
+      {macros && calories && (
         <>
-          <p>Total calories: {nutritionProfile.calories}</p>
+          <p>Total calories: {calories}</p>
           <p>Macros</p>
-          <p>Carbs: {nutritionProfile.macros.carbs} g</p>
-          <p>Protein: {nutritionProfile.macros.protein} g</p>
-          <p>Fats: {nutritionProfile.macros.fats} g</p>
+          <p>Carbs: {macros.carbs} g</p>
+          <p>Protein: {macros.protein} g</p>
+          <p>Fats: {macros.fats} g</p>
         </>
       )}
     </>

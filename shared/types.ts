@@ -7,7 +7,7 @@ import { User, Profile } from "../server/node_modules/.prisma/client/index";
 
  */
 
-// wrapper to allow us to pass generic schemas
+// NOTE: wrapper to allow us to pass generic schemas
 export type ZodSchemaGenericWrapper<T> = ZodType<T>;
 
 // meal generator - showcase
@@ -125,7 +125,7 @@ export type TIntolerancesSchema = z.infer<typeof IntolerancesSchema>;
 
 /*
 
- * Prisma types *
+ * Prisma types - custom *
 
 */
 
@@ -138,23 +138,36 @@ export type UserForAuth = Pick<
 
 export type FullUserProfile = Profile;
 
-export type UserProfileForAuth = Omit<
+export type FullUserForAuth = {
+  user: UserForAuth;
+  profile: UserProfileForClient;
+  meals: UserMeals | null;
+};
+
+export type UserForClient = {
+  name: string | null;
+  email: string | null;
+};
+
+export type UserProfileForClient = Omit<
   FullUserProfile,
   "id" | "userId" | "updatedAt" | "createdAt"
 >;
 
-export type FullUserForAuth = {
-  user: UserForAuth;
-  profile: UserProfileForAuth;
+export type UserMeal = {
+  recipe_external_id: number | null;
+  active: boolean;
 };
 
-type LoggedUserBasics = Pick<User, "email" | "name">;
-type LoggedUserProfile = UserProfileForAuth; 
+export type UserMeals = {
+  meals: UserMeal[];
+};
 
-export type LoggedUser = {
-  user: LoggedUserBasics,
-  profile: LoggedUserProfile
-}
+export type FullUserForClient = {
+  user: UserForClient;
+  profile: UserProfileForClient;
+  meals: UserMeals | null;
+};
 
 /* Prisma types */
 

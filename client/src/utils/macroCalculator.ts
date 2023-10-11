@@ -1,4 +1,5 @@
-import { ActivityLevel, UserSettingsComplete, Goal, NutritionMacros } from '@/types';
+import { ActivityLevel, Goal, FullUserForClient } from '@shared/types';
+import { NutritionMacros } from '@/types';
 
 // method: Calcs taken from: https://healthyeater.com/how-to-calculate-your-macros
 
@@ -26,15 +27,15 @@ import { ActivityLevel, UserSettingsComplete, Goal, NutritionMacros } from '@/ty
  * Any activity that burns an additional 650+ calories for females or 800+ calories for males. (REE x 1.725)
  */
 
-const calculateTDEE = (activityLevel: ActivityLevel, REE: number): number => {
-  switch (activityLevel) {
-    case ActivityLevel.Sedentary:
+const calculateTDEE = (activity_level: ActivityLevel, REE: number): number => {
+  switch (activity_level) {
+    case ActivityLevel.SEDENTARY:
       return REE * 1.2;
-    case ActivityLevel.Light:
+    case ActivityLevel.LIGHT:
       return REE * 1.375;
-    case ActivityLevel.Moderate:
+    case ActivityLevel.MODERATE:
       return REE * 1.55;
-    case ActivityLevel.VeryActive:
+    case ActivityLevel.VERYACTIVE:
       return REE * 1.725;
     default:
       return REE;
@@ -45,11 +46,11 @@ const calculateTDEE = (activityLevel: ActivityLevel, REE: number): number => {
 
 const applyGoal = (goal: Goal, TDEE: number): number => {
   switch (goal) {
-    case Goal.loseWeight:
+    case Goal.LOSEWEIGHT:
       return TDEE * 0.8;
-    case Goal.maintain:
+    case Goal.MAINTAIN:
       return TDEE;
-    case Goal.gainWeight:
+    case Goal.GAINWEIGHT:
       return TDEE * 1.2;
     default:
       return TDEE;
@@ -77,17 +78,20 @@ export const calculateMacros = (weight: number, totalIntake: number): NutritionM
   };
 };
 
-export const calculateDailyIntake = (userData: UserSettingsComplete): number | null => {
-  if (userData.sex === 'male') {
-    const REE = 10 * userData.weight + 6.25 * userData.height - 5 * userData.age + 5;
-    const totalIntake = calculateTDEE(userData.activity, REE);
-    const totalIntakeWithGoal = applyGoal(userData.goal, totalIntake);
+export const calculateDailyIntake = (userData: FullUserForClient): number | null => {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const { sex, weight, activity_level, goal, age, height } = userData.profile;
+
+  if (sex === 'MALE' && weight && activity_level && goal && age && height) {
+    const REE = 10 * weight + 6.25 * height - 5 * age + 5;
+    const totalIntake = calculateTDEE(activity_level as ActivityLevel, REE);
+    const totalIntakeWithGoal = applyGoal(goal as Goal, totalIntake);
     return totalIntakeWithGoal;
   }
-  if (userData.sex === 'female') {
-    const REE = 10 * userData.weight + 6.25 * userData.height - 5 * userData.age - 161;
-    const totalIntake = calculateTDEE(userData.activity, REE);
-    const totalIntakeWithGoal = applyGoal(userData.goal, totalIntake);
+  if (sex === 'FEMALE' && weight && activity_level && goal && age && height) {
+    const REE = 10 * weight + 6.25 * height - 5 * age - 161;
+    const totalIntake = calculateTDEE(activity_level as ActivityLevel, REE);
+    const totalIntakeWithGoal = applyGoal(goal as Goal, totalIntake);
     return totalIntakeWithGoal;
   }
   return null;

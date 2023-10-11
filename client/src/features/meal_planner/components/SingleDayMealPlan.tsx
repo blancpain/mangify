@@ -2,7 +2,7 @@ import { Box, Flex, Text, Title } from '@mantine/core';
 
 type SingleDayMealPlanProps = {
   day: string;
-  calories: number | undefined;
+  calories: number | null;
 };
 
 export function SingleDayMealPlan({ day, calories }: SingleDayMealPlanProps) {
