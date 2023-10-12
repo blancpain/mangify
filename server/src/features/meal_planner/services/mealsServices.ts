@@ -33,7 +33,7 @@ const getMeals = async (id: string): Promise<MealRecipe[] | null> => {
   const syncDb = async () => {
     await Promise.all(
       transformedData.map(async (meal) => {
-        // HACK: / method - 1) check if a meal already exists - if it does just connect to the user profile
+        // HACK: - 1) check if a meal already exists - if it does just connect to the user profile
         // - 2) if it doesn't exist - we first extract all ingredients, removing duplicates
         // - 3) create the ingredients that don't already exist in the ingredients table
         // - 4) fetch all ingredients - ( created or existing ) that are part of this recipe and

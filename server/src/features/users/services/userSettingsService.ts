@@ -9,10 +9,14 @@ import {
   TNumberOfMealsSchema,
   TCuisinesSchema,
   TIntolerancesSchema,
+  TCaloriesSchema,
+  TProteinSchema,
+  TCarbsSchema,
+  TFatsSchema,
 } from '@shared/types';
 import { prisma } from '@/utils';
 
-//! ref: https://www.prisma.io/docs/concepts/components/prisma-client/relation-queries#update-or-create-a-related-record
+// HACK: https://www.prisma.io/docs/concepts/components/prisma-client/relation-queries#update-or-create-a-related-record
 
 const updateAge = async (email: string, userAge: TAgeSchema): Promise<void> => {
   await prisma.user.update({
@@ -67,6 +71,86 @@ const updateHeight = async (email: string, userHeight: THeightSchema): Promise<v
           },
           update: {
             height: userHeight.height,
+          },
+        },
+      },
+    },
+  });
+};
+
+const updateCalories = async (email: string, userCalories: TCaloriesSchema): Promise<void> => {
+  await prisma.user.update({
+    where: {
+      email,
+    },
+    data: {
+      profile: {
+        upsert: {
+          create: {
+            calories: userCalories.calories,
+          },
+          update: {
+            calories: userCalories.calories,
+          },
+        },
+      },
+    },
+  });
+};
+
+const updateProtein = async (email: string, userProtein: TProteinSchema): Promise<void> => {
+  await prisma.user.update({
+    where: {
+      email,
+    },
+    data: {
+      profile: {
+        upsert: {
+          create: {
+            protein: userProtein.protein,
+          },
+          update: {
+            protein: userProtein.protein,
+          },
+        },
+      },
+    },
+  });
+};
+
+const updateCarbs = async (email: string, userCarbs: TCarbsSchema): Promise<void> => {
+  await prisma.user.update({
+    where: {
+      email,
+    },
+    data: {
+      profile: {
+        upsert: {
+          create: {
+            carbs: userCarbs.carbs,
+          },
+          update: {
+            carbs: userCarbs.carbs,
+          },
+        },
+      },
+    },
+  });
+};
+
+const updateFats = async (email: string, userFats: TFatsSchema): Promise<void> => {
+  await prisma.user.update({
+    where: {
+      email,
+    },
+    data: {
+      profile: {
+        upsert: {
+          create: {
+            fats: userFats.fats,
+          },
+          update: {
+            fats: userFats.fats,
           },
         },
       },
@@ -230,4 +314,8 @@ export const userSettingsService = {
   updateNumberOfMeals,
   updateCuisines,
   updateIntolerances,
+  updateCarbs,
+  updateCalories,
+  updateProtein,
+  updateFats,
 };

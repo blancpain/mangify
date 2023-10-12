@@ -92,7 +92,7 @@ export const DietSchema = z.object({
 export type TDietSchema = z.infer<typeof DietSchema>;
 
 export const AgeSchema = z.object({
-  age: z.number(),
+  age: z.number().optional(),
 });
 export type TAgeSchema = z.infer<typeof AgeSchema>;
 
@@ -120,6 +120,26 @@ export const IntolerancesSchema = z.object({
   intolerances: z.string().array(),
 });
 export type TIntolerancesSchema = z.infer<typeof IntolerancesSchema>;
+
+export const CaloriesSchema = z.object({
+  calories: z.number(),
+});
+export type TCaloriesSchema = z.infer<typeof CaloriesSchema>;
+
+export const ProteinSchema = z.object({
+  protein: z.number(),
+});
+export type TProteinSchema = z.infer<typeof ProteinSchema>;
+
+export const FatsSchema = z.object({
+  fats: z.number(),
+});
+export type TFatsSchema = z.infer<typeof FatsSchema>;
+
+export const CarbsSchema = z.object({
+  carbs: z.number(),
+});
+export type TCarbsSchema = z.infer<typeof CarbsSchema>;
 
 /* Zod types */
 
@@ -152,6 +172,17 @@ export type UserForClient = {
 export type UserProfileForClient = Omit<
   FullUserProfile,
   "id" | "userId" | "updatedAt" | "createdAt"
+>;
+
+type RequiredNonNullableObject<T extends object> = {
+  [P in keyof Required<T>]: NonNullable<T[P]>;
+};
+
+type NonNullableUserProfile = RequiredNonNullableObject<UserProfileForClient>;
+
+export type NonNullableUserProfileForClient = Pick<
+  NonNullableUserProfile,
+  "activity_level" | "age" | "goal" | "weight" | "height" | "sex"
 >;
 
 export type UserMeal = {

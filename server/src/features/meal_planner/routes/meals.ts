@@ -5,7 +5,6 @@ import { isAuthenticated } from '@/middleware';
 // TODO: some of the below need to be post request not get...change last one especially
 
 const mealsRouter = express.Router();
-// WARN: enable auth again after testing
 mealsRouter.get('/', isAuthenticated, mealsController.getMeals as RequestHandler);
 mealsRouter.get('/single', isAuthenticated, mealsController.getMeal as RequestHandler);
 mealsRouter.get('/refresh', isAuthenticated, mealsController.refreshMeals as RequestHandler);

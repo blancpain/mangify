@@ -34,6 +34,10 @@ model Profile {
   age               Int?
   height            Int?
   weight            Int?
+  calories          Int?
+  protein           Int?
+  carbs             Int?
+  fats              Int?
   intolerances      String[]       @default([])
   favorite_cuisines String[]       @default([])
   meals_per_day     Int            @default(3)
@@ -54,6 +58,7 @@ model Meal {
   id                 String        @id @default(uuid())
   recipe_external_id Int?          @unique
   active             Boolean       @default(true)
+  day                DateTime?
   ingredients        Ingredients[]
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt

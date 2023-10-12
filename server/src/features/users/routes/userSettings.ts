@@ -63,4 +63,29 @@ userSettingsRouter.post(
   isAuthenticated,
   userSettingsController.updateIntolerances as RequestHandler,
 );
+
+userSettingsRouter.post(
+  '/calories',
+  isAuthenticated,
+  userSettingsController.updateCalories as RequestHandler,
+);
+
+userSettingsRouter.post(
+  '/protein',
+  isAuthenticated,
+  userSettingsController.updateProtein as RequestHandler,
+);
+
+userSettingsRouter.post(
+  '/fats',
+  isAuthenticated,
+  userSettingsController.updateFats as RequestHandler,
+);
+
+userSettingsRouter.post(
+  '/carbs',
+  isAuthenticated,
+  userSettingsController.updateCarbs as RequestHandler,
+);
+
 export { userSettingsRouter };

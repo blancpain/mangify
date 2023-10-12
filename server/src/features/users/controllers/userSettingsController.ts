@@ -9,6 +9,10 @@ import {
   NumberOfMealsSchema,
   CuisinesSchema,
   IntolerancesSchema,
+  CaloriesSchema,
+  ProteinSchema,
+  CarbsSchema,
+  FatsSchema,
 } from '@shared/types';
 import { NextFunction, Request, Response } from 'express';
 import { userSettingsService } from '../services/userSettingsService';
@@ -36,6 +40,22 @@ const updateHeight = async (req: Request, res: Response, next: NextFunction): Pr
 
 const updateWeight = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   await processUpdate(req, res, next, WeightSchema, userSettingsService.updateWeight);
+};
+
+const updateCalories = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  await processUpdate(req, res, next, CaloriesSchema, userSettingsService.updateCalories);
+};
+
+const updateProtein = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  await processUpdate(req, res, next, ProteinSchema, userSettingsService.updateProtein);
+};
+
+const updateCarbs = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  await processUpdate(req, res, next, CarbsSchema, userSettingsService.updateCarbs);
+};
+
+const updateFats = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  await processUpdate(req, res, next, FatsSchema, userSettingsService.updateFats);
 };
 
 const updateDiet = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -73,4 +93,8 @@ export const userSettingsController = {
   updateNumberOfMeals,
   updateCuisines,
   updateIntolerances,
+  updateCalories,
+  updateFats,
+  updateCarbs,
+  updateProtein,
 };
