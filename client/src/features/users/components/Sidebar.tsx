@@ -1,4 +1,10 @@
-import { IconCalendar, IconShoppingBag, IconHeart, IconChartPie2 } from '@tabler/icons-react';
+import {
+  IconCalendar,
+  IconChartPie2,
+  IconShoppingBag,
+  IconHeart,
+  IconListCheck,
+} from '@tabler/icons-react';
 import { SidebarSoloLink } from './SidebarSoloLink';
 import { SideBarDropdownLink } from './SideBarDropdownLink';
 
@@ -31,10 +37,17 @@ export function SideBar({ closeDrawer }: SideBarProps) {
         closeDrawer={closeDrawer}
       />
       <SidebarSoloLink
+        icon={<IconListCheck size="1rem" />}
+        color="teal"
+        label="Diet Preferences"
+        link="/diet-preferences"
+        closeDrawer={closeDrawer}
+      />
+      <SidebarSoloLink
         icon={<IconChartPie2 size="1rem" />}
         color="teal"
-        label="Diet & Nutrition Preferences"
-        link="/nutrition-preferences"
+        label="Nutrition Profile"
+        link="/nutrition-profile"
         closeDrawer={closeDrawer}
       />
       <SideBarDropdownLink closeDrawer={closeDrawer} />

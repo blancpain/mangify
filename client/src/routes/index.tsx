@@ -9,8 +9,9 @@ import {
   DashboardLayout,
   MealPlannerRoute,
   MealSettingsRoute,
-  NutritionSettingsRoute,
+  DietPreferencesRoute,
   UserSettingsRoute,
+  NutritionProfileRoute,
 } from '@/routes/protected';
 
 export function AppRoutes() {
@@ -34,12 +35,16 @@ export function AppRoutes() {
           path: 'meal-settings',
         },
         {
-          element: <NutritionSettingsRoute />,
-          path: 'nutrition-preferences',
+          element: <DietPreferencesRoute />,
+          path: 'diet-preferences',
         },
         {
           element: <UserSettingsRoute />,
           path: 'user-settings',
+        },
+        {
+          element: <NutritionProfileRoute />,
+          path: 'nutrition-profile',
         },
       ],
     },

@@ -9,18 +9,19 @@ const initialState: NutritionProfile = {
   macros: null,
 };
 
-const nutritionPreferencesSlice = createSlice({
-  name: 'nutrition-preferences',
+const nutritionProfileSlice = createSlice({
+  name: 'nutrition-profile',
   initialState,
   reducers: {
     setNutritionProfile: (state, action: PayloadAction<NutritionProfile>) => {
-      state = action.payload;
+      state.calories = action.payload.calories;
+      state.macros = action.payload.macros;
     },
   },
 });
 
-export const { setNutritionProfile } = nutritionPreferencesSlice.actions;
+export const { setNutritionProfile } = nutritionProfileSlice.actions;
 
-export const selectNutritionPreferences = (state: RootState) => state.nutritionPreferences;
+export const selectNutritionProfile = (state: RootState) => state.nutritionProfile;
 
-export const nutritionPreferencesReducer = nutritionPreferencesSlice.reducer;
+export const nutritionProfileReducer = nutritionProfileSlice.reducer;

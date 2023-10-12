@@ -35,14 +35,14 @@ export function UserSettings() {
   const handleHeightInput = async (val: unknown) => {
     if (isNumber(val)) {
       dispatch(setHeight(val));
-      await setUserWeight({ weight: val });
+      await setUserHeight({ height: val });
     }
   };
 
   const handleWeightInput = async (val: unknown) => {
     if (isNumber(val)) {
       dispatch(setWeight(val));
-      await setUserHeight({ height: val });
+      await setUserWeight({ weight: val });
     }
   };
 

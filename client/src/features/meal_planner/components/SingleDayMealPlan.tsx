@@ -1,14 +1,19 @@
 import { Box, Flex, Text, Title } from '@mantine/core';
+import { NutritionMacros } from '@/types';
 
 type SingleDayMealPlanProps = {
   day: string;
-  calories: number | null;
+  calories: number;
+  macros: NutritionMacros;
 };
 
-export function SingleDayMealPlan({ day, calories }: SingleDayMealPlanProps) {
+export function SingleDayMealPlan({ day, calories, macros }: SingleDayMealPlanProps) {
   const today =
     day ===
     new Date().toLocaleDateString(undefined, { weekday: 'long', day: '2-digit', month: 'long' });
+
+  console.log(macros);
+
   return (
     <Box mt="md">
       <Title order={2} mb="md">

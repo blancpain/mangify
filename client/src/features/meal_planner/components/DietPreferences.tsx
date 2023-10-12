@@ -1,21 +1,14 @@
 import { Title, Space, Flex, Radio, MultiSelect } from '@mantine/core';
 import { Diet } from '@shared/types';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import {
-  selectNutritionPreferences,
-  selectUser,
-  setCuisines,
-  setDiet,
-  setIntolerances,
-} from '@/stores';
+import { selectUser, setCuisines, setDiet, setIntolerances } from '@/stores';
 import {
   useSetCuisinesMutation,
   useSetDietMutation,
   useSetIntolerancesMutation,
 } from '@/features/api';
 
-export function NutritionSettings() {
-  const { calories, macros } = useAppSelector(selectNutritionPreferences);
+export function DietPreferences() {
   const dispatch = useAppDispatch();
   const { profile } = useAppSelector(selectUser);
   const [setUserDiet] = useSetDietMutation();
@@ -37,27 +30,9 @@ export function NutritionSettings() {
     await setUserIntolerances({ intolerances: val });
   };
 
-  // TODO: - figure out how best to do below - save in DB or calc on the fly...
-
-  // const saveSettings = () => {
-  //   const userSettings = parseUserSettings(profile);
-  //
-  //   if (userSettings) {
-  //     const totalCalories = calculateDailyIntake(userSettings);
-  //     if (totalCalories) {
-  //       const macros = calculateMacros(userSettings.weight, totalCalories);
-  //       const finalNutritionProfile = {
-  //         calories: Math.trunc(totalCalories),
-  //         macros,
-  //       };
-  //       dispatch(setNutritionProfile(finalNutritionProfile));
-  //     }
-  //   }
-  // };
-
   return (
     <>
-      <Title order={1}>Diet & Nutrition Preferences</Title>
+      <Title order={1}>Diet Preferences</Title>
       <Space h="xl" />
       <Space h="xl" />
       <Flex direction="column" gap="lg">
@@ -163,15 +138,6 @@ export function NutritionSettings() {
           ]}
         />
       </Flex>
-      {macros && calories && (
-        <>
-          <p>Total calories: {calories}</p>
-          <p>Macros</p>
-          <p>Carbs: {macros.carbs} g</p>
-          <p>Protein: {macros.protein} g</p>
-          <p>Fats: {macros.fats} g</p>
-        </>
-      )}
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { ActivityLevel, Goal, FullUserForClient } from '@shared/types';
+import { ActivityLevel, Goal, NonNullableUserProfileForClient } from '@shared/types';
 import { NutritionMacros } from '@/types';
 
 // method: Calcs taken from: https://healthyeater.com/how-to-calculate-your-macros
@@ -65,7 +65,7 @@ const applyGoal = (goal: Goal, TDEE: number): number => {
 * Remainder = Carbs (1g carbs = 4 calories)
 */
 export const calculateMacros = (weight: number, totalIntake: number): NutritionMacros => {
-  const dailyProtein = 0.8 * weight;
+  const dailyProtein = 1.7 * weight;
   const dailyProteinInCalories = dailyProtein * 4;
   const dailyFatsInCalories = 0.3 * totalIntake;
   const dailyFats = dailyFatsInCalories / 9;
@@ -78,17 +78,17 @@ export const calculateMacros = (weight: number, totalIntake: number): NutritionM
   };
 };
 
-export const calculateDailyIntake = (userData: FullUserForClient): number | null => {
+export const calculateDailyIntake = (userData: NonNullableUserProfileForClient): number | null => {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { sex, weight, activity_level, goal, age, height } = userData.profile;
+  const { sex, weight, activity_level, goal, age, height } = userData;
 
-  if (sex === 'MALE' && weight && activity_level && goal && age && height) {
+  if (sex === 'MALE') {
     const REE = 10 * weight + 6.25 * height - 5 * age + 5;
     const totalIntake = calculateTDEE(activity_level as ActivityLevel, REE);
     const totalIntakeWithGoal = applyGoal(goal as Goal, totalIntake);
     return totalIntakeWithGoal;
   }
-  if (sex === 'FEMALE' && weight && activity_level && goal && age && height) {
+  if (sex === 'FEMALE') {
     const REE = 10 * weight + 6.25 * height - 5 * age - 161;
     const totalIntake = calculateTDEE(activity_level as ActivityLevel, REE);
     const totalIntakeWithGoal = applyGoal(goal as Goal, totalIntake);
