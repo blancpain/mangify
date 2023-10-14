@@ -1,25 +1,30 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import {
-  ShowCaseRecipe,
-  TMealGeneratorLandingSchema,
-  TSignUpSchema,
-  NonSensitiveUser,
-  FullUserForClient,
-  TLoginSchema,
-  TSexSchema,
-  Sex,
-  TAgeSchema,
-  TWeightSchema,
-  THeightSchema,
-  TActivitySchema,
-  TGoalSchema,
-  Goal,
   ActivityLevel,
-  TDietSchema,
-  TCuisinesSchema,
-  TIntolerancesSchema,
-  TNumberOfMealsSchema,
   Diet,
+  FullUserForClient,
+  Goal,
+  MealRecipe,
+  NonSensitiveUser,
+  Sex,
+  ShowCaseRecipe,
+  TActivitySchema,
+  TAgeSchema,
+  TCaloriesSchema,
+  TCarbsSchema,
+  TCuisinesSchema,
+  TDietSchema,
+  TFatsSchema,
+  TGoalSchema,
+  THeightSchema,
+  TIntolerancesSchema,
+  TLoginSchema,
+  TMealGeneratorLandingSchema,
+  TNumberOfMealsSchema,
+  TProteinSchema,
+  TSexSchema,
+  TSignUpSchema,
+  TWeightSchema,
 } from '@shared/types';
 import { baseQueryWithReauth } from '@/lib';
 
@@ -31,6 +36,12 @@ export const mangifyApi = createApi({
       query: ({ numberOfMeals, diet }) => ({
         url: `/meal-generator-showcase/?numberOfMeals=${numberOfMeals}&type=${diet}`,
         method: 'GET',
+      }),
+    }),
+    generateSingleDayMealPlan: build.mutation<MealRecipe[], void>({
+      query: () => ({
+        url: `/meals/single`,
+        method: 'POST',
       }),
     }),
     registerUser: build.mutation<NonSensitiveUser, TSignUpSchema>({
@@ -126,6 +137,34 @@ export const mangifyApi = createApi({
         body: userNumberOfMeals,
       }),
     }),
+    setCalories: build.mutation<number, TCaloriesSchema>({
+      query: (userCalories) => ({
+        url: '/user/calories',
+        method: 'POST',
+        body: userCalories,
+      }),
+    }),
+    setProtein: build.mutation<number, TProteinSchema>({
+      query: (userProtein) => ({
+        url: '/user/protein',
+        method: 'POST',
+        body: userProtein,
+      }),
+    }),
+    setCarbs: build.mutation<number, TCarbsSchema>({
+      query: (userCarbs) => ({
+        url: '/user/carbs',
+        method: 'POST',
+        body: userCarbs,
+      }),
+    }),
+    setFats: build.mutation<number, TFatsSchema>({
+      query: (userFats) => ({
+        url: '/user/fats',
+        method: 'POST',
+        body: userFats,
+      }),
+    }),
     // TODO: add setMeals, favorite and unliked recipes
   }),
 });
@@ -146,4 +185,9 @@ export const {
   useSetIntolerancesMutation,
   useSetActivityLevelMutation,
   useSetNumberOfMealsMutation,
+  useSetFatsMutation,
+  useSetCarbsMutation,
+  useSetProteinMutation,
+  useSetCaloriesMutation,
+  useGenerateSingleDayMealPlanMutation,
 } = mangifyApi;

@@ -3,13 +3,11 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { mangifyApi } from '@/features/api';
 import { userReducer } from './slices/userSlice';
 import { calendarReducer } from './slices/calendarSlice';
-import { nutritionProfileReducer } from './slices/nutritionProfileSlice';
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     calendar: calendarReducer,
-    nutritionProfile: nutritionProfileReducer,
     [mangifyApi.reducerPath]: mangifyApi.reducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(mangifyApi.middleware),

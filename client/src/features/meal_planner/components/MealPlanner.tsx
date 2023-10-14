@@ -10,14 +10,14 @@ import {
   decrementDay,
   incrementWeek,
   decrementWeek,
-  selectNutritionProfile,
+  selectUser,
 } from '@/stores';
 import { SingleDayMealPlan } from './SingleDayMealPlan';
 
 export function MealPlanner() {
   const [opened, { open, close }] = useDisclosure(false);
   const { day, dayRange, weekRange } = useAppSelector(selectCalendar);
-  const { calories, macros } = useAppSelector(selectNutritionProfile);
+  const { profile } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
   const convertedDay = new Date(dayRange).toLocaleDateString(undefined, {
@@ -69,7 +69,7 @@ export function MealPlanner() {
           </Flex>
         </Modal>
       </Flex>
-      {day && <SingleDayMealPlan day={convertedDay} calories={calories} />}
+      {day && <SingleDayMealPlan day={convertedDay} calories={profile.calories} />}
     </>
   );
 }

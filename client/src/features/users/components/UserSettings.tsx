@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
 import { Title, Select, Space, Flex, NumberInput, Group, Text } from '@mantine/core';
 import { ActivityLevel, Sex, Goal } from '@shared/types';
+import { IconCheck } from '@tabler/icons-react';
+import { notifications } from '@mantine/notifications';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   setSex,
@@ -9,8 +12,18 @@ import {
   setAge,
   setGoal,
   setActivityLevel,
+  setCalories,
+  setProtein,
+  setFats,
+  setCarbs,
 } from '@/stores';
-import { isNumber } from '@/utils';
+import {
+  isNumber,
+  calculateDailyIntake,
+  calculateMacros,
+  validateUserSettings,
+  allUserSettingsProvided,
+} from '@/utils';
 import {
   useSetActivityLevelMutation,
   useSetAgeMutation,
@@ -18,6 +31,10 @@ import {
   useSetHeightMutation,
   useSetSexMutation,
   useSetWeightMutation,
+  useSetCaloriesMutation,
+  useSetProteinMutation,
+  useSetCarbsMutation,
+  useSetFatsMutation,
 } from '@/features/api';
 
 export function UserSettings() {
@@ -29,6 +46,61 @@ export function UserSettings() {
   const [setUserGoal] = useSetGoalMutation();
   const [setUserWeight] = useSetWeightMutation();
   const [setUserHeight] = useSetHeightMutation();
+  const [setUserCalories] = useSetCaloriesMutation();
+  const [setUserProtein] = useSetProteinMutation();
+  const [setUserCarbs] = useSetCarbsMutation();
+  const [setUserFats] = useSetFatsMutation();
+
+  // TODO: we should be showing a notificaiton to urge user to complete profile if settings are empty
+  // reword notif messages
+  useEffect(() => {
+    if (allUserSettingsProvided(profile)) {
+      // NOTE: update Nutrition Profile based on changed user settings and trigger notification
+      const updateNutritionProfileNotification = async () => {
+        const userNumbers = validateUserSettings(profile);
+
+        if (userNumbers) {
+          const totalCalories = calculateDailyIntake(userNumbers);
+          if (totalCalories) {
+            const userMacros = calculateMacros(userNumbers.weight, totalCalories);
+            const finalNutritionProfile = {
+              calories: Math.trunc(totalCalories),
+              macros: userMacros,
+            };
+            dispatch(setCalories(finalNutritionProfile.calories));
+            dispatch(setProtein(finalNutritionProfile.macros.protein));
+            dispatch(setCarbs(finalNutritionProfile.macros.carbs));
+            dispatch(setFats(finalNutritionProfile.macros.fats));
+            await setUserCalories({ calories: finalNutritionProfile.calories });
+            await setUserProtein({ protein: finalNutritionProfile.macros.protein });
+            await setUserCarbs({ carbs: finalNutritionProfile.macros.carbs });
+            await setUserFats({ fats: finalNutritionProfile.macros.fats });
+          }
+        }
+
+        notifications.show({
+          id: 'load-data',
+          loading: true,
+          title: 'Syncing your nutritinon profile',
+          message: 'Please wait',
+          autoClose: false,
+          withCloseButton: false,
+        });
+
+        setTimeout(() => {
+          notifications.update({
+            id: 'load-data',
+            color: 'teal',
+            title: 'Profile successfully synced',
+            message: 'Notification will close in 2 seconds, you can close it now',
+            icon: <IconCheck size="1rem" />,
+            autoClose: 2000,
+          });
+        }, 3000);
+      };
+      updateNutritionProfileNotification();
+    }
+  }, [profile, dispatch, setUserCarbs, setUserCalories, setUserFats, setUserProtein]);
 
   // TODO: refactor these, lots can be extracted in helper
   // especially the error handling - currently none...
@@ -36,6 +108,7 @@ export function UserSettings() {
     if (isNumber(val)) {
       dispatch(setHeight(val));
       await setUserHeight({ height: val });
+      // await updateNutritionProfileNotification();
     }
   };
 
@@ -70,7 +143,7 @@ export function UserSettings() {
 
   return (
     <>
-      <Title order={1}>General settings</Title>
+      <Title order={1}>User Settings</Title>
       <Space h="xl" />
       <Space h="xl" />
       <Flex direction="column">

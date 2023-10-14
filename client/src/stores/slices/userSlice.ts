@@ -22,6 +22,10 @@ const initialState: FullUserForClient = {
     meals_per_day: 3,
     recipes_to_avoid: [],
     favorite_recipes: [],
+    calories: null,
+    protein: null,
+    carbs: null,
+    fats: null,
   },
   meals: null,
 };
@@ -77,6 +81,18 @@ const userSlice = createSlice({
     setNumberOfMeals: (state, action: PayloadAction<number>) => {
       state.profile.meals_per_day = action.payload;
     },
+    setCalories: (state, action: PayloadAction<number>) => {
+      state.profile.calories = action.payload;
+    },
+    setProtein: (state, action: PayloadAction<number>) => {
+      state.profile.protein = action.payload;
+    },
+    setCarbs: (state, action: PayloadAction<number>) => {
+      state.profile.carbs = action.payload;
+    },
+    setFats: (state, action: PayloadAction<number>) => {
+      state.profile.fats = action.payload;
+    },
   },
 });
 
@@ -93,6 +109,10 @@ export const {
   setIntolerances,
   setCuisines,
   setNumberOfMeals,
+  setCalories,
+  setProtein,
+  setCarbs,
+  setFats,
 } = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user;
