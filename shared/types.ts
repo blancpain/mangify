@@ -298,7 +298,7 @@ export const RecipeSchema = z.object({
   extendedIngredients: z
     .union([z.array(ExtendedIngredientSchema), z.null()])
     .optional(),
-  id: z.union([z.number(), z.null()]).optional(),
+  id: z.number(),
   title: z.union([z.null(), z.string()]).optional(),
   readyInMinutes: z.union([z.number(), z.null()]).optional(),
   servings: z.union([z.number(), z.null()]).optional(),
@@ -421,7 +421,7 @@ export const ResultSchema = z.object({
   extendedIngredients: z
     .union([z.array(EdIngredientSchema), z.null()])
     .optional(),
-  id: z.union([z.number(), z.null()]).optional(),
+  id: z.number(),
   title: z.union([z.null(), z.string()]).optional(),
   readyInMinutes: z.union([z.number(), z.null()]).optional(),
   servings: z.union([z.number(), z.null()]).optional(),
@@ -482,6 +482,8 @@ export type MealRecipe = {
   fullNutritionProfile?: FullNutritionProfile | null;
   directions?: string[];
   fullRecipeURL?: string | null;
+  mealTypes?: string[] | null; // NOTE: since the API returns multiple meal types we probably need to check dynamically for breakfast or snack - the rest we can assume are main courses...
+  date: Date | null;
 };
 
 // Schema and types for Get Recipe Info bulk endpoint
@@ -584,7 +586,7 @@ export const RefreshMealSchema = z.object({
   extendedIngredients: z
     .union([z.array(ExtendedIngredientSchema), z.null()])
     .optional(),
-  id: z.union([z.number(), z.null()]).optional(),
+  id: z.number(),
   title: z.union([z.null(), z.string()]).optional(),
   readyInMinutes: z.union([z.number(), z.null()]).optional(),
   servings: z.union([z.number(), z.null()]).optional(),

@@ -58,7 +58,7 @@ model Meal {
   id                 String        @id @default(uuid())
   recipe_external_id Int?          @unique
   active             Boolean       @default(true)
-  day                DateTime?
+  day                DateTime?     @default(now())
   ingredients        Ingredients[]
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
