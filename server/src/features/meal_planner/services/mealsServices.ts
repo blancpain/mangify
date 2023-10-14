@@ -3,22 +3,28 @@ import { TComplexMealSearchSchema, MealRecipe, TRefreshMealSchema } from '@share
 import {
   transformMealData,
   prisma,
-  isNumber,
-  findMeal,
   extractUserProfileId,
   transformMealDataForRefresh,
   extractUserProfile,
+  syncMealsWithDb,
+  fetchMeals,
+  redisClient,
+  getUserMeals,
+  transformMealDateForFavoriteRecipes,
+  cacheMealData,
 } from '@/utils';
 
-// TODO: - for meals - we need to figure out how to store these and when to refresh them (do we clear all in the DB or not and if yes when etc?)
-// TODO: - when getting meals also need to make sure that the meals are not in recipes to avoid...
+// TODO: - when getting meals also need to make sure that the meals are not in recipes to avoid...!!!
 
+// WARN: below is not operational ATM - will be refactored for multi-meal plans
 const getMeals = async (id: string): Promise<MealRecipe[] | null> => {
   const { data } = await axios.get<TComplexMealSearchSchema>(
     `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&instructionsRequired=true&addRecipeInformation=true&addRecipeNutrition=true&fillIngredients=true&sort=random&number=1`,
   );
 
-  const transformedData = transformMealData(data);
+  const currentDate = new Date();
+
+  const transformedData = transformMealData(data, currentDate);
 
   if (!transformedData) {
     return null;
@@ -29,181 +35,70 @@ const getMeals = async (id: string): Promise<MealRecipe[] | null> => {
   if (!userProfileId) {
     return null;
   }
+  // await syncMealsWithDb(transformedData, userProfileId);
 
-  const syncDb = async () => {
-    await Promise.all(
-      transformedData.map(async (meal) => {
-        // HACK: - 1) check if a meal already exists - if it does just connect to the user profile
-        // - 2) if it doesn't exist - we first extract all ingredients, removing duplicates
-        // - 3) create the ingredients that don't already exist in the ingredients table
-        // - 4) fetch all ingredients - ( created or existing ) that are part of this recipe and
-        // - 5) connect all the ingredients to the meal
-        // - 6) we create the meal with the associated ingredients and connect it to the user profile
-
-        const existingMeal = await findMeal(Number(meal.id));
-
-        if (existingMeal) {
-          await prisma.profile.update({
-            where: {
-              id: userProfileId,
-            },
-            data: {
-              meals: {
-                // NOTE: can change properties as below if needed
-                // create: {
-                //   active: false
-                // }
-                connect: {
-                  id: existingMeal.id,
-                },
-              },
-            },
-          });
-        } else {
-          const allIngredients = [
-            ...new Set(
-              (meal.ingredients ?? []).map((ingredient) => ({
-                external_id: ingredient.id,
-              })),
-            ),
-          ];
-
-          await prisma.ingredients.createMany({
-            data: allIngredients,
-            skipDuplicates: true,
-          });
-
-          const createdIngredients = await prisma.ingredients.findMany({
-            where: {
-              external_id: {
-                in: allIngredients.map((ingredient) => ingredient.external_id).filter(isNumber),
-              },
-            },
-            select: { id: true },
-          });
-
-          const createdMeal = await prisma.meal.create({
-            data: {
-              // WARN: change active flag as needed...
-              // active: true,
-              profileId: userProfileId,
-              recipe_external_id: meal.id,
-              ingredients: {
-                connect: createdIngredients,
-              },
-            },
-          });
-
-          await prisma.profile.update({
-            where: {
-              id: userProfileId,
-            },
-            data: {
-              meals: {
-                connect: {
-                  id: createdMeal.id,
-                },
-              },
-            },
-          });
-        }
-      }),
-    );
-  };
-  await syncDb();
   return transformedData;
 };
 
-const getMeal = async (id: string): Promise<MealRecipe | null> => {
-  const { data } = await axios.get<TComplexMealSearchSchema>(
-    `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&instructionsRequired=true&addRecipeInformation=true&addRecipeNutrition=true&fillIngredients=true&sort=random&number=1`,
-  );
+// NOTE: ON re-generating a single meal - we should pass a type from the client to the server to check if breakfast/main/snack!!!
+// since on first generation these will be determined anyway - endpoint still not implemented for singleMealRefresh...
 
-  const transformedData = transformMealData(data);
+const generateSingleDayMealPlan = async (id: string): Promise<MealRecipe[] | null> => {
+  // WARN: below returns local timezone - 2 in my case...Not sure we can ensure to always get accurate client timezone
 
-  if (!transformedData) {
-    return null;
-  }
-  const meal = transformedData[0];
+  const userProfile = await extractUserProfile(id);
 
-  const userProfileId = await extractUserProfileId(id);
-
-  if (!userProfileId) {
+  if (!userProfile) {
     return null;
   }
 
-  const syncDb = async () => {
-    const existingMeal = await findMeal(Number(meal.id));
+  // NOTE: we add params from userProfile directly in the URLs
+  const { meals_per_day: numberOfMealsToGenerate } = userProfile;
 
-    if (existingMeal) {
-      await prisma.profile.update({
-        where: {
-          id: userProfileId,
-        },
-        data: {
-          meals: {
-            // NOTE: can change properties as below if needed
-            // create: {
-            //   active: false
-            // }
-            connect: {
-              id: existingMeal.id,
-            },
-          },
-        },
-      });
-    } else {
-      const allIngredients = [
-        ...new Set(
-          (meal.ingredients ?? []).map((ingredient) => ({
-            external_id: ingredient.id,
-          })),
-        ),
-      ];
+  const currentDate = new Date();
 
-      await prisma.ingredients.createMany({
-        data: allIngredients,
-        skipDuplicates: true,
-      });
+  const breakfastUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&instructionsRequired=true&addRecipeInformation=true&addRecipeNutrition=true&fillIngredients=true&sort=random&number=1&type=breakfast`;
+  const mainCoursesUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&instructionsRequired=true&addRecipeInformation=true&addRecipeNutrition=true&fillIngredients=true&sort=random&number=2&type=main course`;
+  const snackUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&instructionsRequired=true&addRecipeInformation=true&addRecipeNutrition=true&fillIngredients=true&sort=random&number=1&type=snack`;
 
-      const createdIngredients = await prisma.ingredients.findMany({
-        where: {
-          external_id: {
-            in: allIngredients.map((ingredient) => ingredient.external_id).filter(isNumber),
-          },
-        },
-        select: { id: true },
-      });
-
-      const createdMeal = await prisma.meal.create({
-        data: {
-          // WARN: change active flag as needed...
-          // active: true,
-          profileId: userProfileId,
-          recipe_external_id: meal.id,
-          ingredients: {
-            connect: createdIngredients,
-          },
-        },
-      });
-
-      await prisma.profile.update({
-        where: {
-          id: userProfileId,
-        },
-        data: {
-          meals: {
-            connect: {
-              id: createdMeal.id,
-            },
-          },
-        },
-      });
+  // HACK: 2 meals = 2 main meals; 3 meals = 1 breakfast + 2 main meals; 4 meals = 1 breakfast + 2 mains + snack
+  switch (numberOfMealsToGenerate) {
+    case 2: {
+      const mainCourses = await fetchMeals(mainCoursesUrl, currentDate);
+      if (!mainCourses) return null;
+      const allMeals = [...mainCourses];
+      await syncMealsWithDb(allMeals, userProfile.id);
+      // NOTE: we first delete any existing cache in redis for this user and then
+      // we cache the data for 1 hour as per API guidelines (3600 seconds)
+      await cacheMealData(userProfile.id, allMeals);
+      return allMeals;
     }
-  };
-  await syncDb();
 
-  return meal;
+    case 3: {
+      const mainCourses = await fetchMeals(mainCoursesUrl, currentDate);
+      const breakfast = await fetchMeals(breakfastUrl, currentDate);
+      if (!mainCourses || !breakfast) return null;
+      const allMeals = [...mainCourses, ...breakfast];
+      await syncMealsWithDb(allMeals, userProfile.id);
+      await cacheMealData(userProfile.id, allMeals);
+      return allMeals;
+    }
+
+    case 4: {
+      const mainCourses = await fetchMeals(mainCoursesUrl, currentDate);
+      const breakfast = await fetchMeals(breakfastUrl, currentDate);
+      const snack = await fetchMeals(snackUrl, currentDate);
+      if (!mainCourses || !breakfast || !snack) return null;
+      const allMeals = [...mainCourses, ...breakfast, ...snack];
+      await syncMealsWithDb(allMeals, userProfile.id);
+      await cacheMealData(userProfile.id, allMeals);
+      return allMeals;
+    }
+
+    default:
+      break;
+  }
+  return null;
 };
 
 const refreshMeals = async (id: string): Promise<MealRecipe[] | null> => {
@@ -211,25 +106,29 @@ const refreshMeals = async (id: string): Promise<MealRecipe[] | null> => {
 
   if (!userProfileId) return null;
 
-  const userMealIds = await prisma.meal.findMany({
-    where: {
-      profileId: userProfileId,
-      active: true,
-    },
-    select: {
-      recipe_external_id: true,
-    },
-  });
+  const cachedMeals: string | null = await redisClient.get(userProfileId);
 
-  if (!userMealIds) return null;
+  if (cachedMeals) {
+    // WARN: check if type assumption is OK? -
+    // also implement this in a way that only active meals are stored in redis and use the key - value (maybe flushall each time before adding the new ones...)
+    // where key is the userID -> change MealRecipe type to include meal type; we also include the date
+    const parsedCachedMeals = JSON.parse(cachedMeals) as MealRecipe[];
+    return parsedCachedMeals;
+  }
+
+  // HACK: we select the date as well and dynamically add it in the transform functions below so that we can attach
+  // a meal from the external API to its respective date as stored in our DB against the same recipe id...
+  const userMeals = await getUserMeals(userProfileId);
+
+  if (!userMeals) return null;
 
   const { data } = await axios.get<TRefreshMealSchema[]>(
     `https://api.spoonacular.com/recipes/informationBulk?apiKey=${
       process.env.API_KEY
-    }&ids=${userMealIds.map((meal) => meal.recipe_external_id)}&includeNutrition=true`,
+    }&ids=${userMeals.meals.map((meal) => meal.recipe_external_id)}&includeNutrition=true`,
   );
 
-  const transformedData = transformMealDataForRefresh(data);
+  const transformedData = transformMealDataForRefresh(data, userMeals);
 
   if (!transformedData) return null;
 
@@ -276,12 +175,17 @@ const getFavoriteMeals = async (id: string): Promise<MealRecipe[] | null> => {
       ...favoriteMeals.map((meal) => meal.favorite_recipes),
     ]}&includeNutrition=true`,
   );
-
-  const transformedData = transformMealDataForRefresh(data);
+  const transformedData = transformMealDateForFavoriteRecipes(data);
 
   if (!transformedData) return null;
 
   return transformedData;
 };
 
-export const mealGeneratorService = { getMeals, getMeal, refreshMeals, saveMeal, getFavoriteMeals };
+export const mealGeneratorService = {
+  getMeals,
+  generateSingleDayMealPlan,
+  refreshMeals,
+  saveMeal,
+  getFavoriteMeals,
+};

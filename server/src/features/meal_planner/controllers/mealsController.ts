@@ -17,16 +17,18 @@ const getMeals = async (req: Request, res: Response, _next: NextFunction): Promi
   }
 };
 
-const getMeal = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
+const generateSingleDayMealPlan = async (
+  req: Request,
+  res: Response,
+  _next: NextFunction,
+): Promise<void> => {
   const { user } = req.session;
-
   if (!user || !user.id) {
     res.status(401).json({ errors: 'Unauthorized' });
     return;
   }
 
-  const data = await mealGeneratorService.getMeals(user.id);
-
+  const data = await mealGeneratorService.generateSingleDayMealPlan(user.id);
   if (data) {
     res.json(data);
   } else {
@@ -90,4 +92,10 @@ const getFavoriteMeals = async (
   }
 };
 
-export const mealsController = { getMeals, getMeal, refreshMeals, getFavoriteMeals, saveMeal };
+export const mealsController = {
+  getMeals,
+  generateSingleDayMealPlan,
+  refreshMeals,
+  getFavoriteMeals,
+  saveMeal,
+};
