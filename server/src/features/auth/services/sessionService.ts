@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import { TLoginSchema, FullUserForAuth, UserProfileForClient, UserForAuth } from '@shared/types';
-import { prisma, exclude, getUserMeals, TUserMeals } from '@/utils';
+import { prisma, exclude, getMealsFromCacheOrAPI } from '@/utils';
 
 const login = async (user: TLoginSchema): Promise<FullUserForAuth | null> => {
   const { email, password } = user;
@@ -50,8 +50,7 @@ const login = async (user: TLoginSchema): Promise<FullUserForAuth | null> => {
       'updatedAt',
     ]);
 
-    // NOTE: select user meals - ingredients we generate at the client level upon initial refresh of meals
-    const meals: TUserMeals = await getUserMeals(targetedUserProfile.profile.id);
+    const meals = await getMealsFromCacheOrAPI(targetedUserProfile.profile.id);
 
     const userToBeReturned = {
       user: filteredUser,
@@ -65,7 +64,6 @@ const login = async (user: TLoginSchema): Promise<FullUserForAuth | null> => {
   return null;
 };
 
-// TODO: refactor this file as lots of repetition
 const authCheck = async (email: string): Promise<FullUserForAuth | null> => {
   // NOTE: select user - if pass is wrong no need for further queries
   const targetedUser = await prisma.user.findUnique({
@@ -107,9 +105,7 @@ const authCheck = async (email: string): Promise<FullUserForAuth | null> => {
       'updatedAt',
     ]);
 
-    // NOTE: select user meals - ingredients we generate at the client level upon initial refresh of meals
-    const meals: TUserMeals = await getUserMeals(targetedUserProfile.profile.id);
-
+    const meals = await getMealsFromCacheOrAPI(targetedUserProfile.profile.id);
     const userToBeReturned = {
       user: targetedUser,
       profile: filteredUserProfile,

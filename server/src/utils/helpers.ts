@@ -10,6 +10,7 @@ import {
 import axios from 'axios';
 import { NextFunction, Request, Response } from 'express';
 import { prisma } from './postgres';
+import { redisClient } from './redis';
 
 // type guards
 export const isNumber = (input: unknown): input is number => typeof input === 'number';
@@ -362,4 +363,29 @@ export const syncMealsWithDb = async (transformedMealData: MealRecipe[], userId:
       }
     }),
   );
+};
+
+export const getMealsFromCacheOrAPI = async (
+  userProfileId: string,
+): Promise<MealRecipe[] | null> => {
+  const cachedMeals: string | null = await redisClient.get(userProfileId);
+
+  if (cachedMeals) {
+    // WARN: check if type assumption is OK?
+    const parsedCachedMeals = JSON.parse(cachedMeals) as MealRecipe[];
+    return parsedCachedMeals;
+  }
+
+  const userMeals = await getUserMeals(userProfileId);
+
+  if (!userMeals) return null;
+
+  const { data } = await axios.get<TRefreshMealSchema[]>(
+    `https://api.spoonacular.com/recipes/informationBulk?apiKey=${
+      process.env.API_KEY
+    }&ids=${userMeals.meals.map((meal) => meal.recipe_external_id)}&includeNutrition=true`,
+  );
+
+  const transformedData = transformMealDataForRefresh(data, userMeals);
+  return transformedData;
 };

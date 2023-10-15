@@ -4,17 +4,13 @@ import {
   transformMealData,
   prisma,
   extractUserProfileId,
-  transformMealDataForRefresh,
   extractUserProfile,
   syncMealsWithDb,
   fetchMeals,
-  redisClient,
-  getUserMeals,
   transformMealDateForFavoriteRecipes,
   cacheMealData,
+  getMealsFromCacheOrAPI,
 } from '@/utils';
-
-// TODO: - when getting meals also need to make sure that the meals are not in recipes to avoid...!!!
 
 // WARN: below is not operational ATM - will be refactored for multi-meal plans
 const getMeals = async (id: string): Promise<MealRecipe[] | null> => {
@@ -106,33 +102,11 @@ const refreshMeals = async (id: string): Promise<MealRecipe[] | null> => {
 
   if (!userProfileId) return null;
 
-  const cachedMeals: string | null = await redisClient.get(userProfileId);
+  const meals = await getMealsFromCacheOrAPI(userProfileId);
 
-  if (cachedMeals) {
-    // WARN: check if type assumption is OK? -
-    // also implement this in a way that only active meals are stored in redis and use the key - value (maybe flushall each time before adding the new ones...)
-    // where key is the userID -> change MealRecipe type to include meal type; we also include the date
-    const parsedCachedMeals = JSON.parse(cachedMeals) as MealRecipe[];
-    return parsedCachedMeals;
-  }
+  if (!meals) return null;
 
-  // HACK: we select the date as well and dynamically add it in the transform functions below so that we can attach
-  // a meal from the external API to its respective date as stored in our DB against the same recipe id...
-  const userMeals = await getUserMeals(userProfileId);
-
-  if (!userMeals) return null;
-
-  const { data } = await axios.get<TRefreshMealSchema[]>(
-    `https://api.spoonacular.com/recipes/informationBulk?apiKey=${
-      process.env.API_KEY
-    }&ids=${userMeals.meals.map((meal) => meal.recipe_external_id)}&includeNutrition=true`,
-  );
-
-  const transformedData = transformMealDataForRefresh(data, userMeals);
-
-  if (!transformedData) return null;
-
-  return transformedData;
+  return meals;
 };
 
 const saveMeal = async (id: string, mealId: number): Promise<number[] | null> => {
@@ -154,6 +128,7 @@ const saveMeal = async (id: string, mealId: number): Promise<number[] | null> =>
   return userUpdatedFavoriteMeals;
 };
 
+// TODO: refactor as refresh meals above to use helper...
 const getFavoriteMeals = async (id: string): Promise<MealRecipe[] | null> => {
   const userProfileId = await extractUserProfileId(id);
 
