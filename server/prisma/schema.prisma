@@ -42,7 +42,6 @@ model Profile {
   favorite_cuisines String[]       @default([])
   meals_per_day     Int            @default(3)
   favorite_recipes  Int[]          @default([])
-  recipes_to_avoid  Int[]          @default([])
   meals             Meal[]
   shopping_list     Ingredients[]  @relation("UserIngredients")
   createdAt         DateTime       @default(now())
