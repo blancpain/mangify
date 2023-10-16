@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { FullUserForClient, Sex, Goal, ActivityLevel, Diet } from '@shared/types';
+import { FullUserForClient, Sex, Goal, ActivityLevel, Diet, MealRecipe } from '@shared/types';
 import type { RootState } from '../store';
 
 const initialState: FullUserForClient = {
@@ -20,7 +20,6 @@ const initialState: FullUserForClient = {
     intolerances: [],
     favorite_cuisines: [],
     meals_per_day: 3,
-    recipes_to_avoid: [],
     favorite_recipes: [],
     calories: null,
     protein: null,
@@ -39,33 +38,30 @@ const userSlice = createSlice({
       state.profile = action.payload.profile;
       state.meals = action.payload.meals;
     },
-
+    setMeals: (state, action: PayloadAction<MealRecipe[]>) => {
+      state.meals = action.payload;
+    },
     logout: (state) => {
-      state.user = initialState.user;
+      state.user.name = null;
+      state.user.email = null;
       state.profile = initialState.profile;
       state.meals = initialState.meals;
     },
-
     setActivityLevel: (state, action: PayloadAction<ActivityLevel>) => {
       state.profile.activity_level = action.payload;
     },
-
     setSex: (state, action: PayloadAction<Sex>) => {
       state.profile.sex = action.payload;
     },
-
     setAge: (state, action: PayloadAction<number>) => {
       state.profile.age = action.payload;
     },
-
     setHeight: (state, action: PayloadAction<number>) => {
       state.profile.height = action.payload;
     },
-
     setWeight: (state, action: PayloadAction<number>) => {
       state.profile.weight = action.payload;
     },
-
     setGoal: (state, action: PayloadAction<Goal>) => {
       state.profile.goal = action.payload;
     },
@@ -113,6 +109,7 @@ export const {
   setProtein,
   setCarbs,
   setFats,
+  setMeals,
 } = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user;
