@@ -22,7 +22,6 @@ export const errorHandler = (err: Error, req: Request, res: Response, next: Next
       return res.status(400).json({ errors: 'Record(s) not found' });
     }
   } else if (err instanceof AxiosError) {
-    req.session.destroy(() => {});
     return res.status(502).json({ errors: 'Unable to reach external service' });
   }
 

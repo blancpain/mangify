@@ -15,7 +15,7 @@ import {
 } from '@/routes/protected';
 
 export function AppRoutes() {
-  const { user, isLoading, isUninitialized, isSuccess } = useAuth();
+  const { user, isLoading, isUninitialized } = useAuth();
 
   if (isLoading || isUninitialized) {
     return <> </>;
@@ -71,7 +71,7 @@ export function AppRoutes() {
     },
   ]);
 
-  const routesToRender = user.name || isSuccess ? protectedRoutes : publicRoutes;
+  const routesToRender = user.name ? protectedRoutes : publicRoutes;
 
   return <RouterProvider router={routesToRender} />;
 }
