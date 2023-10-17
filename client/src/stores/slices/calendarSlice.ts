@@ -6,8 +6,8 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 import type { CalendarState } from '@/types';
 
-//* we store the dates as strings to avoid redux non-serializable error as Dates are inherently mutable
-//* and this goes against redux philosophy
+// NOTE: we store the dates as strings to avoid redux non-serializable error as Dates are inherently mutable
+// and this goes against redux philosophy
 
 const initialState: CalendarState = {
   day: true,
@@ -45,15 +45,15 @@ const calendarSlice = createSlice({
       const currentWeekStart = new Date(state.weekRange[0]);
       const nextWeek = currentWeekStart.setDate(currentWeekStart.getDate() + 7);
       state.weekRange[0] = new Date(nextWeek).toISOString();
-      const endOfNextWeek = endOfWeek(nextWeek).toISOString();
-      state.weekRange[1] = endOfNextWeek;
+      const endOfNextWeek = endOfWeek(nextWeek);
+      state.weekRange[1] = endOfNextWeek.toISOString();
     },
     decrementWeek: (state) => {
       const currentWeekStart = new Date(state.weekRange[0]);
       const prevWeek = currentWeekStart.setDate(currentWeekStart.getDate() - 7);
       state.weekRange[0] = new Date(prevWeek).toISOString();
-      const endOfNextWeek = endOfWeek(prevWeek).toISOString();
-      state.weekRange[1] = endOfNextWeek;
+      const endOfNextWeek = endOfWeek(prevWeek);
+      state.weekRange[1] = endOfNextWeek.toISOString();
     },
   },
 });
