@@ -1,100 +1,56 @@
 import axios from 'axios';
-import { TComplexMealSearchSchema, MealRecipe, TRefreshMealSchema } from '@shared/types';
+import { MealRecipe, TRefreshMealSchema, TSingleMealDate, TMultiMealDate } from '@shared/types';
 import {
-  transformMealData,
   prisma,
   extractUserProfileId,
   extractUserProfile,
-  syncMealsWithDb,
-  fetchMeals,
   transformMealDateForFavoriteRecipes,
-  cacheMealData,
   getMealsFromCacheOrAPI,
+  generateMeals,
 } from '@/utils';
 
-// WARN: below is not operational ATM - will be refactored for multi-meal plans
-const getMeals = async (id: string): Promise<MealRecipe[] | null> => {
-  const { data } = await axios.get<TComplexMealSearchSchema>(
-    `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&instructionsRequired=true&addRecipeInformation=true&addRecipeNutrition=true&fillIngredients=true&sort=random&number=1`,
-  );
+// TODO: add endpoint for re-generating a single meal
 
-  const currentDate = new Date();
-
-  const transformedData = transformMealData(data, currentDate);
-
-  if (!transformedData) {
-    return null;
-  }
-
+// NOTE: we should always take the weekStart as the starting point and count from there...
+// if weekEnd is beyond the 7 days we can actually ignore it for the purpose of the below
+// if not - we generate meals for the respective < 7 day period
+// we also need to check if a meal already exists within this period and if so keep it as is
+// (i.e. just skip that particular date so that we don't overwrite anything)
+// we MUST associate a date with each meal, otherwise we don't be able to use them on the client side
+const generateMultiDayMealPlan = async (
+  id: string,
+  dates: TMultiMealDate,
+): Promise<MealRecipe[] | null> => {
   const userProfileId = await extractUserProfileId(id);
 
   if (!userProfileId) {
     return null;
   }
-  // await syncMealsWithDb(transformedData, userProfileId);
 
-  return transformedData;
+  console.log(dates.weekEnd, dates.weekStart);
+
+  // const transformedData = transformMealData(data, currentDate);
+
+  return null;
 };
 
-// NOTE: ON re-generating a single meal - we should pass a type from the client to the server to check if breakfast/main/snack!!!
+// TODO: ON re-generating a single meal - we should pass a type from the client to the server to check if breakfast/main/snack!!!
 // since on first generation these will be determined anyway - endpoint still not implemented for singleMealRefresh...
 
-const generateSingleDayMealPlan = async (id: string): Promise<MealRecipe[] | null> => {
-  // WARN: below returns local timezone - 2 in my case...Not sure we can ensure to always get accurate client timezone
-
+const generateSingleDayMealPlan = async (
+  id: string,
+  date: TSingleMealDate,
+): Promise<MealRecipe[] | null> => {
   const userProfile = await extractUserProfile(id);
+  const { date: currentDate } = date;
 
   if (!userProfile) {
     return null;
   }
 
-  // NOTE: we add params from userProfile directly in the URLs
-  const { meals_per_day: numberOfMealsToGenerate } = userProfile;
+  const meals = generateMeals(userProfile, currentDate);
 
-  const currentDate = new Date();
-
-  const breakfastUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&instructionsRequired=true&addRecipeInformation=true&addRecipeNutrition=true&fillIngredients=true&sort=random&number=1&type=breakfast`;
-  const mainCoursesUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&instructionsRequired=true&addRecipeInformation=true&addRecipeNutrition=true&fillIngredients=true&sort=random&number=2&type=main course`;
-  const snackUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.API_KEY}&instructionsRequired=true&addRecipeInformation=true&addRecipeNutrition=true&fillIngredients=true&sort=random&number=1&type=snack`;
-
-  // HACK: 2 meals = 2 main meals; 3 meals = 1 breakfast + 2 main meals; 4 meals = 1 breakfast + 2 mains + snack
-  switch (numberOfMealsToGenerate) {
-    case 2: {
-      const mainCourses = await fetchMeals(mainCoursesUrl, currentDate);
-      if (!mainCourses) return null;
-      const allMeals = [...mainCourses];
-      await syncMealsWithDb(allMeals, userProfile.id);
-      // NOTE: we first delete any existing cache in redis for this user and then
-      // we cache the data for 1 hour as per API guidelines (3600 seconds)
-      await cacheMealData(userProfile.id, allMeals);
-      return allMeals;
-    }
-
-    case 3: {
-      const mainCourses = await fetchMeals(mainCoursesUrl, currentDate);
-      const breakfast = await fetchMeals(breakfastUrl, currentDate);
-      if (!mainCourses || !breakfast) return null;
-      const allMeals = [...mainCourses, ...breakfast];
-      await syncMealsWithDb(allMeals, userProfile.id);
-      await cacheMealData(userProfile.id, allMeals);
-      return allMeals;
-    }
-
-    case 4: {
-      const mainCourses = await fetchMeals(mainCoursesUrl, currentDate);
-      const breakfast = await fetchMeals(breakfastUrl, currentDate);
-      const snack = await fetchMeals(snackUrl, currentDate);
-      if (!mainCourses || !breakfast || !snack) return null;
-      const allMeals = [...mainCourses, ...breakfast, ...snack];
-      await syncMealsWithDb(allMeals, userProfile.id);
-      await cacheMealData(userProfile.id, allMeals);
-      return allMeals;
-    }
-
-    default:
-      break;
-  }
-  return null;
+  return meals ?? null;
 };
 
 const refreshMeals = async (id: string): Promise<MealRecipe[] | null> => {
@@ -158,7 +114,7 @@ const getFavoriteMeals = async (id: string): Promise<MealRecipe[] | null> => {
 };
 
 export const mealGeneratorService = {
-  getMeals,
+  generateMultiDayMealPlan,
   generateSingleDayMealPlan,
   refreshMeals,
   saveMeal,

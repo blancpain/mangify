@@ -141,6 +141,19 @@ export const CarbsSchema = z.object({
 });
 export type TCarbsSchema = z.infer<typeof CarbsSchema>;
 
+// date types for meal generation
+
+export const SingleMealDateSchema = z.object({
+  date: z.coerce.date(),
+});
+export type TSingleMealDate = z.infer<typeof SingleMealDateSchema>;
+
+export const MultiMealDateSchema = z.object({
+  weekStart: z.coerce.date(),
+  weekEnd: z.coerce.date(),
+});
+export type TMultiMealDate = z.infer<typeof MultiMealDateSchema>;
+
 /* Zod types */
 
 /*

@@ -5,7 +5,11 @@ import { isAuthenticated } from '@/middleware';
 // TODO: some of the below need to be post request not get...change last one especially
 
 const mealsRouter = express.Router();
-mealsRouter.post('/multi-day', isAuthenticated, mealsController.getMeals as RequestHandler);
+mealsRouter.post(
+  '/multi-day',
+  isAuthenticated,
+  mealsController.generateMultiDayMealPlan as RequestHandler,
+);
 mealsRouter.post(
   '/single',
   isAuthenticated,

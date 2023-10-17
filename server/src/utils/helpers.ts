@@ -10,7 +10,9 @@ import {
 import axios from 'axios';
 import { NextFunction, Request, Response } from 'express';
 import { prisma } from './postgres';
-import { redisClient } from './redis';
+import { cacheMealData, redisClient } from './redis';
+import { buildURL, TBuildURL } from './url-builder';
+import { Logger } from '@/lib';
 
 // type guards
 export const isNumber = (input: unknown): input is number => typeof input === 'number';
@@ -63,6 +65,7 @@ export const transformMealData = (
   data: TComplexMealSearchSchema,
   mealDate: Date,
 ): MealRecipe[] | null => {
+  Logger.debug(data.results);
   if (data.results) {
     const transformedData: MealRecipe[] = data.results.map((recipe) => ({
       id: recipe.id,
@@ -86,11 +89,13 @@ export const transformMealData = (
         carbs: recipe.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Carbohydrates')
           ?.amount,
       },
-      directions: [
-        ...(recipe.analyzedInstructions?.[0].steps
-          ? recipe.analyzedInstructions[0].steps.map((step) => (step.step ? step.step : ''))
-          : ''),
-      ],
+      directions: recipe.analyzedInstructions?.length
+        ? [
+            ...(recipe.analyzedInstructions?.[0].steps
+              ? recipe.analyzedInstructions[0].steps.map((step) => (step.step ? step.step : ''))
+              : ''),
+          ]
+        : [''],
       fullRecipeURL: recipe.spoonacularSourceUrl,
     }));
     return transformedData;
@@ -126,11 +131,13 @@ export const transformMealDataForRefresh = (
         carbs: recipe.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Carbohydrates')
           ?.amount,
       },
-      directions: [
-        ...(recipe.analyzedInstructions?.[0].steps
-          ? recipe.analyzedInstructions[0].steps.map((step) => (step.step ? step.step : ''))
-          : ''),
-      ],
+      directions: recipe.analyzedInstructions?.length
+        ? [
+            ...(recipe.analyzedInstructions?.[0].steps
+              ? recipe.analyzedInstructions[0].steps.map((step) => (step.step ? step.step : ''))
+              : ''),
+          ]
+        : [''],
       fullRecipeURL: recipe.spoonacularSourceUrl,
     }));
     return transformedData;
@@ -164,11 +171,13 @@ export const transformMealDateForFavoriteRecipes = (
         carbs: recipe.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Carbohydrates')
           ?.amount,
       },
-      directions: [
-        ...(recipe.analyzedInstructions?.[0].steps
-          ? recipe.analyzedInstructions[0].steps.map((step) => (step.step ? step.step : ''))
-          : ''),
-      ],
+      directions: recipe.analyzedInstructions?.length
+        ? [
+            ...(recipe.analyzedInstructions?.[0].steps
+              ? recipe.analyzedInstructions[0].steps.map((step) => (step.step ? step.step : ''))
+              : ''),
+          ]
+        : [''],
       fullRecipeURL: recipe.spoonacularSourceUrl,
     }));
     return transformedData;
@@ -241,6 +250,9 @@ export const getUserMeals = async (id: string) => {
     },
     select: {
       meals: {
+        where: {
+          active: true,
+        },
         select: {
           active: true,
           recipe_external_id: true,
@@ -256,16 +268,20 @@ export type TUserMeals = Prisma.PromiseReturnType<typeof getUserMeals>;
 
 export const fetchMeals = async (URL: string, mealDate: Date): Promise<MealRecipe[] | null> => {
   const { data } = await axios.get<TComplexMealSearchSchema>(URL);
+  const date = new Date(mealDate);
 
-  const transformedData = transformMealData(data, mealDate);
+  const transformedData = transformMealData(data, date);
 
   return transformedData || null;
 };
 
-// NOTE: we first deactivate all meals in the user profile and only activate the newly fetched ones
-// this way we can easily fetch the active meals at the client level
-//
-export const syncMealsWithDb = async (transformedMealData: MealRecipe[], userId: string) => {
+export const syncMealsWithDb = async (
+  transformedMealData: MealRecipe[],
+  userId: string,
+  mealDate: Date,
+) => {
+  // NOTE: we first deactivate all meals in the user profile and only activate the newly fetched ones
+  // this way we can easily fetch the active meals at the client level
   await prisma.profile.update({
     where: {
       id: userId,
@@ -289,9 +305,9 @@ export const syncMealsWithDb = async (transformedMealData: MealRecipe[], userId:
       // HACK:
       // - 1) check if a meal already exists - if it does just connect to the user profile
       // - 2) if it doesn't exist - we first extract all ingredients, removing duplicates
-      // - 3) create the ingredients that don't already exist in the ingredients table
-      // - 4) fetch all ingredients - ( created or existing ) that are part of this recipe and
-      // - 5) connect all the ingredients to the meal
+      // - 3) then create the ingredients that don't already exist in the ingredients table
+      // - 4) then we get all ingredients - ( created or existing ) that are part of this recipe and
+      // - 5) connect them to the meal
       // - 6) we create the meal with the associated ingredients and connect it to the user profile
 
       const existingMeal = await findMeal(Number(meal.id));
@@ -306,6 +322,7 @@ export const syncMealsWithDb = async (transformedMealData: MealRecipe[], userId:
               // NOTE: can change properties as below if needed, i.e. active flag
               create: {
                 active: true,
+                day: mealDate,
               },
               connect: {
                 id: existingMeal.id,
@@ -338,7 +355,7 @@ export const syncMealsWithDb = async (transformedMealData: MealRecipe[], userId:
 
         const createdMeal = await prisma.meal.create({
           data: {
-            day: meal.date,
+            day: mealDate,
             active: true,
             profileId: userId,
             recipe_external_id: meal.id,
@@ -378,7 +395,7 @@ export const getMealsFromCacheOrAPI = async (
 
   const userMeals = await getUserMeals(userProfileId);
 
-  if (!userMeals) return null;
+  if (!userMeals || (userMeals && userMeals.meals.length === 0)) return null;
 
   const { data } = await axios.get<TRefreshMealSchema[]>(
     `https://api.spoonacular.com/recipes/informationBulk?apiKey=${
@@ -387,5 +404,137 @@ export const getMealsFromCacheOrAPI = async (
   );
 
   const transformedData = transformMealDataForRefresh(data, userMeals);
+  // NOTE: belos is in cases where we haven't regenerated but have just fetched the existing meals from the API
+  // and don't want to re-fetch again on refresh
+  if (transformedData) await cacheMealData(userProfileId, transformedData);
+
   return transformedData;
+};
+
+export const generateMeals = async (
+  userProfile: FullUserProfile,
+  date: Date,
+): Promise<MealRecipe[] | null> => {
+  const {
+    meals_per_day: numberOfMealsToGenerate,
+    diet,
+    fats,
+    carbs,
+    protein,
+    calories,
+    intolerances,
+    favorite_cuisines: favoriteCuisines,
+  } = userProfile;
+
+  // HACK: 2 meals = 2 main meals; 3 meals = 1 breakfast + 2 main meals; 4 meals = 1 breakfast + 2 mains + snack
+  switch (numberOfMealsToGenerate) {
+    case 2: {
+      const mainCourseUrlDetails: TBuildURL = {
+        mealType: 'main course',
+        numberOfMeals: 2,
+        diet,
+        intolerances,
+        cuisine: favoriteCuisines,
+        calories,
+        protein,
+        carbs,
+        fats,
+      };
+      const mainCoursesUrl = buildURL(mainCourseUrlDetails);
+      const mainCourses = await fetchMeals(mainCoursesUrl, date);
+      if (!mainCourses) return null;
+      const allMeals = [...mainCourses];
+      await syncMealsWithDb(allMeals, userProfile.id, date);
+      // NOTE: we first delete any existing cache in redis for this user and then
+      // we cache the data for 1 hour as per API guidelines (3600 seconds)
+      await cacheMealData(userProfile.id, allMeals);
+      return allMeals;
+    }
+
+    case 3: {
+      const mainCourseUrlDetails: TBuildURL = {
+        mealType: 'main course',
+        numberOfMeals: 2,
+        diet,
+        intolerances,
+        cuisine: favoriteCuisines,
+        calories,
+        protein,
+        carbs,
+        fats,
+      };
+      const mainCoursesUrl = buildURL(mainCourseUrlDetails);
+      const mainCourses = await fetchMeals(mainCoursesUrl, date);
+
+      const breakfastUrlDetails: TBuildURL = {
+        mealType: 'breakfast',
+        numberOfMeals: 1,
+        diet,
+        intolerances,
+        cuisine: favoriteCuisines,
+        calories,
+        protein,
+        carbs,
+        fats,
+      };
+      const breakfastUrl = buildURL(breakfastUrlDetails);
+      const breakfast = await fetchMeals(breakfastUrl, date);
+      if (!mainCourses || !breakfast) return null;
+      const allMeals = [...mainCourses, ...breakfast];
+      await syncMealsWithDb(allMeals, userProfile.id, date);
+      await cacheMealData(userProfile.id, allMeals);
+      return allMeals;
+    }
+
+    case 4: {
+      const mainCourseUrlDetails: TBuildURL = {
+        mealType: 'main course',
+        numberOfMeals: 2,
+        diet,
+        intolerances,
+        cuisine: favoriteCuisines,
+        calories,
+        protein,
+        carbs,
+        fats,
+      };
+      const mainCoursesUrl = buildURL(mainCourseUrlDetails);
+      const mainCourses = await fetchMeals(mainCoursesUrl, date);
+      const breakfastUrlDetails: TBuildURL = {
+        mealType: 'breakfast',
+        numberOfMeals: 1,
+        diet,
+        intolerances,
+        cuisine: favoriteCuisines,
+        calories,
+        protein,
+        carbs,
+        fats,
+      };
+      const breakfastUrl = buildURL(breakfastUrlDetails);
+      const breakfast = await fetchMeals(breakfastUrl, date);
+      const snackUrlDetails: TBuildURL = {
+        mealType: 'snack',
+        numberOfMeals: 1,
+        diet,
+        intolerances,
+        cuisine: favoriteCuisines,
+        calories,
+        protein,
+        carbs,
+        fats,
+      };
+      const snackUrl = buildURL(snackUrlDetails);
+      const snack = await fetchMeals(snackUrl, date);
+      if (!mainCourses || !breakfast || !snack) return null;
+      const allMeals = [...mainCourses, ...breakfast, ...snack];
+      await syncMealsWithDb(allMeals, userProfile.id, date);
+      await cacheMealData(userProfile.id, allMeals);
+      return allMeals;
+    }
+
+    default:
+      break;
+  }
+  return null;
 };
