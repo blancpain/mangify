@@ -13,20 +13,13 @@ import {
   selectUser,
 } from '@/stores';
 import { SingleDayMealPlan } from './SingleDayMealPlan';
+import { MultiDayMealPlan } from './MultiDayMealPlan';
 
 export function MealPlanner() {
   const [opened, { open, close }] = useDisclosure(false);
   const { day, dayRange, weekRange } = useAppSelector(selectCalendar);
   const { profile } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
-
-  const convertedDay = new Date(dayRange).toLocaleDateString(undefined, {
-    weekday: 'long',
-    day: '2-digit',
-    month: 'long',
-  });
-  // const convertedStartOfWeek = new Date(weekRange[0]).toDateString();
-  // const convertedEndOfWeek = new Date(weekRange[1]).toDateString();
 
   return (
     <>
@@ -69,7 +62,8 @@ export function MealPlanner() {
           </Flex>
         </Modal>
       </Flex>
-      {day && <SingleDayMealPlan day={convertedDay} calories={profile.calories} />}
+      {day && <SingleDayMealPlan day={dayRange} calories={profile.calories} />}
+      {day === false && <MultiDayMealPlan />}
     </>
   );
 }

@@ -17,7 +17,6 @@ export function SideBarDropdownLink({ closeDrawer }: SideBarDropdownLinkProps) {
           </ThemeIcon>
         }
         childrenOffset={28}
-        defaultOpened
       >
         <MantineNavLink
           label="Meal Settings"
