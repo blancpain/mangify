@@ -12,7 +12,6 @@ import { NextFunction, Request, Response } from 'express';
 import { prisma } from './postgres';
 import { cacheMealData, redisClient } from './redis';
 import { buildURL, TBuildURL } from './url-builder';
-import { Logger } from '@/lib';
 
 // type guards
 export const isNumber = (input: unknown): input is number => typeof input === 'number';
@@ -65,7 +64,6 @@ export const transformMealData = (
   data: TComplexMealSearchSchema,
   mealDate: Date,
 ): MealRecipe[] | null => {
-  Logger.debug(data.results);
   if (data.results) {
     const transformedData: MealRecipe[] = data.results.map((recipe) => ({
       id: recipe.id,
@@ -411,6 +409,12 @@ export const getMealsFromCacheOrAPI = async (
   return transformedData;
 };
 
+export const timeout = (ms: number) =>
+  new Promise((res) => {
+    setTimeout(res, ms);
+  });
+
+// NOTE: we use timeouts below to make sure we can safely ping the API without hitting the rate limit
 export const generateMeals = async (
   userProfile: FullUserProfile,
   date: Date,
@@ -465,6 +469,7 @@ export const generateMeals = async (
       };
       const mainCoursesUrl = buildURL(mainCourseUrlDetails);
       const mainCourses = await fetchMeals(mainCoursesUrl, date);
+      await timeout(1000);
 
       const breakfastUrlDetails: TBuildURL = {
         mealType: 'breakfast',
@@ -500,6 +505,8 @@ export const generateMeals = async (
       };
       const mainCoursesUrl = buildURL(mainCourseUrlDetails);
       const mainCourses = await fetchMeals(mainCoursesUrl, date);
+      await timeout(1000);
+
       const breakfastUrlDetails: TBuildURL = {
         mealType: 'breakfast',
         numberOfMeals: 1,
@@ -513,6 +520,8 @@ export const generateMeals = async (
       };
       const breakfastUrl = buildURL(breakfastUrlDetails);
       const breakfast = await fetchMeals(breakfastUrl, date);
+      await timeout(1000);
+
       const snackUrlDetails: TBuildURL = {
         mealType: 'snack',
         numberOfMeals: 1,
