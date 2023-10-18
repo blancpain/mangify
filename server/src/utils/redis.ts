@@ -17,6 +17,8 @@ const connectToRedis = async () => {
   return null;
 };
 
+// NOTE: we first delete any existing cache in redis for this user and then
+// we cache the data for 1 hour as per API guidelines (3600 seconds)
 const cacheMealData = async (userProfileId: string, meals: MealRecipe[]) => {
   await redisClient.del(userProfileId);
   await redisClient.set(userProfileId, JSON.stringify(meals), { EX: 3600 });

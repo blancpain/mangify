@@ -273,22 +273,20 @@ export const fetchMeals = async (URL: string, mealDate: Date): Promise<MealRecip
   return transformedData || null;
 };
 
-export const syncMealsWithDb = async (
-  transformedMealData: MealRecipe[],
-  userId: string,
-  mealDate: Date,
-) => {
-  // NOTE: we first deactivate all meals in the user profile and only activate the newly fetched ones
-  // this way we can easily fetch the active meals at the client level
+// NOTE: deactivates all meals that are not part of the newly generated batch of meals
+export const dbDeativateAll = async (meals: MealRecipe[], userProfileId: string) => {
+  const allMealIds = meals.map((meal) => meal.id as number);
   await prisma.profile.update({
     where: {
-      id: userId,
+      id: userProfileId,
     },
     data: {
       meals: {
         updateMany: {
           where: {
-            active: true,
+            recipe_external_id: {
+              notIn: allMealIds,
+            },
           },
           data: {
             active: false,
@@ -297,7 +295,45 @@ export const syncMealsWithDb = async (
       },
     },
   });
+};
 
+// NOTE: deactivates all existing meals associated with a given date
+export const dbDeactivateAllSingleDay = async (mealDate: Date, userProfileId: string) => {
+  // NOTE: we do the below to ensure we get the correct date range
+  const startDate = new Date(mealDate);
+  startDate.setUTCHours(0, 0, 0, 0); // Set the time to the start of the day
+
+  const endDate = new Date(mealDate);
+  endDate.setUTCHours(23, 59, 59, 999); // Set the time to the end of the day
+
+  await prisma.profile.update({
+    where: {
+      id: userProfileId,
+    },
+    data: {
+      meals: {
+        updateMany: {
+          where: {
+            day: {
+              // NOTE: lte = less than or equal to; gte = greater than or equal to
+              lte: endDate,
+              gte: startDate,
+            },
+          },
+          data: {
+            active: false,
+          },
+        },
+      },
+    },
+  });
+};
+
+export const syncMealsWithDb = async (
+  transformedMealData: MealRecipe[],
+  userId: string,
+  mealDate: Date,
+) => {
   await Promise.all(
     transformedMealData.map(async (meal) => {
       // HACK:
@@ -317,10 +353,15 @@ export const syncMealsWithDb = async (
           },
           data: {
             meals: {
-              // NOTE: can change properties as below if needed, i.e. active flag
-              create: {
-                active: true,
-                day: mealDate,
+              update: {
+                where: {
+                  // TODO: check if below non-null assertion is OK?
+                  recipe_external_id: existingMeal.recipe_external_id!,
+                },
+                data: {
+                  active: true,
+                  day: mealDate,
+                },
               },
               connect: {
                 id: existingMeal.id,
@@ -402,19 +443,14 @@ export const getMealsFromCacheOrAPI = async (
   );
 
   const transformedData = transformMealDataForRefresh(data, userMeals);
-  // NOTE: belos is in cases where we haven't regenerated but have just fetched the existing meals from the API
+  // NOTE: since redis caching is normally triggered when we fetch meals
+  // we need to add the below in the cases where we haven't regenerated but are within the 1 hour cache window
   // and don't want to re-fetch again on refresh
   if (transformedData) await cacheMealData(userProfileId, transformedData);
 
   return transformedData;
 };
 
-export const timeout = (ms: number) =>
-  new Promise((res) => {
-    setTimeout(res, ms);
-  });
-
-// NOTE: we use timeouts below to make sure we can safely ping the API without hitting the rate limit
 export const generateMeals = async (
   userProfile: FullUserProfile,
   date: Date,
@@ -449,9 +485,6 @@ export const generateMeals = async (
       if (!mainCourses) return null;
       const allMeals = [...mainCourses];
       await syncMealsWithDb(allMeals, userProfile.id, date);
-      // NOTE: we first delete any existing cache in redis for this user and then
-      // we cache the data for 1 hour as per API guidelines (3600 seconds)
-      await cacheMealData(userProfile.id, allMeals);
       return allMeals;
     }
 
@@ -469,7 +502,6 @@ export const generateMeals = async (
       };
       const mainCoursesUrl = buildURL(mainCourseUrlDetails);
       const mainCourses = await fetchMeals(mainCoursesUrl, date);
-      await timeout(1000);
 
       const breakfastUrlDetails: TBuildURL = {
         mealType: 'breakfast',
@@ -487,7 +519,6 @@ export const generateMeals = async (
       if (!mainCourses || !breakfast) return null;
       const allMeals = [...mainCourses, ...breakfast];
       await syncMealsWithDb(allMeals, userProfile.id, date);
-      await cacheMealData(userProfile.id, allMeals);
       return allMeals;
     }
 
@@ -505,7 +536,7 @@ export const generateMeals = async (
       };
       const mainCoursesUrl = buildURL(mainCourseUrlDetails);
       const mainCourses = await fetchMeals(mainCoursesUrl, date);
-      await timeout(1000);
+      // await timeout(1000);
 
       const breakfastUrlDetails: TBuildURL = {
         mealType: 'breakfast',
@@ -520,7 +551,6 @@ export const generateMeals = async (
       };
       const breakfastUrl = buildURL(breakfastUrlDetails);
       const breakfast = await fetchMeals(breakfastUrl, date);
-      await timeout(1000);
 
       const snackUrlDetails: TBuildURL = {
         mealType: 'snack',
@@ -538,7 +568,6 @@ export const generateMeals = async (
       if (!mainCourses || !breakfast || !snack) return null;
       const allMeals = [...mainCourses, ...breakfast, ...snack];
       await syncMealsWithDb(allMeals, userProfile.id, date);
-      await cacheMealData(userProfile.id, allMeals);
       return allMeals;
     }
 
