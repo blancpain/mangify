@@ -1,17 +1,16 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import startOfWeek from 'date-fns/startOfWeek';
-import endOfWeek from 'date-fns/endOfWeek';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 import type { CalendarState } from '@/types';
+import { getEndOfPeriod, getStartOfPeriod } from '@/utils';
 
 // NOTE: we store the dates as strings to avoid redux non-serializable error as Dates are inherently mutable
 // and this goes against redux philosophy
 
 const initialState: CalendarState = {
   day: true,
-  weekRange: [startOfWeek(Date.now()).toISOString(), endOfWeek(Date.now()).toISOString()],
+  weekRange: [new Date().toISOString(), getEndOfPeriod(new Date())],
   dayRange: new Date().toISOString(),
 };
 
@@ -43,17 +42,17 @@ const calendarSlice = createSlice({
     },
     incrementWeek: (state) => {
       const currentWeekStart = new Date(state.weekRange[0]);
-      const nextWeek = currentWeekStart.setDate(currentWeekStart.getDate() + 7);
-      state.weekRange[0] = new Date(nextWeek).toISOString();
-      const endOfNextWeek = endOfWeek(nextWeek);
-      state.weekRange[1] = endOfNextWeek.toISOString();
+      const nextWeek = getEndOfPeriod(currentWeekStart);
+      state.weekRange[0] = nextWeek;
+      const endOfNextWeek = getEndOfPeriod(new Date(nextWeek));
+      state.weekRange[1] = endOfNextWeek;
     },
     decrementWeek: (state) => {
       const currentWeekStart = new Date(state.weekRange[0]);
-      const prevWeek = currentWeekStart.setDate(currentWeekStart.getDate() - 7);
-      state.weekRange[0] = new Date(prevWeek).toISOString();
-      const endOfNextWeek = endOfWeek(prevWeek);
-      state.weekRange[1] = endOfNextWeek.toISOString();
+      const prevWeek = getStartOfPeriod(currentWeekStart);
+      state.weekRange[0] = prevWeek;
+      const endOfPrevWeek = getEndOfPeriod(new Date(prevWeek));
+      state.weekRange[1] = endOfPrevWeek;
     },
   },
 });

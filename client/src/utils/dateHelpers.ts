@@ -13,3 +13,16 @@ export const isTheSameDate =
     }
     return false;
   };
+
+// NOTE: periods can easily be reduced/extended as needed
+export const getEndOfPeriod = (date: Date): string => {
+  const startOfPeriod = new Date(date);
+  startOfPeriod.setDate(startOfPeriod.getDate() + 4);
+  return startOfPeriod.toISOString();
+};
+
+export const getStartOfPeriod = (date: Date): string => {
+  const endOfPeriod = new Date(date);
+  endOfPeriod.setDate(endOfPeriod.getDate() - 4);
+  return endOfPeriod.toISOString();
+};
