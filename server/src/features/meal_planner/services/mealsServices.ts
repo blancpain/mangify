@@ -7,31 +7,42 @@ import {
   transformMealDateForFavoriteRecipes,
   getMealsFromCacheOrAPI,
   generateMeals,
+  generateWeekDateArray,
 } from '@/utils';
 
 // TODO: add endpoint for re-generating a single meal
 
-// NOTE: we should always take the weekStart as the starting point and count from there...
-// if weekEnd is beyond the 7 days we can actually ignore it for the purpose of the below
-// if not - we generate meals for the respective < 7 day period
-// we also need to check if a meal already exists within this period and if so keep it as is
+// NOTE:
+// we need to check if a meal already exists within the period and if so keep it as is
 // (i.e. just skip that particular date so that we don't overwrite anything)
 // we MUST associate a date with each meal, otherwise we don't be able to use them on the client side
+// we need to use the generatemeals function to generate the meals for each day and then save them to the db
+
 const generateMultiDayMealPlan = async (
   id: string,
   dates: TMultiMealDate,
 ): Promise<MealRecipe[] | null> => {
-  const userProfileId = await extractUserProfileId(id);
+  const userProfile = await extractUserProfile(id);
 
-  if (!userProfileId) {
+  if (!userProfile) {
     return null;
   }
+  const allMeals: MealRecipe[] = [];
 
-  console.log(dates.weekEnd, dates.weekStart);
+  const { weekStart, weekEnd } = dates;
+  const dateArray = generateWeekDateArray(weekStart, weekEnd);
 
-  // const transformedData = transformMealData(data, currentDate);
+  await Promise.all(
+    dateArray.map(async (date) => {
+      const meals = await generateMeals(userProfile, date);
 
-  return null;
+      if (meals) {
+        allMeals.push(...meals);
+      }
+    }),
+  );
+
+  return allMeals;
 };
 
 // TODO: ON re-generating a single meal - we should pass a type from the client to the server to check if breakfast/main/snack!!!

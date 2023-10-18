@@ -63,7 +63,7 @@ export function MealPlanner() {
         </Modal>
       </Flex>
       {day && <SingleDayMealPlan day={dayRange} calories={profile.calories} />}
-      {day === false && <MultiDayMealPlan />}
+      {day === false && <MultiDayMealPlan weekRange={weekRange} calories={profile.calories} />}
     </>
   );
 }

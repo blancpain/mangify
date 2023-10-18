@@ -26,6 +26,7 @@ import {
   TSignUpSchema,
   TWeightSchema,
   TSingleMealDate,
+  TMultiMealDate,
 } from '@shared/types';
 import { baseQueryWithReauth } from '@/lib';
 
@@ -44,6 +45,13 @@ export const mangifyApi = createApi({
         url: `/meals/single`,
         method: 'POST',
         body: date,
+      }),
+    }),
+    generateMultiDayMealPlan: build.mutation<MealRecipe[], TMultiMealDate>({
+      query: (dates) => ({
+        url: `/meals/multi-day`,
+        method: 'POST',
+        body: dates,
       }),
     }),
     registerUser: build.mutation<NonSensitiveUser, TSignUpSchema>({
@@ -192,4 +200,5 @@ export const {
   useSetProteinMutation,
   useSetCaloriesMutation,
   useGenerateSingleDayMealPlanMutation,
+  useGenerateMultiDayMealPlanMutation,
 } = mangifyApi;
