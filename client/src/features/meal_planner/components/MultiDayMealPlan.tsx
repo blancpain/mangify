@@ -48,7 +48,8 @@ export function MultiDayMealPlan({ weekRange, calories }: MultiDayMealPlanProps)
       <p>{meal.id}</p>
       <a href={meal.fullRecipeURL ?? ''}>Click here</a>
       <p>{meal.date ? new Date(meal.date).toLocaleString() : new Date().toISOString()}</p>
-      <p>Meal type: ${meal.mealTypes}</p>
+      <p>Meal type: {meal.mealTypes}</p>
+      <p>Meal id: {meal.id}</p>
       <p>Calories: {meal.fullNutritionProfile?.calories}</p>
       <p>Protein: {meal.fullNutritionProfile?.protein}</p>
       <p>Fats: {meal.fullNutritionProfile?.fats}</p>
@@ -61,6 +62,7 @@ export function MultiDayMealPlan({ weekRange, calories }: MultiDayMealPlanProps)
       <p>Week start: {startOfWeek} </p>
       <p>Week end: {endOfWeek} </p>
       <p>Calories: {calories}</p>
+      <p>Number of meals: {allMeals?.length}</p>
       <p>Meals</p>
       <Button onClick={handleGeneration}>Generate</Button>
       {allMeals && allMeals}

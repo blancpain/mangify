@@ -26,6 +26,7 @@ export function MealPlanner() {
       <Flex gap={30} justify="space-between">
         <SegmentedControl
           onChange={() => dispatch(setCalendar())}
+          value={day ? 'Day' : 'Week'}
           data={[
             { label: 'Day', value: 'Day' },
             { label: 'Week', value: 'Week' },

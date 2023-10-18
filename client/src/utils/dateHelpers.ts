@@ -14,15 +14,15 @@ export const isTheSameDate =
     return false;
   };
 
-// NOTE: periods can easily be reduced/extended as needed
+// NOTE: periods can easily be reduced/extended as needed; currently we only support up to 7 days
 export const getEndOfPeriod = (date: Date): string => {
   const startOfPeriod = new Date(date);
-  startOfPeriod.setDate(startOfPeriod.getDate() + 4);
+  startOfPeriod.setDate(startOfPeriod.getDate() + 6);
   return startOfPeriod.toISOString();
 };
 
 export const getStartOfPeriod = (date: Date): string => {
   const endOfPeriod = new Date(date);
-  endOfPeriod.setDate(endOfPeriod.getDate() - 4);
+  endOfPeriod.setDate(endOfPeriod.getDate() - 6);
   return endOfPeriod.toISOString();
 };
