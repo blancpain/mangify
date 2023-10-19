@@ -15,13 +15,18 @@ import {
   cacheMealData,
   isNotTheSameDate,
 } from '@/utils';
-import { Logger } from '@/lib';
+
+// NOTE: we use this helper function to add a delay between API calls
+const timeout = (ms: number) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
 
 // TODO: add endpoint for re-generating a single meal
 //  we should pass a type from the client to the server to check if breakfast/main/snack!!!
 // since on first generation these will be determined anyway
 
-// TODO:
+// TODO: (optional)
 // implement a way to NOT generate meals for a particular day if the user already has meals for that day
 const generateMultiDayMealPlan = async (
   id: string,
@@ -36,9 +41,6 @@ const generateMultiDayMealPlan = async (
   const allMeals: MealRecipe[] = [];
   const { weekStart, weekEnd } = dates;
   const dateArray = generateWeekDateArray(weekStart, weekEnd);
-
-  // NOTE: we check if all meals have the same date which means that we only hanve a single day meal plan
-  // and can skip this date when generating the new meals
 
   // const currentMeals = await getUserMeals(userProfile.id);
   // const singleDayMealDate = checkIfAllMealsHaveSameDate(currentMeals);
@@ -58,6 +60,7 @@ const generateMultiDayMealPlan = async (
 
   // eslint-disable-next-line no-restricted-syntax
   for await (const meals of mealsGenerator) {
+    await timeout(500);
     if (meals) {
       allMeals.push(...meals);
     }
@@ -70,7 +73,7 @@ const generateMultiDayMealPlan = async (
   return allMeals;
 };
 
-// TODO:  we might need to introduce a limit of how many single-day meal plans a user can generate
+// TODO: we might need to introduce a limit of how many single-day meal plans a user can generate
 const generateSingleDayMealPlan = async (
   id: string,
   date: TSingleMealDate,
@@ -93,16 +96,13 @@ const generateSingleDayMealPlan = async (
 
   if (allUserMeals) {
     const allUserMealsOutsideOfCurrentDate = allUserMeals.filter(isNotTheSameDate(currentDate));
-    Logger.debug(allUserMealsOutsideOfCurrentDate.length);
     const meals = await generateMeals(userProfile, currentDate);
     if (!meals) return null;
     const finalMealList = [...allUserMealsOutsideOfCurrentDate, ...meals];
-    Logger.debug(finalMealList);
     await cacheMealData(userProfile.id, finalMealList);
     return finalMealList;
   }
 
-  // await dbDeactivateAllSingleDay(currentDate, userProfile.id);
   const meals = await generateMeals(userProfile, currentDate);
   if (!meals) return null;
   await cacheMealData(userProfile.id, meals);
