@@ -23,11 +23,10 @@ export const buildURL = (args: TBuildURL): string => {
   const minCalories = caloriesTarget ? caloriesTarget - 300 : null;
   const maxCalories = caloriesTarget ? caloriesTarget + 100 : null;
 
-  // NOTE: we sort by healthiness to only get the healthy options
   if (args.mealType === 'breakfast' || args.mealType === 'snack') {
     return `https://api.spoonacular.com/recipes/complexSearch?apiKey=${
       process.env.API_KEY
-    }&instructionsRequired=true&addRecipeInformation=true&addRecipeNutrition=true&fillIngredients=true&sort=healthiness&number=${
+    }&instructionsRequired=true&addRecipeInformation=true&addRecipeNutrition=true&fillIngredients=true&sort=random&number=${
       args.numberOfMeals
     }&diet=${args.diet?.toLowerCase()}&intolerances=${args.intolerances}&cuisine=${
       args.cuisine
