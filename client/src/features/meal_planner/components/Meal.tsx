@@ -23,7 +23,10 @@ export function Meal({
   ingredients,
 }: MealProps) {
   const [opened, { open, close }] = useDisclosure(false);
-  const mealCookingDirections = directions.map((step) => <li key={nanoid()}>{step || ''}</li>);
+  const mealCookingDirections =
+    directions && directions.length > 1
+      ? directions.map((step) => <li key={nanoid()}>{step || ''}</li>)
+      : 'Just mix all the ingredients and enjoy!';
 
   const ingredientDetails = ingredients?.map((ingredient) => (
     <Flex gap="md" key={nanoid()} pb={5}>
@@ -55,14 +58,14 @@ export function Meal({
           </Text>
         }
       >
-        <Grid pl={20} pr={20}>
-          <Grid.Col span={6}>
+        <Grid pl={20} pr={20} gutter={80}>
+          <Grid.Col lg={6} md={9}>
             <Text pb={20} fw="bold">
               Ingredients:
             </Text>
             {ingredientDetails}
           </Grid.Col>
-          <Grid.Col span={6}>
+          <Grid.Col lg={6} md={9}>
             <Text fw="bold">Cooking instructions:</Text>
             <ol style={{ padding: '0px' }}>{mealCookingDirections}</ol>
           </Grid.Col>

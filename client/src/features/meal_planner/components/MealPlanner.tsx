@@ -72,7 +72,7 @@ export function MealPlanner() {
           userCarbs={profile.carbs}
         />
       )}
-      {day === false && <MultiDayMealPlan weekRange={weekRange} calories={profile.calories} />}
+      {day === false && <MultiDayMealPlan weekRange={weekRange} />}
     </>
   );
 }

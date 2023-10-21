@@ -175,7 +175,6 @@ export const mangifyApi = createApi({
         body: userFats,
       }),
     }),
-    // TODO: add setMeals, favorite and unliked recipes
   }),
 });
 

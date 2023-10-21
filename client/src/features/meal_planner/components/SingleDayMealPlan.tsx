@@ -1,12 +1,13 @@
 import { nanoid } from '@reduxjs/toolkit';
-import { Box, Button, Flex, Grid, Table, Text, Title } from '@mantine/core';
-import { IconReload, IconSalad } from '@tabler/icons-react';
+import { Box, Flex, Grid, Table, Text, Title } from '@mantine/core';
+import { IconSalad } from '@tabler/icons-react';
 import { useGenerateSingleDayMealPlanMutation } from '@/features/api';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { selectUser, setMeals } from '@/stores';
 import { isTheSameDate } from '@/utils';
 import { MealAccordion } from './MealAccordion';
 import { PieChart } from '@/components';
+import { MealPlanHeader } from './MealPlanHeader';
 
 type SingleDayMealPlanProps = {
   day: string;
@@ -92,15 +93,10 @@ export function SingleDayMealPlan({
   // TODO: add error state for when we have no meals
   return (
     <Box mt={30}>
-      <Flex mb={30} align="start" justify="space-between">
-        <Title order={2} mb="md">
-          {isToday ? 'Today' : convertedDate}
-        </Title>
-        <Button leftIcon={<IconReload />} onClick={handleGeneration} color="teal" size="lg">
-          Generate
-        </Button>
-      </Flex>
-
+      <MealPlanHeader
+        handleGeneration={handleGeneration}
+        date={isToday ? 'Today' : convertedDate}
+      />
       {allMeals && allMeals.length === 0 ? (
         <Flex direction="column" align="center" justify="center" gap="md">
           <Title order={3}>You have no meals for this day</Title>

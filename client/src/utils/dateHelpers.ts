@@ -26,3 +26,13 @@ export const getStartOfPeriod = (date: Date): string => {
   endOfPeriod.setDate(endOfPeriod.getDate() - 6);
   return endOfPeriod.toISOString();
 };
+
+export const generateDateArray = (startDate: Date, endDate: Date) => {
+  const dates = [];
+  const initialDate = new Date(startDate);
+  while (initialDate <= endDate) {
+    dates.push(new Date(initialDate));
+    initialDate.setDate(initialDate.getDate() + 1);
+  }
+  return dates;
+};
