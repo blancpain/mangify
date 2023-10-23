@@ -1,8 +1,7 @@
-import { max, min } from 'date-fns';
+import { Loader, Box, Title, SimpleGrid, Space, Flex, ActionIcon, Center } from '@mantine/core';
 import { DateTime } from 'luxon';
 import { nanoid } from '@reduxjs/toolkit';
 import { motion } from 'framer-motion';
-import { Box, Title, SimpleGrid, Space, Flex, ActionIcon, Center } from '@mantine/core';
 import { IconEye, IconReload, IconSalad } from '@tabler/icons-react';
 import {
   useGenerateMultiDayMealPlanMutation,
@@ -24,14 +23,23 @@ type MultiDayMealPlanProps = {
 };
 
 export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
-  const [generateMeals] = useGenerateMultiDayMealPlanMutation();
+  const [generateMeals, { isLoading }] = useGenerateMultiDayMealPlanMutation();
   const [generateSingleDayMeals] = useGenerateSingleDayMealPlanMutation();
   const dispatch = useAppDispatch();
   const { meals: userMeals } = useAppSelector(selectUser);
 
-  const convertedStartOfWeek = min([new Date(weekRange[0]), new Date(weekRange[1])]);
-  const convertedEndOfWeek = max([new Date(weekRange[0]), new Date(weekRange[1])]);
+  if (isLoading) {
+    return (
+      <Center sx={{ height: '100%' }}>
+        <Loader color="teal" size="xl" variant="dots" />
+      </Center>
+    );
+  }
 
+  const convertedStartOfWeekISO = DateTime.fromISO(weekRange[0]).toISO();
+  const convertedEndOfWeekISO = DateTime.fromISO(weekRange[1]).toISO();
+
+  // dates for UI
   const startOfWeek = new Date(weekRange[0]).toLocaleDateString(undefined, {
     weekday: 'long',
     day: '2-digit',
@@ -44,7 +52,10 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
     month: 'long',
   });
 
-  const currentDateRange = generateDateArray(convertedStartOfWeek, convertedEndOfWeek);
+  const currentDateRange = generateDateArray(
+    DateTime.fromISO(convertedStartOfWeekISO!).toJSDate(),
+    DateTime.fromISO(convertedEndOfWeekISO!).toJSDate(),
+  );
 
   const allMealsForEachDay = currentDateRange.map((date) => {
     const mealsForDate = userMeals?.filter(isTheSameDate(date)) || null;
@@ -64,9 +75,10 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
   // TODO: error handling
   const handleGeneration = async () => {
     try {
+      if (!convertedStartOfWeekISO || !convertedEndOfWeekISO) return;
       const meals = await generateMeals({
-        weekStart: convertedStartOfWeek,
-        weekEnd: convertedEndOfWeek,
+        weekStart: convertedStartOfWeekISO,
+        weekEnd: convertedEndOfWeekISO,
       }).unwrap();
       dispatch(setMeals(meals));
     } catch (error: unknown) {
@@ -106,9 +118,9 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
       p={20}
       m={5}
       component={motion.div}
-      initial={{ opacity: 0, translateX: -100 }}
-      animate={{ opacity: 1, translateX: 0 }}
-      transition={{ duration: 0.3 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
       whileHover={{ scale: 1.01 }}
       style={{ display: 'flex', flexDirection: 'column', height: '100%' }}
     >

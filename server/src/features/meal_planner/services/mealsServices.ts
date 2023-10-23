@@ -51,7 +51,13 @@ const generateMultiDayMealPlan = async (
 
   const allMeals: MealRecipe[] = [];
   const { weekStart, weekEnd } = dates;
-  const dateArray = generateWeekDateArray(weekStart, weekEnd);
+
+  const convertedWeekStart = createDateFromISODate(weekStart);
+  const convertedWeekEnd = createDateFromISODate(weekEnd);
+
+  if (!convertedWeekStart || !convertedWeekEnd) return null;
+
+  const dateArray = generateWeekDateArray(convertedWeekStart, convertedWeekEnd);
 
   // const currentMeals = await getUserMeals(userProfile.id);
   // const singleDayMealDate = checkIfAllMealsHaveSameDate(currentMeals);
