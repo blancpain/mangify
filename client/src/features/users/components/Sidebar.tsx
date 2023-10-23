@@ -2,7 +2,7 @@ import {
   IconCalendar,
   IconChartPie2,
   IconShoppingBag,
-  IconHeart,
+  // IconHeart,
   IconListCheck,
 } from '@tabler/icons-react';
 import { SidebarSoloLink } from './SidebarSoloLink';
@@ -12,6 +12,7 @@ type SideBarProps = {
   closeDrawer: () => void;
 };
 
+// NOTE: favorites for future release
 export function SideBar({ closeDrawer }: SideBarProps) {
   return (
     <div>
@@ -29,13 +30,13 @@ export function SideBar({ closeDrawer }: SideBarProps) {
         link="/"
         closeDrawer={closeDrawer}
       />
-      <SidebarSoloLink
-        icon={<IconHeart size="1rem" />}
-        color="teal"
-        label="Favorites"
-        link="/"
-        closeDrawer={closeDrawer}
-      />
+      {/* <SidebarSoloLink */}
+      {/*   icon={<IconHeart size="1rem" />} */}
+      {/*   color="teal" */}
+      {/*   label="Favorites" */}
+      {/*   link="/" */}
+      {/*   closeDrawer={closeDrawer} */}
+      {/* /> */}
       <SidebarSoloLink
         icon={<IconListCheck size="1rem" />}
         color="teal"

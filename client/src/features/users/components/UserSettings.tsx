@@ -92,7 +92,7 @@ export function UserSettings() {
             id: 'load-data',
             color: 'teal',
             title: 'Profile successfully synced',
-            message: 'Notification will close in 2 seconds, you can close it now',
+            message: '',
             icon: <IconCheck size="1rem" />,
             autoClose: 2000,
           });

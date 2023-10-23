@@ -47,7 +47,9 @@ export function SingleDayMealPlan({
   // TODO: error handling
   const handleGeneration = async () => {
     try {
-      const meals = await generateMeals({ date: currentDate.toISO()! }).unwrap();
+      const mealDateToIso = currentDate.toISO();
+      if (!mealDateToIso) return;
+      const meals = await generateMeals({ date: mealDateToIso }).unwrap();
       dispatch(setMeals(meals));
     } catch (error: unknown) {
       // TODO: add notification here
