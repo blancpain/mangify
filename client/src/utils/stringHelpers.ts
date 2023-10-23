@@ -9,13 +9,11 @@ export function capitalizeFirstLetterOfString(str: string): string {
 // NOTE: finds the first value that matches the array of strings - any meal should have
 // at least one of these values since we specifically requested them from the API
 export function extractSingleMealType(arr: string[]): string {
-  const mealType = arr.find((str) =>
-    ['Breakfast', 'Snack', 'Main course'].some((value) => str.includes(value)),
-  );
+  const mealType = arr.find((str) => ['Breakfast', 'Snack'].some((value) => str.includes(value)));
   if (mealType) {
     return mealType;
   }
-  return '';
+  return 'Main course';
 }
 
 // NOTE: some meal titles are all capital letters and we need to normalize them

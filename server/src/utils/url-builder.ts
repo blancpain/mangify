@@ -10,18 +10,17 @@ export type TBuildURL = {
   fats: number | null;
 };
 
-// TODO: explain to users that calory and macro tartgets are approximations and that they can always increase/reduce dosage
-// to meet the specific target...
-
 // NOTE: breakfasts and snacks have much lower calories so we can't set calory or macro targets there
 export const buildURL = (args: TBuildURL): string => {
-  const caloriesTarget: number | null = args.calories
-    ? Number(args.calories / args.numberOfMeals)
-    : null;
-  // NOTE: calories float is set as +100 and -400 (this is arbitrary at the moment but seems to produce steady results)
+  // NOTE: using calory/macro targets does not produce very accurate results using the current API so we will let the user regenerate the meal(s) if they don't like them
+  // we still show they targets and the meal data for informational purposes
+
+  // const caloriesTarget: number | null = args.calories
+  //   ? Number(args.calories / args.numberOfMeals)
+  //   : null;
   // there aren't enough meals to also filter by macros at the moment
-  const minCalories = caloriesTarget ? caloriesTarget - 300 : null;
-  const maxCalories = caloriesTarget ? caloriesTarget + 100 : null;
+  // const minCalories = caloriesTarget ? caloriesTarget - 300 : null;
+  // const maxCalories = caloriesTarget ? caloriesTarget + 100 : null;
 
   if (args.mealType === 'breakfast' || args.mealType === 'snack') {
     return `https://api.spoonacular.com/recipes/complexSearch?apiKey=${
@@ -32,11 +31,13 @@ export const buildURL = (args: TBuildURL): string => {
       args.cuisine
     }&type=${args.mealType}`;
   }
+  // NOTE: we introduce minCalories for the main courses to make sure we are actually getting main courses and not small snacks/meals
+  // we also set maxCalories to ensure we aren't getting back meals that are overly calory dense
   return `https://api.spoonacular.com/recipes/complexSearch?apiKey=${
     process.env.API_KEY
   }&instructionsRequired=true&addRecipeInformation=true&addRecipeNutrition=true&fillIngredients=true&sort=random&number=${
     args.numberOfMeals
   }&diet=${args.diet?.toLowerCase()}&intolerances=${args.intolerances}&cuisine=${
     args.cuisine
-  }&minCalories=${minCalories}&maxCalories=${maxCalories}&type=${args.mealType}`;
+  }&minCalories=600&maxCalories=1000`;
 };
