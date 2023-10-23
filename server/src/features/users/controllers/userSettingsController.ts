@@ -16,50 +16,62 @@ import {
 } from '@shared/types';
 import { NextFunction, Request, Response } from 'express';
 import { userSettingsService } from '../services/userSettingsService';
-import { processUpdate } from '@/utils';
+import { processUserSettingsUpdate } from '@/utils';
 
 const updateSex = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await processUpdate(req, res, next, SexSchema, userSettingsService.updateSex);
+  await processUserSettingsUpdate(req, res, next, SexSchema, userSettingsService.updateSex);
 };
 
 const updateGoal = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await processUpdate(req, res, next, GoalSchema, userSettingsService.updateGoal);
+  await processUserSettingsUpdate(req, res, next, GoalSchema, userSettingsService.updateGoal);
 };
 
 const updateActivity = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await processUpdate(req, res, next, ActivitySchema, userSettingsService.updateActivity);
+  await processUserSettingsUpdate(
+    req,
+    res,
+    next,
+    ActivitySchema,
+    userSettingsService.updateActivity,
+  );
 };
 
 const updateAge = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await processUpdate(req, res, next, AgeSchema, userSettingsService.updateAge);
+  await processUserSettingsUpdate(req, res, next, AgeSchema, userSettingsService.updateAge);
 };
 
 const updateHeight = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await processUpdate(req, res, next, HeightSchema, userSettingsService.updateHeight);
+  await processUserSettingsUpdate(req, res, next, HeightSchema, userSettingsService.updateHeight);
 };
 
 const updateWeight = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await processUpdate(req, res, next, WeightSchema, userSettingsService.updateWeight);
+  await processUserSettingsUpdate(req, res, next, WeightSchema, userSettingsService.updateWeight);
 };
 
 const updateCalories = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await processUpdate(req, res, next, CaloriesSchema, userSettingsService.updateCalories);
+  await processUserSettingsUpdate(
+    req,
+    res,
+    next,
+    CaloriesSchema,
+    userSettingsService.updateCalories,
+  );
 };
 
 const updateProtein = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await processUpdate(req, res, next, ProteinSchema, userSettingsService.updateProtein);
+  await processUserSettingsUpdate(req, res, next, ProteinSchema, userSettingsService.updateProtein);
 };
 
 const updateCarbs = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await processUpdate(req, res, next, CarbsSchema, userSettingsService.updateCarbs);
+  await processUserSettingsUpdate(req, res, next, CarbsSchema, userSettingsService.updateCarbs);
 };
 
 const updateFats = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await processUpdate(req, res, next, FatsSchema, userSettingsService.updateFats);
+  await processUserSettingsUpdate(req, res, next, FatsSchema, userSettingsService.updateFats);
 };
 
 const updateDiet = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await processUpdate(req, res, next, DietSchema, userSettingsService.updateDiet);
+  await processUserSettingsUpdate(req, res, next, DietSchema, userSettingsService.updateDiet);
 };
 
 const updateNumberOfMeals = async (
@@ -67,11 +79,23 @@ const updateNumberOfMeals = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  await processUpdate(req, res, next, NumberOfMealsSchema, userSettingsService.updateNumberOfMeals);
+  await processUserSettingsUpdate(
+    req,
+    res,
+    next,
+    NumberOfMealsSchema,
+    userSettingsService.updateNumberOfMeals,
+  );
 };
 
 const updateCuisines = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  await processUpdate(req, res, next, CuisinesSchema, userSettingsService.updateCuisines);
+  await processUserSettingsUpdate(
+    req,
+    res,
+    next,
+    CuisinesSchema,
+    userSettingsService.updateCuisines,
+  );
 };
 
 const updateIntolerances = async (
@@ -79,7 +103,13 @@ const updateIntolerances = async (
   res: Response,
   next: NextFunction,
 ): Promise<void> => {
-  await processUpdate(req, res, next, IntolerancesSchema, userSettingsService.updateIntolerances);
+  await processUserSettingsUpdate(
+    req,
+    res,
+    next,
+    IntolerancesSchema,
+    userSettingsService.updateIntolerances,
+  );
 };
 
 export const userSettingsController = {
