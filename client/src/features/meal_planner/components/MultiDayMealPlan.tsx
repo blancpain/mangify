@@ -1,9 +1,13 @@
 import { max, min } from 'date-fns';
+import { DateTime } from 'luxon';
 import { nanoid } from '@reduxjs/toolkit';
 import { motion } from 'framer-motion';
 import { Box, Title, SimpleGrid, Space, Flex, ActionIcon, Center } from '@mantine/core';
-import { IconClick, IconReload, IconSalad } from '@tabler/icons-react';
-import { useGenerateMultiDayMealPlanMutation } from '@/features/api';
+import { IconEye, IconReload, IconSalad } from '@tabler/icons-react';
+import {
+  useGenerateMultiDayMealPlanMutation,
+  useGenerateSingleDayMealPlanMutation,
+} from '@/features/api';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { selectUser, setMeals, setSingleDayDate, setCalendar } from '@/stores';
 import { Meal } from './Meal';
@@ -21,6 +25,7 @@ type MultiDayMealPlanProps = {
 
 export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
   const [generateMeals] = useGenerateMultiDayMealPlanMutation();
+  const [generateSingleDayMeals] = useGenerateSingleDayMealPlanMutation();
   const dispatch = useAppDispatch();
   const { meals: userMeals } = useAppSelector(selectUser);
 
@@ -63,6 +68,19 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
         weekStart: convertedStartOfWeek,
         weekEnd: convertedEndOfWeek,
       }).unwrap();
+      dispatch(setMeals(meals));
+    } catch (error: unknown) {
+      console.log(error);
+    }
+  };
+
+  const singleDayMealsGeneration = async (e: React.MouseEvent) => {
+    const mealDate = e.currentTarget.getAttribute('data-meal-date');
+    if (!mealDate) return;
+    try {
+      const convertedMealDate = DateTime.fromISO(mealDate).toISO();
+      if (!convertedMealDate) return;
+      const meals = await generateSingleDayMeals({ date: convertedMealDate }).unwrap();
       dispatch(setMeals(meals));
     } catch (error: unknown) {
       console.log(error);
@@ -125,7 +143,14 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
         </Center>
       )}
       <Flex sx={{ justifyContent: 'space-between' }} mt="auto" id={obj.date.toISOString()}>
-        <ActionIcon variant="subtle" color="teal" radius="xl">
+        <ActionIcon
+          variant="subtle"
+          color="teal"
+          radius="xl"
+          component="button"
+          data-meal-date={obj.date.toISOString()}
+          onClick={singleDayMealsGeneration}
+        >
           <IconReload />
         </ActionIcon>
         <ActionIcon
@@ -135,7 +160,7 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
           id={obj.date.toISOString()}
           onClick={(e) => goToMeal(e)}
         >
-          <IconClick />
+          <IconEye />
         </ActionIcon>
       </Flex>
     </Box>
