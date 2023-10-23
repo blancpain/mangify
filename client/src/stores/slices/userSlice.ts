@@ -20,6 +20,7 @@ const initialState: FullUserForClient = {
     intolerances: [],
     favorite_cuisines: [],
     meals_per_day: 3,
+    // WARN: favorite recipes not in use yet
     favorite_recipes: [],
     calories: null,
     protein: null,

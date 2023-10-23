@@ -1,6 +1,7 @@
 import { MealRecipe } from '@shared/types';
 import { isEqual, startOfDay } from 'date-fns';
-import { TUserMeals, isNumber } from './helpers';
+import { isNumber } from './helpers';
+import { TUserMeals } from './db';
 
 // NOTE: with the below function we can generate a date array for the maxium period as required
 export const generateWeekDateArray = (startDate: Date, stopDate: Date): Date[] => {

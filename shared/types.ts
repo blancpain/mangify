@@ -144,16 +144,27 @@ export type TCarbsSchema = z.infer<typeof CarbsSchema>;
 // date types for meal generation
 
 // NOTE: we use string here and pass a luxon ISO string to the server to avoid issues with timezones and z.coerce
-export const SingleMealDateSchema = z.object({
+export const SingleDayMealDateSchema = z.object({
   date: z.string(),
 });
-export type TSingleMealDate = z.infer<typeof SingleMealDateSchema>;
+export type TSingleDayMealDate = z.infer<typeof SingleDayMealDateSchema>;
 
 export const MultiMealDateSchema = z.object({
   weekStart: z.coerce.date(),
   weekEnd: z.coerce.date(),
 });
 export type TMultiMealDate = z.infer<typeof MultiMealDateSchema>;
+
+// schema and type for one meal regeneration
+
+export const OneMealRegenerationSchema = z.object({
+  date: z.string(),
+  uniqueIdentifier: z.string(),
+  mealType: z.string(),
+});
+export type TOneMealRegenerationSchema = z.infer<
+  typeof OneMealRegenerationSchema
+>;
 
 /* Zod types */
 

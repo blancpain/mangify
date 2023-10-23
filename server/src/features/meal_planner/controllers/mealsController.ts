@@ -1,5 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
-import { MultiMealDateSchema, SingleMealDateSchema } from '@shared/types';
+import {
+  MultiMealDateSchema,
+  OneMealRegenerationSchema,
+  SingleDayMealDateSchema,
+} from '@shared/types';
 import { mealGeneratorService } from '../services/mealsServices';
 
 const generateMultiDayMealPlan = async (
@@ -34,7 +38,6 @@ const generateMultiDayMealPlan = async (
   }
 };
 
-// TODO: fix the issue with zod parsing, it's changing the date...
 const generateSingleDayMealPlan = async (
   req: Request,
   res: Response,
@@ -47,7 +50,7 @@ const generateSingleDayMealPlan = async (
   }
   // eslint-disable-next-line prefer-destructuring
   const body: unknown = req.body;
-  const result = SingleMealDateSchema.safeParse(body);
+  const result = SingleDayMealDateSchema.safeParse(body);
   let zodErrors = {};
 
   if (!result.success) {
@@ -58,6 +61,37 @@ const generateSingleDayMealPlan = async (
     res.status(400).json({ errors: zodErrors });
   } else {
     const data = await mealGeneratorService.generateSingleDayMealPlan(user.id, result.data);
+    if (data) {
+      res.json(data);
+    } else {
+      res.status(502).json({ errors: 'Issue connecting to external service' });
+    }
+  }
+};
+
+const regenerateOneMeal = async (
+  req: Request,
+  res: Response,
+  _next: NextFunction,
+): Promise<void> => {
+  const { user } = req.session;
+  if (!user || !user.id) {
+    res.status(401).json({ errors: 'Unauthorized' });
+    return;
+  }
+  // eslint-disable-next-line prefer-destructuring
+  const body: unknown = req.body;
+  const result = OneMealRegenerationSchema.safeParse(body);
+  let zodErrors = {};
+
+  if (!result.success) {
+    req.session.destroy(() => {});
+    result.error.issues.forEach((issue) => {
+      zodErrors = { ...zodErrors, [issue.path[0]]: issue.message };
+    });
+    res.status(400).json({ errors: zodErrors });
+  } else {
+    const data = await mealGeneratorService.regenerateOneMeal(user.id, result.data);
     if (data) {
       res.json(data);
     } else {
@@ -83,6 +117,7 @@ const refreshMeals = async (req: Request, res: Response, _next: NextFunction): P
   }
 };
 
+// WARN: the two controllers below are not currently in use, saved for a later release
 const saveMeal = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
   const { user } = req.session;
 
@@ -91,7 +126,7 @@ const saveMeal = async (req: Request, res: Response, _next: NextFunction): Promi
     return;
   }
 
-  // TODO: change below to a query param as currently hardcoded
+  // NOTE: change below to a query param as currently hardcoded
   const data = await mealGeneratorService.saveMeal(user.id, 661250);
 
   if (data) {
@@ -126,6 +161,7 @@ export const mealsController = {
   generateMultiDayMealPlan,
   generateSingleDayMealPlan,
   refreshMeals,
+  regenerateOneMeal,
   getFavoriteMeals,
   saveMeal,
 };

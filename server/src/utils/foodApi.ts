@@ -6,9 +6,10 @@ import {
 } from '@shared/types';
 import { nanoid } from 'nanoid';
 import axios from 'axios';
-import { TUserMeals, getUserMeals, syncMealsWithDb } from './db';
+import { TUserMeals, getUserMeals, syncMealsWithDb, syncMealsWithDbForRefresh } from './db';
 import { TBuildURL, buildURL } from './url-builder';
 import { cacheMealData, redisClient } from './redis';
+import { lowerCaseFirstLetter } from './strings';
 
 // NOTE: we use a unique identifier for the meals (nanoid) that we update on new meal gen or on refresh
 // to ensure that the client and server and in sync and to ensure we can target a meal correctly for update/deletion
@@ -149,6 +150,41 @@ export const fetchMeals = async (URL: string, mealDate: Date): Promise<MealRecip
   return transformedData || null;
 };
 
+export const generateOneMeal = async (
+  userProfile: FullUserProfile,
+  date: Date,
+  mealType: string,
+): Promise<MealRecipe[] | null> => {
+  const {
+    diet,
+    fats,
+    carbs,
+    protein,
+    calories,
+    intolerances,
+    favorite_cuisines: favoriteCuisines,
+  } = userProfile;
+
+  const mealUrlDetails: TBuildURL = {
+    // NOTE: we run the helper string func because meal type on the client is capitalized
+    mealType: lowerCaseFirstLetter(mealType),
+    numberOfMeals: 1,
+    diet,
+    intolerances,
+    cuisine: favoriteCuisines,
+    calories,
+    protein,
+    carbs,
+    fats,
+  };
+  const mealUrl = buildURL(mealUrlDetails);
+
+  const meal = await fetchMeals(mealUrl, date);
+  if (!meal) return null;
+  await syncMealsWithDb(meal, userProfile.id, date);
+  return meal;
+};
+
 export const generateMeals = async (
   userProfile: FullUserProfile,
   date: Date,
@@ -276,7 +312,7 @@ export const generateMeals = async (
   return null;
 };
 
-// helper to fetch from cache or API
+// helper to fetch from cache or API - used for single and multi-meal plan (re)generations
 export const getMealsFromCacheOrAPI = async (
   userProfileId: string,
 ): Promise<MealRecipe[] | null> => {
@@ -299,9 +335,52 @@ export const getMealsFromCacheOrAPI = async (
   );
 
   const transformedData = transformMealDataForRefresh(data, userMeals);
+  if (!transformedData) return null;
+
+  // NOTE: we update the unique identifier for the meals that are already in the db to ensure sync across client and server
+  // and to enable us to target the meal later
+  // we do this because after 1 hour we lose our cache and since we introduce the unique identifier when we transform the data
+  // we can't use the old identifier to target the meal
+  await syncMealsWithDbForRefresh(transformedData, userProfileId);
+
   // NOTE: since redis caching is normally triggered when we fetch meals
   // we need to add the below in the cases where we haven't regenerated but are within the 1 hour cache window
   // and don't want to re-fetch again on refresh
+  if (transformedData) await cacheMealData(userProfileId, transformedData);
+
+  return transformedData;
+};
+
+// NOTE: helper to fetch from cache or API - used for one-meal regeneration - we have different versions in order to still be able to use
+// the cache and only exclude the meal that is being regenerated (instead of having to re-fetch all meals from the API)
+export const getMealsFromCacheOrAPIForOneMealRegeneration = async (
+  userProfileId: string,
+  uniqueIdentifierOfMealToBeRemoved: string,
+): Promise<MealRecipe[] | null> => {
+  const cachedMeals: string | null = await redisClient.get(userProfileId);
+
+  if (cachedMeals) {
+    const parsedCachedMeals = JSON.parse(cachedMeals) as MealRecipe[];
+    return parsedCachedMeals.filter(
+      (meal) => meal.uniqueIdentifier !== uniqueIdentifierOfMealToBeRemoved,
+    );
+  }
+
+  const userMeals = await getUserMeals(userProfileId);
+
+  if (!userMeals || (userMeals && userMeals.meals.length === 0)) return null;
+
+  const { data } = await axios.get<TRefreshMealSchema[]>(
+    `https://api.spoonacular.com/recipes/informationBulk?apiKey=${
+      process.env.API_KEY
+    }&ids=${userMeals.meals.map((meal) => meal.recipe_external_id)}&includeNutrition=true`,
+  );
+
+  const transformedData = transformMealDataForRefresh(data, userMeals);
+  if (!transformedData) return null;
+
+  await syncMealsWithDbForRefresh(transformedData, userProfileId);
+
   if (transformedData) await cacheMealData(userProfileId, transformedData);
 
   return transformedData;

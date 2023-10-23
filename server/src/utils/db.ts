@@ -116,6 +116,7 @@ export const syncMealsWithDb = async (
                 data: {
                   active: true,
                   day: mealDate,
+                  unique_identifier: meal.uniqueIdentifier,
                 },
               },
               connect: {
@@ -151,6 +152,7 @@ export const syncMealsWithDb = async (
           data: {
             day: mealDate,
             active: true,
+            unique_identifier: meal.uniqueIdentifier,
             profileId: userId,
             recipe_external_id: meal.id,
             ingredients: {
@@ -172,6 +174,33 @@ export const syncMealsWithDb = async (
           },
         });
       }
+    }),
+  );
+};
+
+export const syncMealsWithDbForRefresh = async (
+  transformedMealData: MealRecipe[],
+  userId: string,
+) => {
+  await Promise.all(
+    transformedMealData.map(async (meal) => {
+      await prisma.profile.update({
+        where: {
+          id: userId,
+        },
+        data: {
+          meals: {
+            update: {
+              where: {
+                recipe_external_id: meal.id!,
+              },
+              data: {
+                unique_identifier: meal.uniqueIdentifier,
+              },
+            },
+          },
+        },
+      });
     }),
   );
 };
@@ -222,6 +251,26 @@ export const dbDeactivateAllSingleDay = async (mealDate: Date, userProfileId: st
               lte: endDate,
               gte: startDate,
             },
+          },
+          data: {
+            active: false,
+          },
+        },
+      },
+    },
+  });
+};
+
+export const dbDeactivateOneMeal = async (uniqueIdentifier: string, userProfileId: string) => {
+  await prisma.profile.update({
+    where: {
+      id: userProfileId,
+    },
+    data: {
+      meals: {
+        update: {
+          where: {
+            unique_identifier: uniqueIdentifier,
           },
           data: {
             active: false,

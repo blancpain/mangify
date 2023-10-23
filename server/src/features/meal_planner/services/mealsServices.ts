@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { MealRecipe, TRefreshMealSchema, TSingleMealDate, TMultiMealDate } from '@shared/types';
+import {
+  MealRecipe,
+  TRefreshMealSchema,
+  TSingleDayMealDate,
+  TMultiMealDate,
+  TOneMealRegenerationSchema,
+} from '@shared/types';
 import {
   prisma,
   extractUserProfileId,
@@ -15,6 +21,9 @@ import {
   cacheMealData,
   isNotTheSameDate,
   createDateFromISODate,
+  dbDeactivateOneMeal,
+  generateOneMeal,
+  getMealsFromCacheOrAPIForOneMealRegeneration,
 } from '@/utils';
 
 // NOTE: we use this helper function to add a delay between API calls
@@ -76,7 +85,7 @@ const generateMultiDayMealPlan = async (
 
 const generateSingleDayMealPlan = async (
   id: string,
-  date: TSingleMealDate,
+  date: TSingleDayMealDate,
 ): Promise<MealRecipe[] | null> => {
   const userProfile = await extractUserProfile(id);
   const { date: currentDate } = date;
@@ -91,7 +100,7 @@ const generateSingleDayMealPlan = async (
   if (!extractedDate) return null;
 
   // HACK: we deactivate all meals for the current date and then
-  // fetch all of the user's meals (if any) and filter out the ones that are not for the current date
+  // fetch all of the active user's meals (if any) and filter out the ones that are not for the current date
   // we then generate the new meals and
   // finally we merge the existing meals with the new ones and cache them
   // if no meals exist we simply generate new ones and cache them
@@ -112,6 +121,41 @@ const generateSingleDayMealPlan = async (
   if (!meals) return null;
   await cacheMealData(userProfile.id, meals);
   return meals;
+};
+
+const regenerateOneMeal = async (
+  id: string,
+  data: TOneMealRegenerationSchema,
+): Promise<MealRecipe[] | null> => {
+  const userProfile = await extractUserProfile(id);
+  const { date, mealType, uniqueIdentifier } = data;
+
+  if (!userProfile) {
+    return null;
+  }
+
+  const extractedDate = createDateFromISODate(date);
+  if (!extractedDate) return null;
+
+  // HACK: 1) we deativate the meal targeting it with its unique identifier
+  // 2) we fetch all of the active user's meals (if any) - if there are meals in the cache we return that (and unique identifiers remain the same)
+  // if there are no meals in the cache we generate new ones and cache them (unique identifiers are re-generated)
+  // 3) we generate a single meal for the given date and add to all meals before caching and returning
+  // NOTE: if allUserMeals is empty there is likely an issue hence we return null (we can't have just a lone meal for any given date, it is always part of a meal plan)
+  await dbDeactivateOneMeal(uniqueIdentifier, userProfile.id);
+  const allUserMeals = await getMealsFromCacheOrAPIForOneMealRegeneration(
+    userProfile.id,
+    uniqueIdentifier,
+  );
+
+  if (allUserMeals) {
+    const newMeal = await generateOneMeal(userProfile, extractedDate, mealType);
+    if (!newMeal) return null;
+    const finalMealList = [...allUserMeals, ...newMeal];
+    await cacheMealData(userProfile.id, finalMealList);
+    return finalMealList;
+  }
+  return null;
 };
 
 const refreshMeals = async (id: string): Promise<MealRecipe[] | null> => {
@@ -178,6 +222,7 @@ export const mealGeneratorService = {
   generateMultiDayMealPlan,
   generateSingleDayMealPlan,
   refreshMeals,
+  regenerateOneMeal,
   saveMeal,
   getFavoriteMeals,
 };

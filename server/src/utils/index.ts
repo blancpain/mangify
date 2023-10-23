@@ -6,3 +6,4 @@ export * from './url-builder';
 export * from './dates';
 export * from './foodApi';
 export * from './db';
+export * from './strings';
