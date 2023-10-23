@@ -6,7 +6,7 @@ import {
 } from '@shared/types';
 import { nanoid } from 'nanoid';
 import axios from 'axios';
-import { TUserMeals, getUserMeals, syncMealsWithDb, syncMealsWithDbForRefresh } from './db';
+import { TUserMeals, getUserMeals, syncMealsWithDb } from './db';
 import { TBuildURL, buildURL } from './url-builder';
 import { cacheMealData, redisClient } from './redis';
 import { lowerCaseFirstLetter } from './strings';
@@ -181,7 +181,6 @@ export const generateOneMeal = async (
 
   const meal = await fetchMeals(mealUrl, date);
   if (!meal) return null;
-  await syncMealsWithDb(meal, userProfile.id, date);
   return meal;
 };
 
@@ -218,7 +217,6 @@ export const generateMeals = async (
       const mainCourses = await fetchMeals(mainCoursesUrl, date);
       if (!mainCourses) return null;
       const allMeals = [...mainCourses];
-      await syncMealsWithDb(allMeals, userProfile.id, date);
       return allMeals;
     }
 
@@ -252,7 +250,6 @@ export const generateMeals = async (
       const breakfast = await fetchMeals(breakfastUrl, date);
       if (!mainCourses || !breakfast) return null;
       const allMeals = [...mainCourses, ...breakfast];
-      await syncMealsWithDb(allMeals, userProfile.id, date);
 
       return allMeals;
     }
@@ -302,7 +299,6 @@ export const generateMeals = async (
       const snack = await fetchMeals(snackUrl, date);
       if (!mainCourses || !breakfast || !snack) return null;
       const allMeals = [...mainCourses, ...breakfast, ...snack];
-      await syncMealsWithDb(allMeals, userProfile.id, date);
       return allMeals;
     }
 
@@ -337,11 +333,10 @@ export const getMealsFromCacheOrAPI = async (
   const transformedData = transformMealDataForRefresh(data, userMeals);
   if (!transformedData) return null;
 
-  // NOTE: we update the unique identifier for the meals that are already in the db to ensure sync across client and server
-  // and to enable us to target the meal later
+  // NOTE: we sync the DB with the new unique identifiers for the meals
   // we do this because after 1 hour we lose our cache and since we introduce the unique identifier when we transform the data
   // we can't use the old identifier to target the meal
-  await syncMealsWithDbForRefresh(transformedData, userProfileId);
+  await syncMealsWithDb(transformedData, userProfileId);
 
   // NOTE: since redis caching is normally triggered when we fetch meals
   // we need to add the below in the cases where we haven't regenerated but are within the 1 hour cache window
@@ -379,7 +374,7 @@ export const getMealsFromCacheOrAPIForOneMealRegeneration = async (
   const transformedData = transformMealDataForRefresh(data, userMeals);
   if (!transformedData) return null;
 
-  await syncMealsWithDbForRefresh(transformedData, userProfileId);
+  await syncMealsWithDb(transformedData, userProfileId);
 
   if (transformedData) await cacheMealData(userProfileId, transformedData);
 

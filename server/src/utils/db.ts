@@ -4,24 +4,24 @@ import { prisma } from './postgres';
 import { isNumber } from './helpers';
 
 // this is the UserMeal type but we need to spread it out for the function to work as overlaps on utility types not allowed
-export const findMeal = async (
-  mealId: number,
-): Promise<{
-  id: string;
-  recipe_external_id: number | null;
-  active: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  profileId: string;
-} | null> => {
-  const meal = await prisma.meal.findUnique({
-    where: {
-      recipe_external_id: mealId,
-    },
-  });
-  if (!meal) return null;
-  return meal;
-};
+// export const findMeal = async (
+//   mealUniqueIdentifier: string,
+// ): Promise<{
+//   id: string;
+//   recipe_external_id: number | null;
+//   active: boolean;
+//   createdAt: Date;
+//   updatedAt: Date;
+//   profileId: string;
+// } | null> => {
+//   const meal = await prisma.meal.findUnique({
+//     where: {
+//       unique_identifier: mealUniqueIdentifier,
+//     },
+//   });
+//   if (!meal) return null;
+//   return meal;
+// };
 
 export const extractUserProfileId = async (userId: string): Promise<string | null> => {
   const userProfileId = await prisma.profile.findUnique({
@@ -84,119 +84,61 @@ export const getUserMeals = async (id: string) => {
 
 export type TUserMeals = Prisma.PromiseReturnType<typeof getUserMeals>;
 
-export const syncMealsWithDb = async (
-  transformedMealData: MealRecipe[],
-  userId: string,
-  mealDate: Date,
-) => {
+export const syncMealsWithDb = async (transformedMealData: MealRecipe[], userId: string) => {
+  // NOTE: 1) we clear all user meals, 2) we create all the new meals for the given date with their unique identifiers
+  // and 3) we connect the meals to the user profile
+
+  await prisma.meal.deleteMany({
+    where: {
+      profileId: userId,
+    },
+  });
+
   await Promise.all(
     transformedMealData.map(async (meal) => {
-      // HACK:
-      // - 1) check if a meal already exists - if it does just connect to the user profile
-      // - 2) if it doesn't exist - we first extract all ingredients, removing duplicates
-      // - 3) then create the ingredients that don't already exist in the ingredients table
-      // - 4) then we get all ingredients - ( created or existing ) that are part of this recipe and
-      // - 5) connect them to the meal
-      // - 6) we create the meal with the associated ingredients and connect it to the user profile
+      const allIngredients = [
+        ...new Set(
+          (meal.ingredients ?? []).map((ingredient) => ({
+            external_id: ingredient.id,
+          })),
+        ),
+      ];
 
-      const existingMeal = await findMeal(Number(meal.id));
+      await prisma.ingredients.createMany({
+        data: allIngredients,
+        skipDuplicates: true,
+      });
 
-      if (existingMeal) {
-        await prisma.profile.update({
-          where: {
-            id: userId,
+      const createdIngredients = await prisma.ingredients.findMany({
+        where: {
+          external_id: {
+            in: allIngredients.map((ingredient) => ingredient.external_id).filter(isNumber),
           },
-          data: {
-            meals: {
-              update: {
-                where: {
-                  // TODO: check if below non-null assertion is OK?
-                  recipe_external_id: existingMeal.recipe_external_id!,
-                },
-                data: {
-                  active: true,
-                  day: mealDate,
-                  unique_identifier: meal.uniqueIdentifier,
-                },
-              },
-              connect: {
-                id: existingMeal.id,
-              },
-            },
-          },
-        });
-      } else {
-        const allIngredients = [
-          ...new Set(
-            (meal.ingredients ?? []).map((ingredient) => ({
-              external_id: ingredient.id,
-            })),
-          ),
-        ];
+        },
+        select: { id: true },
+      });
 
-        await prisma.ingredients.createMany({
-          data: allIngredients,
-          skipDuplicates: true,
-        });
-
-        const createdIngredients = await prisma.ingredients.findMany({
-          where: {
-            external_id: {
-              in: allIngredients.map((ingredient) => ingredient.external_id).filter(isNumber),
-            },
+      const createdMeal = await prisma.meal.create({
+        data: {
+          day: meal.date,
+          active: true,
+          unique_identifier: meal.uniqueIdentifier,
+          profileId: userId,
+          recipe_external_id: meal.id,
+          ingredients: {
+            connect: createdIngredients,
           },
-          select: { id: true },
-        });
+        },
+      });
 
-        const createdMeal = await prisma.meal.create({
-          data: {
-            day: mealDate,
-            active: true,
-            unique_identifier: meal.uniqueIdentifier,
-            profileId: userId,
-            recipe_external_id: meal.id,
-            ingredients: {
-              connect: createdIngredients,
-            },
-          },
-        });
-
-        await prisma.profile.update({
-          where: {
-            id: userId,
-          },
-          data: {
-            meals: {
-              connect: {
-                id: createdMeal.id,
-              },
-            },
-          },
-        });
-      }
-    }),
-  );
-};
-
-export const syncMealsWithDbForRefresh = async (
-  transformedMealData: MealRecipe[],
-  userId: string,
-) => {
-  await Promise.all(
-    transformedMealData.map(async (meal) => {
       await prisma.profile.update({
         where: {
           id: userId,
         },
         data: {
           meals: {
-            update: {
-              where: {
-                recipe_external_id: meal.id!,
-              },
-              data: {
-                unique_identifier: meal.uniqueIdentifier,
-              },
+            connect: {
+              id: createdMeal.id,
             },
           },
         },
@@ -204,6 +146,39 @@ export const syncMealsWithDbForRefresh = async (
     }),
   );
 };
+
+// export const syncMealsWithDbForRefresh = async (
+//   transformedMealData: MealRecipe[],
+//   userId: string,
+// ) => {
+//   await prisma.meal.deleteMany({
+//     where: {
+//       profileId: userId,
+//     },
+//   });
+//
+//   await Promise.all(
+//     transformedMealData.map(async (meal) => {
+//       await prisma.profile.update({
+//         where: {
+//           id: userId,
+//         },
+//         data: {
+//           meals: {
+//             update: {
+//               where: {
+//                 recipe_external_id: meal.id!,
+//               },
+//               data: {
+//                 unique_identifier: meal.uniqueIdentifier,
+//               },
+//             },
+//           },
+//         },
+//       });
+//     }),
+//   );
+// };
 
 // NOTE: deactivates all meals that are not part of the newly generated batch of meals
 export const dbDeativateAll = async (meals: MealRecipe[], userProfileId: string) => {
