@@ -1,11 +1,11 @@
 import { HashLink } from 'react-router-hash-link';
 import { createStyles, Overlay, Container, Title, Button, Text, rem } from '@mantine/core';
-import heroBg from '../../../assets/hero-bg.jpg';
+import { heroBG } from '@/assets';
 
 const useStyles = createStyles((theme) => ({
   hero: {
     position: 'relative',
-    backgroundImage: `url(${heroBg})`,
+    backgroundImage: `url(${heroBG})`,
     backgroundAttachment: 'fixed',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',

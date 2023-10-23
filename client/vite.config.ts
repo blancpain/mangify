@@ -7,4 +7,13 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
+  server: {
+    watch: {
+      usePolling: true,
+    },
+    hmr: true,
+    host: true,
+    strictPort: true,
+    port: 5173,
+  },
 });

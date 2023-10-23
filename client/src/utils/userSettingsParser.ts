@@ -1,22 +1,40 @@
-import { UserSettings, UserSettingsComplete } from '@/types';
+import { UserProfileForClient, NonNullableUserProfileForClient } from '@shared/types';
 
-export const parseUserSettings = (settings: UserSettings): UserSettingsComplete | null => {
+export const validateUserSettings = (
+  profile: UserProfileForClient,
+): NonNullableUserProfileForClient | null => {
   if (
-    typeof settings.sex !== 'undefined' &&
-    typeof settings.age !== 'undefined' &&
-    typeof settings.weight !== 'undefined' &&
-    typeof settings.height !== 'undefined' &&
-    typeof settings.activity !== 'undefined' &&
-    typeof settings.goal !== 'undefined'
+    profile.age &&
+    profile.sex &&
+    profile.diet &&
+    profile.height &&
+    profile.weight &&
+    profile.activity_level &&
+    profile.goal
   ) {
     return {
-      age: settings.age,
-      activity: settings.activity,
-      goal: settings.goal,
-      height: settings.height,
-      weight: settings.weight,
-      sex: settings.sex,
+      age: profile.age,
+      activity_level: profile.activity_level,
+      goal: profile.goal,
+      height: profile.height,
+      weight: profile.weight,
+      sex: profile.sex,
     };
   }
   return null;
+};
+
+export const allUserSettingsProvided = (profile: UserProfileForClient): boolean => {
+  if (
+    profile.age &&
+    profile.sex &&
+    profile.diet &&
+    profile.height &&
+    profile.weight &&
+    profile.activity_level &&
+    profile.goal
+  ) {
+    return true;
+  }
+  return false;
 };

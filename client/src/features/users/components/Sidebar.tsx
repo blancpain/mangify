@@ -1,4 +1,10 @@
-import { IconCalendar, IconShoppingBag, IconHeart, IconChartPie2 } from '@tabler/icons-react';
+import {
+  IconCalendar,
+  IconChartPie2,
+  IconShoppingBag,
+  // IconHeart,
+  IconListCheck,
+} from '@tabler/icons-react';
 import { SidebarSoloLink } from './SidebarSoloLink';
 import { SideBarDropdownLink } from './SideBarDropdownLink';
 
@@ -6,6 +12,7 @@ type SideBarProps = {
   closeDrawer: () => void;
 };
 
+// NOTE: favorites for future release
 export function SideBar({ closeDrawer }: SideBarProps) {
   return (
     <div>
@@ -23,18 +30,25 @@ export function SideBar({ closeDrawer }: SideBarProps) {
         link="/"
         closeDrawer={closeDrawer}
       />
+      {/* <SidebarSoloLink */}
+      {/*   icon={<IconHeart size="1rem" />} */}
+      {/*   color="teal" */}
+      {/*   label="Favorites" */}
+      {/*   link="/" */}
+      {/*   closeDrawer={closeDrawer} */}
+      {/* /> */}
       <SidebarSoloLink
-        icon={<IconHeart size="1rem" />}
+        icon={<IconListCheck size="1rem" />}
         color="teal"
-        label="Favorites"
-        link="/"
+        label="Diet Preferences"
+        link="/diet-preferences"
         closeDrawer={closeDrawer}
       />
       <SidebarSoloLink
         icon={<IconChartPie2 size="1rem" />}
         color="teal"
-        label="Diet & Nutrition Preferences"
-        link="/nutrition-preferences"
+        label="Nutrition Profile"
+        link="/nutrition-profile"
         closeDrawer={closeDrawer}
       />
       <SideBarDropdownLink closeDrawer={closeDrawer} />

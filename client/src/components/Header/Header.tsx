@@ -90,10 +90,10 @@ export function HeaderMegaMenu() {
               Home
             </Text>
             <Text component={NavLink} to="/" className={classes.link}>
-              Features
+              Learn
             </Text>
             <Text component={NavLink} to="/" className={classes.link}>
-              Learn
+              About
             </Text>
           </Group>
           <Group className={classes.hiddenMobile}>
@@ -128,10 +128,10 @@ export function HeaderMegaMenu() {
             Home
           </Text>
           <Text component={NavLink} to="/" className={classes.link} onClick={closeDrawer}>
-            Features
+            Learn
           </Text>
           <Text component={NavLink} to="/" className={classes.link} onClick={closeDrawer}>
-            Learn
+            About
           </Text>
 
           <Divider my="sm" color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'} />

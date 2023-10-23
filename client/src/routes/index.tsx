@@ -9,11 +9,10 @@ import {
   DashboardLayout,
   MealPlannerRoute,
   MealSettingsRoute,
-  NutritionSettingsRoute,
+  DietPreferencesRoute,
   UserSettingsRoute,
+  NutritionProfileRoute,
 } from '@/routes/protected';
-
-//! for testing: lili@gmail.com / kotkata123456
 
 export function AppRoutes() {
   const { user, isLoading, isUninitialized } = useAuth();
@@ -36,12 +35,16 @@ export function AppRoutes() {
           path: 'meal-settings',
         },
         {
-          element: <NutritionSettingsRoute />,
-          path: 'nutrition-preferences',
+          element: <DietPreferencesRoute />,
+          path: 'diet-preferences',
         },
         {
           element: <UserSettingsRoute />,
           path: 'user-settings',
+        },
+        {
+          element: <NutritionProfileRoute />,
+          path: 'nutrition-profile',
         },
       ],
     },
@@ -68,7 +71,7 @@ export function AppRoutes() {
     },
   ]);
 
-  const routesToRender = user ? protectedRoutes : publicRoutes;
+  const routesToRender = user.name ? protectedRoutes : publicRoutes;
 
   return <RouterProvider router={routesToRender} />;
 }

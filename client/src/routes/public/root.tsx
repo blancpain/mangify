@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { HeaderMegaMenu } from '@/components/Header';
-import { Footer } from '@/components/Footer';
+import { HeaderMegaMenu, Footer } from '@/components';
 
 export function PublicRoot() {
   return (

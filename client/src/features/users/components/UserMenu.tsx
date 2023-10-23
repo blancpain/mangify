@@ -1,3 +1,4 @@
+import { notifications } from '@mantine/notifications';
 import { useNavigate } from 'react-router-dom';
 import { Menu, UnstyledButton, Group, Box, useMantineTheme, rem, Avatar } from '@mantine/core';
 import {
@@ -7,6 +8,7 @@ import {
   IconChevronRight,
   IconChevronLeft,
   IconUser,
+  IconCheck,
 } from '@tabler/icons-react';
 import { useAppSelector, useAppDispatch } from '@/hooks';
 import { selectUser, logout } from '@/stores';
@@ -15,7 +17,7 @@ import { useLogoutMutation } from '@/features/api';
 export function UserMenu() {
   const theme = useMantineTheme();
   const navigate = useNavigate();
-  const { name: userName } = useAppSelector(selectUser);
+  const { user } = useAppSelector(selectUser);
   const [processLogout] = useLogoutMutation();
   const dispatch = useAppDispatch();
 
@@ -23,6 +25,25 @@ export function UserMenu() {
     await processLogout();
     dispatch(logout());
     navigate('/', { replace: true });
+    notifications.show({
+      id: 'logout',
+      loading: true,
+      title: 'Goodbye!',
+      message: '',
+      autoClose: false,
+      withCloseButton: false,
+    });
+
+    setTimeout(() => {
+      notifications.update({
+        id: 'logout',
+        color: 'teal',
+        title: 'Logout successful ',
+        message: '',
+        icon: <IconCheck size="1rem" />,
+        autoClose: 1000,
+      });
+    }, 2000);
   };
 
   return (
@@ -54,7 +75,7 @@ export function UserMenu() {
               <Avatar color="green" radius="xl">
                 <IconUser size={rem(20)} />
               </Avatar>
-              <Box sx={{ flex: 1 }}>{userName}</Box>
+              <Box sx={{ flex: 1 }}>{user.name}</Box>
 
               {theme.dir === 'ltr' ? (
                 <IconChevronRight size={rem(20)} />

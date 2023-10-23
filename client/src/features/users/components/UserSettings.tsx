@@ -1,4 +1,8 @@
-import { Title, Select, Space, Flex, NumberInput, Group, Text, Button } from '@mantine/core';
+import { useEffect } from 'react';
+import { Title, Select, Space, Flex, NumberInput, Group, Text } from '@mantine/core';
+import { ActivityLevel, Sex, Goal } from '@shared/types';
+import { IconCheck } from '@tabler/icons-react';
+import { notifications } from '@mantine/notifications';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   setSex,
@@ -6,52 +10,140 @@ import {
   setHeight,
   setWeight,
   setAge,
-  setActivityLevel,
   setGoal,
-  setNutritionProfile,
+  setActivityLevel,
+  setCalories,
+  setProtein,
+  setFats,
+  setCarbs,
 } from '@/stores';
-import { ActivityLevel, Sex, Goal } from '@/types';
-import { isNumber, calculateDailyIntake, calculateMacros, parseUserSettings } from '@/utils';
+import {
+  isNumber,
+  calculateDailyIntake,
+  calculateMacros,
+  validateUserSettings,
+  allUserSettingsProvided,
+} from '@/utils';
+import {
+  useSetActivityLevelMutation,
+  useSetAgeMutation,
+  useSetGoalMutation,
+  useSetHeightMutation,
+  useSetSexMutation,
+  useSetWeightMutation,
+  useSetCaloriesMutation,
+  useSetProteinMutation,
+  useSetCarbsMutation,
+  useSetFatsMutation,
+} from '@/features/api';
 
 export function UserSettings() {
   const dispatch = useAppDispatch();
-  const { settings } = useAppSelector(selectUser);
+  const { profile } = useAppSelector(selectUser);
+  const [setUserAge] = useSetAgeMutation();
+  const [setUserSex] = useSetSexMutation();
+  const [setUserActivityLevel] = useSetActivityLevelMutation();
+  const [setUserGoal] = useSetGoalMutation();
+  const [setUserWeight] = useSetWeightMutation();
+  const [setUserHeight] = useSetHeightMutation();
+  const [setUserCalories] = useSetCaloriesMutation();
+  const [setUserProtein] = useSetProteinMutation();
+  const [setUserCarbs] = useSetCarbsMutation();
+  const [setUserFats] = useSetFatsMutation();
 
-  const handleHeightInput = (val: unknown) => {
+  // TODO: we should be showing a notificaiton to urge user to complete profile if settings are empty
+  // reword notif messages
+  useEffect(() => {
+    if (allUserSettingsProvided(profile)) {
+      // NOTE: update Nutrition Profile based on changed user settings and trigger notification
+      const updateNutritionProfileNotification = async () => {
+        const userNumbers = validateUserSettings(profile);
+
+        if (userNumbers) {
+          const totalCalories = calculateDailyIntake(userNumbers);
+          if (totalCalories) {
+            const userMacros = calculateMacros(userNumbers.weight, totalCalories);
+            const finalNutritionProfile = {
+              calories: Math.trunc(totalCalories),
+              macros: userMacros,
+            };
+            dispatch(setCalories(finalNutritionProfile.calories));
+            dispatch(setProtein(finalNutritionProfile.macros.protein));
+            dispatch(setCarbs(finalNutritionProfile.macros.carbs));
+            dispatch(setFats(finalNutritionProfile.macros.fats));
+            await setUserCalories({ calories: finalNutritionProfile.calories });
+            await setUserProtein({ protein: finalNutritionProfile.macros.protein });
+            await setUserCarbs({ carbs: finalNutritionProfile.macros.carbs });
+            await setUserFats({ fats: finalNutritionProfile.macros.fats });
+          }
+        }
+
+        notifications.show({
+          id: 'load-data',
+          loading: true,
+          title: 'Syncing your nutritinon profile',
+          message: 'Please wait',
+          autoClose: false,
+          withCloseButton: false,
+        });
+
+        setTimeout(() => {
+          notifications.update({
+            id: 'load-data',
+            color: 'teal',
+            title: 'Profile successfully synced',
+            message: '',
+            icon: <IconCheck size="1rem" />,
+            autoClose: 2000,
+          });
+        }, 3000);
+      };
+      updateNutritionProfileNotification();
+    }
+  }, [profile, dispatch, setUserCarbs, setUserCalories, setUserFats, setUserProtein]);
+
+  // TODO: refactor these, lots can be extracted in helper
+  // especially the error handling - currently none...
+  const handleHeightInput = async (val: unknown) => {
     if (isNumber(val)) {
       dispatch(setHeight(val));
+      await setUserHeight({ height: val });
+      // await updateNutritionProfileNotification();
     }
   };
-  const handleWeightInput = (val: unknown) => {
+
+  const handleWeightInput = async (val: unknown) => {
     if (isNumber(val)) {
       dispatch(setWeight(val));
+      await setUserWeight({ weight: val });
     }
   };
-  const handleAgeInput = (val: unknown) => {
+
+  const handleAgeInput = async (val: unknown) => {
     if (isNumber(val)) {
       dispatch(setAge(val));
+      await setUserAge({ age: val });
     }
   };
 
-  const saveSettings = () => {
-    const userSettings = parseUserSettings(settings);
+  const handleSexInput = async (val: Sex) => {
+    dispatch(setSex(val));
+    await setUserSex({ sex: val });
+  };
 
-    if (userSettings) {
-      const totalCalories = calculateDailyIntake(userSettings);
-      if (totalCalories) {
-        const macros = calculateMacros(userSettings.weight, totalCalories);
-        const finalNutritionProfile = {
-          calories: Math.trunc(totalCalories),
-          macros,
-        };
-        dispatch(setNutritionProfile(finalNutritionProfile));
-      }
-    }
+  const handleActivityLevelInput = async (val: ActivityLevel) => {
+    dispatch(setActivityLevel(val));
+    await setUserActivityLevel({ activity: val });
+  };
+
+  const handleGoalInput = async (val: Goal) => {
+    dispatch(setGoal(val));
+    await setUserGoal({ goal: val });
   };
 
   return (
     <>
-      <Title order={1}>General settings</Title>
+      <Title order={1}>User Settings</Title>
       <Space h="xl" />
       <Space h="xl" />
       <Flex direction="column">
@@ -60,12 +152,13 @@ export function UserSettings() {
         </Title>
         <Select
           w="40%"
-          value={settings.sex}
+          value={profile.sex}
           placeholder="Your sex"
-          onChange={(val: Sex) => dispatch(setSex(val))}
+          // NOTE: type casting in this and the below enum fields should be OK since we have hardcoded them in the data array using the original type
+          onChange={handleSexInput}
           data={[
-            { value: Sex.Male, label: 'Male' },
-            { value: Sex.Female, label: 'Female' },
+            { value: Sex.MALE, label: 'Male' },
+            { value: Sex.FEMALE, label: 'Female' },
           ]}
         />
         <Title order={4} mb="md" mt="md">
@@ -74,7 +167,7 @@ export function UserSettings() {
         <Group>
           <NumberInput
             w="40%"
-            value={settings.age}
+            value={profile.age ? profile.age : ''}
             onChange={handleAgeInput}
             min={1}
             max={150}
@@ -87,7 +180,7 @@ export function UserSettings() {
         <Group>
           <NumberInput
             w="40%"
-            value={settings.height}
+            value={profile.height ? profile.height : ''}
             onChange={handleHeightInput}
             min={10}
             max={300}
@@ -101,7 +194,7 @@ export function UserSettings() {
         <Group>
           <NumberInput
             w="40%"
-            value={settings.weight}
+            value={profile.weight ? profile.weight : ''}
             onChange={handleWeightInput}
             min={1}
             max={1000}
@@ -114,14 +207,14 @@ export function UserSettings() {
         </Title>
         <Select
           w="40%"
-          value={settings.activity?.toString()}
+          value={profile.activity_level}
           placeholder="Your activity level"
-          onChange={(val) => dispatch(setActivityLevel(Number(val)))}
+          onChange={handleActivityLevelInput}
           data={[
-            { value: ActivityLevel.Sedentary.toString(), label: 'Sedentary' },
-            { value: ActivityLevel.Light.toString(), label: 'Light' },
-            { value: ActivityLevel.Moderate.toString(), label: 'Moderate' },
-            { value: ActivityLevel.VeryActive.toString(), label: 'Active' },
+            { value: ActivityLevel.SEDENTARY, label: 'Sedentary' },
+            { value: ActivityLevel.LIGHT, label: 'Light' },
+            { value: ActivityLevel.MODERATE, label: 'Moderate' },
+            { value: ActivityLevel.VERYACTIVE, label: 'Active' },
           ]}
         />
         <Title order={4} mb="md" mt="md">
@@ -129,18 +222,15 @@ export function UserSettings() {
         </Title>
         <Select
           w="40%"
-          value={settings.goal?.toString()}
+          value={profile.goal}
           placeholder="Your goal"
-          onChange={(val) => dispatch(setGoal(Number(val)))}
+          onChange={handleGoalInput}
           data={[
-            { value: Goal.loseWeight.toString(), label: 'Lose weight' },
-            { value: Goal.maintain.toString(), label: 'Maintain' },
-            { value: Goal.gainWeight.toString(), label: 'Gain weight' },
+            { value: Goal.LOSEWEIGHT, label: 'Lose weight' },
+            { value: Goal.MAINTAIN, label: 'Maintain' },
+            { value: Goal.GAINWEIGHT, label: 'Gain weight' },
           ]}
         />
-        <Button onClick={saveSettings} variant="outline" color="teal" mt="md">
-          Save
-        </Button>
       </Flex>
     </>
   );

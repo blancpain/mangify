@@ -1,4 +1,5 @@
 import { NavLink, useNavigate } from 'react-router-dom';
+import { notifications } from '@mantine/notifications';
 import { useState } from 'react';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { loginSchema, TLoginSchema } from '@shared/types';
@@ -18,6 +19,7 @@ import {
   Box,
   Title,
 } from '@mantine/core';
+import { IconCheck } from '@tabler/icons-react';
 import { GoogleButton, FacebookButton } from '@/components/Buttons';
 import { useLoginMutation } from '@/features/api';
 import { isFetchBaseQueryError, isErrorWithMessage } from '@/utils';
@@ -50,11 +52,19 @@ export function Login(props: PaperProps) {
     try {
       const userData = await login(data).unwrap();
       dispatch(setUser(userData));
-      // TODO add toast effects here
+      // TODO: add toast effects here
       navigate('/', { replace: true });
       reset();
+      notifications.show({
+        id: 'login',
+        icon: <IconCheck size="1rem" />,
+        title: 'Welcome!',
+        color: 'teal',
+        message: '',
+        autoClose: 2000,
+      });
     } catch (error: unknown) {
-      // TODO add toast effects here
+      // TODO: add toast effects here
       if (isFetchBaseQueryError(error)) {
         if (
           error.data &&

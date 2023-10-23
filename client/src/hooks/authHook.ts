@@ -4,9 +4,9 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { setUser, logout, selectUser } from '@/stores';
 
 export const useAuth = () => {
-  const [authCheck, { isLoading, isUninitialized }] = useAuthCheckMutation();
+  const [authCheck, { isLoading, isUninitialized, isSuccess }] = useAuthCheckMutation();
   const dispatch = useAppDispatch();
-  const { name: user } = useAppSelector(selectUser);
+  const { user } = useAppSelector(selectUser);
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -18,11 +18,12 @@ export const useAuth = () => {
       }
     };
     verifyUser();
-  }, [authCheck, dispatch, user]);
+  }, [authCheck, dispatch]);
 
   return {
     isLoading,
     isUninitialized,
+    isSuccess,
     user,
   };
 };
