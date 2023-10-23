@@ -1,4 +1,5 @@
 import { nanoid } from '@reduxjs/toolkit';
+import { DateTime } from 'luxon';
 import { Box, Flex, Grid, Table, Text, Title } from '@mantine/core';
 import { IconSalad } from '@tabler/icons-react';
 import { useGenerateSingleDayMealPlanMutation } from '@/features/api';
@@ -28,8 +29,9 @@ export function SingleDayMealPlan({
   const dispatch = useAppDispatch();
   const { meals: userMeals } = useAppSelector(selectUser);
 
-  // NOTE: we need the current date in Date format for some of the functions below
-  const currentDate = new Date(day);
+  // NOTE: we use Luxon to ensure timezone consistency across client and server
+  const currentDate = DateTime.fromISO(day);
+  const currentDateJs = currentDate.toJSDate();
 
   // NOTE: pretty date for the UI
   const convertedDate = new Date(day).toLocaleDateString(undefined, {
@@ -37,6 +39,7 @@ export function SingleDayMealPlan({
     day: '2-digit',
     month: 'long',
   });
+
   const isToday =
     convertedDate ===
     new Date().toLocaleDateString(undefined, { weekday: 'long', day: '2-digit', month: 'long' });
@@ -44,7 +47,7 @@ export function SingleDayMealPlan({
   // TODO: error handling
   const handleGeneration = async () => {
     try {
-      const meals = await generateMeals({ date: currentDate }).unwrap();
+      const meals = await generateMeals({ date: currentDate.toISO()! }).unwrap();
       dispatch(setMeals(meals));
     } catch (error: unknown) {
       // TODO: add notification here
@@ -53,24 +56,24 @@ export function SingleDayMealPlan({
   };
 
   const allMeals = userMeals
-    ?.filter(isTheSameDate(currentDate))
+    ?.filter(isTheSameDate(currentDateJs))
     .map((meal) => <MealAccordion key={nanoid()} meal={meal} />);
 
   const totalMealCalories = userMeals
-    ?.filter(isTheSameDate(currentDate))
+    ?.filter(isTheSameDate(currentDateJs))
     ?.reduce((a, b) => a + Number(b.fullNutritionProfile?.calories), 0)
     .toFixed(0);
   const totalMealProtein = userMeals
-    ?.filter(isTheSameDate(currentDate))
+    ?.filter(isTheSameDate(currentDateJs))
     ?.reduce((a, b) => a + Number(b.fullNutritionProfile?.protein), 0)
     .toFixed(0);
 
   const totalMealCarbs = userMeals
-    ?.filter(isTheSameDate(currentDate))
+    ?.filter(isTheSameDate(currentDateJs))
     ?.reduce((a, b) => a + Number(b.fullNutritionProfile?.carbs), 0)
     .toFixed(0);
   const totalMealFats = userMeals
-    ?.filter(isTheSameDate(currentDate))
+    ?.filter(isTheSameDate(currentDateJs))
     ?.reduce((a, b) => a + Number(b.fullNutritionProfile?.fats), 0)
     .toFixed(0);
 

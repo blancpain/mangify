@@ -1,5 +1,6 @@
 // TODO: bring some of the below funcs outside of module...
 import { Prisma } from '@prisma/client';
+import { nanoid } from 'nanoid';
 import {
   FullUserProfile,
   MealRecipe,
@@ -60,6 +61,9 @@ export const processUpdate = async <T>(
   res.status(200).json(result.data);
 };
 
+// NOTE: we use a unique identifier for the meals (nanoid) that we update on new meal gen or on refresh
+// to ensure that the client and server and in sync and to ensure we can target a meal correctly for update/deletion
+// from the client
 export const transformMealData = (
   data: TComplexMealSearchSchema,
   mealDate: Date,
@@ -77,6 +81,7 @@ export const transformMealData = (
       title: recipe.title,
       image: recipe.image,
       date: mealDate,
+      uniqueIdentifier: nanoid(),
       mealTypes: recipe.dishTypes,
       fullNutritionProfile: {
         calories: recipe.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Calories')
@@ -119,6 +124,7 @@ export const transformMealDataForRefresh = (
       title: recipe.title,
       mealTypes: recipe.dishTypes,
       image: recipe.image,
+      uniqueIdentifier: nanoid(),
       date: userMeals.meals.filter((meal) => meal.recipe_external_id === recipe.id)[0].day,
       fullNutritionProfile: {
         calories: recipe.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Calories')
@@ -143,6 +149,7 @@ export const transformMealDataForRefresh = (
   return null;
 };
 
+// WARN: currently below is not in use as planned for future release
 export const transformMealDateForFavoriteRecipes = (
   data: TRefreshMealSchema[],
 ): MealRecipe[] | null => {
@@ -159,6 +166,7 @@ export const transformMealDateForFavoriteRecipes = (
       title: recipe.title,
       mealTypes: recipe.dishTypes,
       image: recipe.image,
+      uniqueIdentifier: nanoid(),
       date: new Date(),
       fullNutritionProfile: {
         calories: recipe.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Calories')
@@ -315,7 +323,7 @@ export const dbDeactivateAllSingleDay = async (mealDate: Date, userProfileId: st
         updateMany: {
           where: {
             day: {
-              // NOTE: lte = less than or equal to; gte = greater than or equal to
+              // NOTE: this is basically equals or earlier in the same day OR later in the same day
               lte: endDate,
               gte: startDate,
             },
@@ -519,6 +527,7 @@ export const generateMeals = async (
       if (!mainCourses || !breakfast) return null;
       const allMeals = [...mainCourses, ...breakfast];
       await syncMealsWithDb(allMeals, userProfile.id, date);
+
       return allMeals;
     }
 

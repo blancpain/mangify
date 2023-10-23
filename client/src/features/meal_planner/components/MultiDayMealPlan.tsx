@@ -5,7 +5,7 @@ import { Box, Title, SimpleGrid, Space, Flex, ActionIcon, Center } from '@mantin
 import { IconClick, IconReload, IconSalad } from '@tabler/icons-react';
 import { useGenerateMultiDayMealPlanMutation } from '@/features/api';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { selectUser, setMeals, setDayRange, setCalendar } from '@/stores';
+import { selectUser, setMeals, setSingleDayDate, setCalendar } from '@/stores';
 import { Meal } from './Meal';
 import { MealPlanHeader } from './MealPlanHeader';
 import {
@@ -72,7 +72,7 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
   const goToMeal = (e: React.MouseEvent) => {
     const { id } = e.currentTarget as HTMLButtonElement;
     const mealDate = new Date(id);
-    dispatch(setDayRange(mealDate.toISOString()));
+    dispatch(setSingleDayDate(mealDate.toISOString()));
     dispatch(setCalendar());
   };
 
@@ -148,9 +148,10 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
         cols={2}
         spacing="xl"
         breakpoints={[
-          { maxWidth: '69rem', cols: 1, spacing: 'md' },
-          { maxWidth: '48rem', cols: 1, spacing: 'xs' },
-          { maxWidth: '36rem', cols: 1, spacing: 'xs' },
+          { minWidth: '120rem', cols: 4, spacing: 'md' },
+          { minWidth: '100rem', cols: 3, spacing: 'md' },
+          { minWidth: '76rem', cols: 2, spacing: 'xs' },
+          { maxWidth: '68rem', cols: 1, spacing: 'xs' },
         ]}
       >
         {allMealsCards}

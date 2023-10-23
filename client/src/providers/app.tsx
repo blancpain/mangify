@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { DateTime } from 'luxon';
 import { useLocalStorage, useHotkeys } from '@mantine/hooks';
 import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
 import { Provider } from 'react-redux';
@@ -8,6 +9,9 @@ import { store } from '@/stores';
 type AppProviderProps = {
   children: React.ReactNode;
 };
+
+// NOTE: we configure Luxon to use UTC to sync client and server dates
+DateTime.local().setZone('utc');
 
 export function AppProvider({ children }: AppProviderProps) {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({

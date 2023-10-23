@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+import { DateTime } from 'luxon';
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
@@ -11,7 +12,7 @@ import { getEndOfPeriod, getStartOfPeriod } from '@/utils';
 const initialState: CalendarState = {
   day: true,
   weekRange: [new Date().toISOString(), getEndOfPeriod(new Date())],
-  dayRange: new Date().toISOString(),
+  singleDayDate: DateTime.local().toISO(),
 };
 
 const calendarSlice = createSlice({
@@ -21,8 +22,8 @@ const calendarSlice = createSlice({
     setCalendar: (state) => {
       state.day = !state.day;
     },
-    setDayRange: (state, action: PayloadAction<string>) => {
-      state.dayRange = action.payload;
+    setSingleDayDate: (state, action: PayloadAction<string | null>) => {
+      state.singleDayDate = action.payload;
     },
     setWeekStart: (state, action: PayloadAction<string>) => {
       state.weekRange[0] = action.payload;
@@ -30,15 +31,16 @@ const calendarSlice = createSlice({
     setWeekEnd: (state, action: PayloadAction<string>) => {
       state.weekRange[1] = action.payload;
     },
+    // WARN: using ! on the dates as we know they are not null
     incrementDay: (state) => {
-      const currentDay = new Date(state.dayRange);
+      const currentDay = new Date(state.singleDayDate!);
       const nextDay = currentDay.setDate(currentDay.getDate() + 1);
-      state.dayRange = new Date(nextDay).toISOString();
+      state.singleDayDate = new Date(nextDay).toISOString();
     },
     decrementDay: (state) => {
-      const currentDay = new Date(state.dayRange);
+      const currentDay = new Date(state.singleDayDate!);
       const prevDay = currentDay.setDate(currentDay.getDate() - 1);
-      state.dayRange = new Date(prevDay).toISOString();
+      state.singleDayDate = new Date(prevDay).toISOString();
     },
     incrementWeek: (state) => {
       const currentWeekStart = new Date(state.weekRange[0]);
@@ -59,7 +61,7 @@ const calendarSlice = createSlice({
 
 export const {
   setCalendar,
-  setDayRange,
+  setSingleDayDate,
   setWeekStart,
   setWeekEnd,
   incrementDay,

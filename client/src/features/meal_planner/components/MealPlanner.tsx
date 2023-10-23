@@ -17,7 +17,7 @@ import { MultiDayMealPlan } from './MultiDayMealPlan';
 
 export function MealPlanner() {
   const [opened, { open, close }] = useDisclosure(false);
-  const { day, dayRange, weekRange } = useAppSelector(selectCalendar);
+  const { day, singleDayDate, weekRange } = useAppSelector(selectCalendar);
   const { profile } = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
 
@@ -65,7 +65,7 @@ export function MealPlanner() {
       </Flex>
       {day && (
         <SingleDayMealPlan
-          day={dayRange}
+          day={singleDayDate || new Date().toISOString()}
           userCalories={profile.calories}
           userProtein={profile.protein}
           userFats={profile.fats}

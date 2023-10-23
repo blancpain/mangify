@@ -1,7 +1,7 @@
 export type CalendarState = {
   day: boolean;
   weekRange: [string, string];
-  dayRange: string;
+  singleDayDate: string | null;
 };
 
 export type NutritionMacros = {

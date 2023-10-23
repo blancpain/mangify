@@ -1,6 +1,6 @@
 import { MealRecipe } from '@shared/types';
 import { isEqual, startOfDay } from 'date-fns';
-import { TUserMeals } from './helpers';
+import { TUserMeals, isNumber } from './helpers';
 
 // NOTE: with the below function we can generate a date array for the maxium period as required
 export const generateWeekDateArray = (startDate: Date, stopDate: Date): Date[] => {
@@ -52,3 +52,19 @@ export const isNotTheSameDate =
     }
     return false;
   };
+
+export const createDateFromISODate = (ISODate: string) => {
+  const dateParts = ISODate.match(/^(\d{4})-(\d{2})-(\d{2}).*/);
+
+  if (dateParts) {
+    const year = parseInt(dateParts[1], 10);
+    const month = parseInt(dateParts[2], 10);
+    const day = parseInt(dateParts[3], 10);
+
+    if (isNumber(year) && isNumber(month) && isNumber(day)) {
+      return new Date(year, month - 1, day); // NOTE: we subtract 1 from the month since it's 0-based.
+    }
+  }
+
+  return null;
+};

@@ -14,6 +14,7 @@ import {
   dbDeativateAll,
   cacheMealData,
   isNotTheSameDate,
+  createDateFromISODate,
 } from '@/utils';
 
 // NOTE: we use this helper function to add a delay between API calls
@@ -22,9 +23,9 @@ const timeout = (ms: number) =>
     setTimeout(resolve, ms);
   });
 
+// TODO: we might need to introduce a limit of how many single-day meal plans a user can generate
 // TODO: add endpoint for re-generating a single meal
-//  we should pass a type from the client to the server to check if breakfast/main/snack!!!
-// since on first generation these will be determined anyway
+//  we should pass a type from the client to the server to check if breakfast/main/snack!!! + pass the id and done
 
 // TODO: (optional)
 // implement a way to NOT generate meals for a particular day if the user already has meals for that day
@@ -73,7 +74,6 @@ const generateMultiDayMealPlan = async (
   return allMeals;
 };
 
-// TODO: we might need to introduce a limit of how many single-day meal plans a user can generate
 const generateSingleDayMealPlan = async (
   id: string,
   date: TSingleMealDate,
@@ -85,25 +85,30 @@ const generateSingleDayMealPlan = async (
     return null;
   }
 
+  // NOTE: we use a date parser because otherwise there are some weird timezone issues where the date is off by 1 day
+  // when we reconstruct it from the ISO string
+  const extractedDate = createDateFromISODate(currentDate);
+  if (!extractedDate) return null;
+
   // HACK: we deactivate all meals for the current date and then
   // fetch all of the user's meals (if any) and filter out the ones that are not for the current date
   // we then generate the new meals and
   // finally we merge the existing meals with the new ones and cache them
   // if no meals exist we simply generate new ones and cache them
 
-  await dbDeactivateAllSingleDay(currentDate, userProfile.id);
+  await dbDeactivateAllSingleDay(extractedDate, userProfile.id);
   const allUserMeals = await getMealsFromCacheOrAPI(userProfile.id);
 
   if (allUserMeals) {
-    const allUserMealsOutsideOfCurrentDate = allUserMeals.filter(isNotTheSameDate(currentDate));
-    const meals = await generateMeals(userProfile, currentDate);
+    const allUserMealsOutsideOfCurrentDate = allUserMeals.filter(isNotTheSameDate(extractedDate));
+    const meals = await generateMeals(userProfile, extractedDate);
     if (!meals) return null;
     const finalMealList = [...allUserMealsOutsideOfCurrentDate, ...meals];
     await cacheMealData(userProfile.id, finalMealList);
     return finalMealList;
   }
 
-  const meals = await generateMeals(userProfile, currentDate);
+  const meals = await generateMeals(userProfile, extractedDate);
   if (!meals) return null;
   await cacheMealData(userProfile.id, meals);
   return meals;
@@ -121,6 +126,7 @@ const refreshMeals = async (id: string): Promise<MealRecipe[] | null> => {
   return meals;
 };
 
+// WARN: below 2 are currently non-functional and optional for a future release
 const saveMeal = async (id: string, mealId: number): Promise<number[] | null> => {
   const userProfile = await extractUserProfile(id);
 
@@ -140,7 +146,6 @@ const saveMeal = async (id: string, mealId: number): Promise<number[] | null> =>
   return userUpdatedFavoriteMeals;
 };
 
-// TODO: refactor as refresh meals above to use helper...
 const getFavoriteMeals = async (id: string): Promise<MealRecipe[] | null> => {
   const userProfileId = await extractUserProfileId(id);
 

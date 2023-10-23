@@ -143,8 +143,9 @@ export type TCarbsSchema = z.infer<typeof CarbsSchema>;
 
 // date types for meal generation
 
+// NOTE: we use string here and pass a luxon ISO string to the server to avoid issues with timezones and z.coerce
 export const SingleMealDateSchema = z.object({
-  date: z.coerce.date(),
+  date: z.string(),
 });
 export type TSingleMealDate = z.infer<typeof SingleMealDateSchema>;
 
@@ -489,6 +490,7 @@ export type FullNutritionProfile = {
 
 export type MealRecipe = {
   id?: number | null;
+  uniqueIdentifier?: string | null;
   ingredients?: MealIngredients[];
   title?: string | null;
   image?: string | null;

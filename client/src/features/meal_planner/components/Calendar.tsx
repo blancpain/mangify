@@ -1,7 +1,8 @@
+import { DateTime } from 'luxon';
 import { Group } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { useAppSelector, useAppDispatch } from '@/hooks';
-import { setDayRange, setWeekStart, setWeekEnd, selectCalendar } from '@/stores';
+import { setSingleDayDate, setWeekStart, setWeekEnd, selectCalendar } from '@/stores';
 
 type CalendarProps = {
   day: boolean;
@@ -9,9 +10,8 @@ type CalendarProps = {
 
 export function Calendar({ day }: CalendarProps) {
   const dispatch = useAppDispatch();
-  const { dayRange, weekRange } = useAppSelector(selectCalendar);
+  const { singleDayDate, weekRange } = useAppSelector(selectCalendar);
 
-  const convertedDayRange = new Date(dayRange);
   const convertedWeekStart = new Date(weekRange[0]);
   const convertedWeekEnd = new Date(weekRange[1]);
 
@@ -21,13 +21,15 @@ export function Calendar({ day }: CalendarProps) {
       dispatch(setWeekEnd(val[1].toISOString()));
     }
   };
-  const handleDayChange = (val: Date) => {
-    dispatch(setDayRange(val.toISOString()));
-  };
 
   return day ? (
     <Group position="center">
-      <DatePicker value={convertedDayRange} onChange={(val: Date) => handleDayChange(val)} />
+      <DatePicker
+        value={
+          singleDayDate ? DateTime.fromISO(singleDayDate).toJSDate() : DateTime.now().toJSDate()
+        }
+        onChange={(val: Date) => dispatch(setSingleDayDate(DateTime.fromJSDate(val).toISO()))}
+      />
     </Group>
   ) : (
     <Group position="center">
