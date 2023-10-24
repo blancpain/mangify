@@ -16,8 +16,6 @@ import {
   generateWeekDateArray,
   // getUserMeals,
   // checkIfAllMealsHaveSameDate,
-  dbDeactivateAllSingleDay,
-  dbDeativateAll,
   cacheMealData,
   isNotTheSameDate,
   createDateFromISODate,
@@ -62,7 +60,7 @@ const generateMultiDayMealPlan = async (
   // const currentMeals = await getUserMeals(userProfile.id);
   // const singleDayMealDate = checkIfAllMealsHaveSameDate(currentMeals);
 
-  // NOTE: we use a generator function to ping the API sequentially for each date (if we use Promise.All instead we might get a unique constraint error)
+  // HACK: we use a generator function to ping the API sequentially for each date (if we use Promise.All instead we might get a unique constraint error)
   // on meal.id since we are pinging the API for all dates at the same time and the API might return the same meal for different dates
   async function* generateMealsForWeek() {
     // eslint-disable-next-line no-restricted-syntax
@@ -82,8 +80,6 @@ const generateMultiDayMealPlan = async (
       allMeals.push(...meals);
     }
   }
-
-  await dbDeativateAll(allMeals, userProfile.id);
 
   await syncMealsWithDb(allMeals, userProfile.id);
 
@@ -108,13 +104,6 @@ const generateSingleDayMealPlan = async (
   const extractedDate = createDateFromISODate(currentDate);
   if (!extractedDate) return null;
 
-  // HACK: we deactivate all meals for the current date and then
-  // fetch all of the active user's meals (if any) and filter out the ones that are not for the current date
-  // we then generate the new meals and
-  // finally we merge the existing meals with the new ones and cache them
-  // if no meals exist we simply generate new ones and cache them
-
-  await dbDeactivateAllSingleDay(extractedDate, userProfile.id);
   const allUserMeals = await getMealsFromCacheOrAPI(userProfile.id);
 
   if (allUserMeals) {
@@ -148,13 +137,18 @@ const regenerateOneMeal = async (
   const extractedDate = createDateFromISODate(date);
   if (!extractedDate) return null;
 
-  // NOTE: if allUserMeals is empty there is likely an issue hence we return null (we can't have just a lone meal for any given date, it is always part of a meal plan)
+  // HACK: we only use the active flag for single meal re-generation - the reason is that unlike one-day meal gen where we explicitly filter out meals
+  // from that day and then only return the meals outside of that day plus the news ones OR with multi-day meal gen where we simply delete all meals and genereate new ones,
+  // for one meal re-gen we need a way to "exclude" the meal from the existing meals and deactivating it allows us to then select all meals apart from
+  // the one we want to re-generate and it's then effectively deleted when we sync the meals with the DB
+
   await dbDeactivateOneMeal(uniqueIdentifier, userProfile.id);
   const allUserMeals = await getMealsFromCacheOrAPIForOneMealRegeneration(
     userProfile.id,
     uniqueIdentifier,
   );
 
+  // NOTE: if allUserMeals is empty there is likely an issue hence we return null (we can't have just a lone meal for any given date, it is always part of a meal plan)
   if (allUserMeals) {
     const newMeal = await generateOneMeal(userProfile, extractedDate, mealType);
     if (!newMeal) return null;

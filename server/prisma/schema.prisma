@@ -27,7 +27,7 @@ model User {
 
 model Profile {
   id                String         @id @default(uuid())
-  diet              Diet?
+  diet              Diet?          @default(ANYTHING)
   sex               Sex?
   activity_level    ActivityLevel? @default(MODERATE)
   goal              Goal?          @default(MAINTAIN)

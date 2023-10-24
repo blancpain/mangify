@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "profile" ALTER COLUMN "diet" SET DEFAULT 'ANYTHING';

@@ -60,7 +60,7 @@ export const transformMealDataForRefresh = (
   data: TRefreshMealSchema[],
   userMeals: TUserMeals,
 ): MealRecipe[] | null => {
-  if (!userMeals || !userMeals.meals) return null;
+  if (!userMeals) return null;
   if (data) {
     const transformedData: MealRecipe[] = data.map((recipe) => ({
       id: recipe.id,
@@ -75,7 +75,7 @@ export const transformMealDataForRefresh = (
       mealTypes: recipe.dishTypes,
       image: recipe.image,
       uniqueIdentifier: nanoid(),
-      date: userMeals.meals.filter((meal) => meal.recipe_external_id === recipe.id)[0].day,
+      date: userMeals.filter((meal) => meal.recipe_external_id === recipe.id)[0].day,
       fullNutritionProfile: {
         calories: recipe.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Calories')
           ?.amount,
@@ -308,7 +308,6 @@ export const generateMeals = async (
   return null;
 };
 
-// helper to fetch from cache or API - used for single and multi-meal plan (re)generations
 export const getMealsFromCacheOrAPI = async (
   userProfileId: string,
 ): Promise<MealRecipe[] | null> => {
@@ -322,12 +321,12 @@ export const getMealsFromCacheOrAPI = async (
 
   const userMeals = await getUserMeals(userProfileId);
 
-  if (!userMeals || (userMeals && userMeals.meals.length === 0)) return null;
+  if (!userMeals || (userMeals && userMeals.length === 0)) return null;
 
   const { data } = await axios.get<TRefreshMealSchema[]>(
     `https://api.spoonacular.com/recipes/informationBulk?apiKey=${
       process.env.API_KEY
-    }&ids=${userMeals.meals.map((meal) => meal.recipe_external_id)}&includeNutrition=true`,
+    }&ids=${userMeals.map((meal) => meal.recipe_external_id)}&includeNutrition=true`,
   );
 
   const transformedData = transformMealDataForRefresh(data, userMeals);
@@ -363,12 +362,12 @@ export const getMealsFromCacheOrAPIForOneMealRegeneration = async (
 
   const userMeals = await getUserMeals(userProfileId);
 
-  if (!userMeals || (userMeals && userMeals.meals.length === 0)) return null;
+  if (!userMeals || (userMeals && userMeals.length === 0)) return null;
 
   const { data } = await axios.get<TRefreshMealSchema[]>(
     `https://api.spoonacular.com/recipes/informationBulk?apiKey=${
       process.env.API_KEY
-    }&ids=${userMeals.meals.map((meal) => meal.recipe_external_id)}&includeNutrition=true`,
+    }&ids=${userMeals.map((meal) => meal.recipe_external_id)}&includeNutrition=true`,
   );
 
   const transformedData = transformMealDataForRefresh(data, userMeals);

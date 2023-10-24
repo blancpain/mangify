@@ -14,6 +14,7 @@ mealsRouter.post(
   mealsController.generateSingleDayMealPlan as RequestHandler,
 );
 mealsRouter.post('/one-meal', isAuthenticated, mealsController.regenerateOneMeal as RequestHandler);
+// NOTE: below currently not in use, to be used when separate meal slice implemented
 mealsRouter.get('/refresh', isAuthenticated, mealsController.refreshMeals as RequestHandler);
 
 // TODO: second endpoint needs to be post
