@@ -12,6 +12,7 @@ import {
   DietPreferencesRoute,
   UserSettingsRoute,
   NutritionProfileRoute,
+  ShoppingListRoute,
 } from '@/routes/protected';
 
 export function AppRoutes() {
@@ -29,6 +30,10 @@ export function AppRoutes() {
         {
           element: <MealPlannerRoute />,
           index: true,
+        },
+        {
+          element: <ShoppingListRoute />,
+          path: 'shopping-list',
         },
         {
           element: <MealSettingsRoute />,

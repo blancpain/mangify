@@ -1,9 +1,23 @@
-import { Group, Avatar, Text, Grid, Title, HoverCard, Modal, Flex, Image } from '@mantine/core';
+import {
+  Group,
+  Avatar,
+  Text,
+  Grid,
+  Title,
+  HoverCard,
+  Modal,
+  Flex,
+  Image,
+  Button,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { nanoid } from '@reduxjs/toolkit';
+import { IconShoppingCartPlus } from '@tabler/icons-react';
 import { FullNutritionProfile, MealIngredients } from '@shared/types';
+import { useLocalStorage } from 'usehooks-ts';
+import { ShoppingListItem } from '@/types';
 import { capitalizeFirstLetterOfString, covertStringToTitleCase } from '@/utils';
-import { emptyMealImage } from '@/assets';
+import { emptyMealImage, emptyIngredientImage } from '@/assets';
 
 type MealProps = {
   label: string;
@@ -22,6 +36,8 @@ export function Meal({
   nutritionProfile,
   ingredients,
 }: MealProps) {
+  const [shoppingList, setShoppingList] = useLocalStorage<ShoppingListItem[]>('shoppingList', []);
+
   const [opened, { open, close }] = useDisclosure(false);
   const mealCookingDirections =
     directions && directions.length > 1
@@ -31,7 +47,11 @@ export function Meal({
   const ingredientDetails = ingredients?.map((ingredient) => (
     <Flex gap="md" key={nanoid()} pb={5}>
       <Avatar
-        src={`https://spoonacular.com/cdn/ingredients_500x500/${ingredient.ingredientImage}`}
+        src={
+          ingredient.ingredientImage
+            ? `https://spoonacular.com/cdn/ingredients_500x500/${ingredient.ingredientImage}`
+            : emptyIngredientImage
+        }
         radius="xl"
         size="sm"
       />
@@ -44,6 +64,21 @@ export function Meal({
       </Flex>
     </Flex>
   ));
+
+  const handleAddToShoppingList = () => {
+    if (ingredients) {
+      const shoppingListItem = {
+        meal: label,
+        ingredients,
+      };
+      // add in local storage if not already there
+      if (shoppingList && !shoppingList.map((item) => item.meal).includes(shoppingListItem.meal)) {
+        setShoppingList((prevState) => [...prevState, shoppingListItem]);
+      } else if (!shoppingList) {
+        setShoppingList((prevState) => [...prevState, shoppingListItem]);
+      }
+    }
+  };
 
   // TODO: move the hover card to a separate component and add the colors from the pie chart for the macros
   return (
@@ -64,6 +99,15 @@ export function Meal({
               Ingredients:
             </Text>
             {ingredientDetails}
+            <Button
+              leftIcon={<IconShoppingCartPlus />}
+              onClick={handleAddToShoppingList}
+              mt={20}
+              color="teal"
+              variant="light"
+            >
+              Add ingredients to shopping list
+            </Button>
           </Grid.Col>
           <Grid.Col lg={6} md={9}>
             <Text fw="bold">Cooking instructions:</Text>
@@ -72,7 +116,7 @@ export function Meal({
         </Grid>
       </Modal>
 
-      <HoverCard shadow="md" radius="lg">
+      <HoverCard shadow="md" radius="lg" position="right">
         <HoverCard.Target>
           <Group position="center">
             {image ? (

@@ -27,7 +27,7 @@ export function SideBar({ closeDrawer }: SideBarProps) {
         icon={<IconShoppingBag size="1rem" />}
         color="teal"
         label="Shopping List"
-        link="/"
+        link="/shopping-list"
         closeDrawer={closeDrawer}
       />
       {/* <SidebarSoloLink */}

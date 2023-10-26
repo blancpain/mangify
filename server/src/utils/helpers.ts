@@ -47,3 +47,12 @@ export const processUserSettingsUpdate = async <T>(
   await updateFunction(user.email, result.data);
   res.status(200).json(result.data);
 };
+
+export const removeDuplicatesFromArrayOfObjects = <T, K extends keyof T>(
+  array: T[],
+  key: K,
+): T[] => {
+  const uniqueArray = [...new Map(array.map((item) => [item[key], item])).values()];
+
+  return uniqueArray;
+};
