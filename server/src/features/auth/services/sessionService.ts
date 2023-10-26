@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import { TLoginSchema, FullUserForAuth, UserProfileForClient, UserForAuth } from '@shared/types';
-import { prisma, exclude, getMealsFromCacheOrAPI } from '@/utils';
+import { prisma, exclude } from '@/utils';
 
 const login = async (user: TLoginSchema): Promise<FullUserForAuth | null> => {
   const { email, password } = user;
@@ -50,12 +50,12 @@ const login = async (user: TLoginSchema): Promise<FullUserForAuth | null> => {
       'updatedAt',
     ]);
 
-    const meals = await getMealsFromCacheOrAPI(targetedUserProfile.profile.id);
+    // const meals = await getMealsFromCacheOrAPI(targetedUserProfile.profile.id);
 
     const userToBeReturned = {
       user: filteredUser,
       profile: filteredUserProfile,
-      meals,
+      // meals,
     };
 
     return userToBeReturned;
@@ -105,11 +105,11 @@ const authCheck = async (email: string): Promise<FullUserForAuth | null> => {
       'updatedAt',
     ]);
 
-    const meals = await getMealsFromCacheOrAPI(targetedUserProfile.profile.id);
+    // const meals = await getMealsFromCacheOrAPI(targetedUserProfile.profile.id);
     const userToBeReturned = {
       user: targetedUser,
       profile: filteredUserProfile,
-      meals,
+      // meals,
     };
 
     return userToBeReturned;

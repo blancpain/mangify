@@ -46,7 +46,6 @@ const login = async (req: Request, res: Response, _next: NextFunction): Promise<
         email: loggedUser.user.email,
       },
       profile: loggedUser.profile,
-      meals: loggedUser.meals,
     };
 
     res.status(200).json(userToBeReturned);
@@ -75,7 +74,6 @@ const authCheck = async (req: Request, res: Response, _next: NextFunction): Prom
           email: userInDB.user.email,
         },
         profile: userInDB.profile,
-        meals: userInDB.meals,
       };
       res.status(200).json(userToBeReturned);
     } else {

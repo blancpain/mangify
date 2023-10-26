@@ -186,7 +186,6 @@ export type FullUserProfile = Profile;
 export type FullUserForAuth = {
   user: UserForAuth;
   profile: UserProfileForClient;
-  meals: MealRecipe[] | null;
 };
 
 export type UserForClient = {
@@ -222,7 +221,7 @@ export type UserMeals = {
 export type FullUserForClient = {
   user: UserForClient;
   profile: UserProfileForClient;
-  meals: MealRecipe[] | null;
+  // meals: MealRecipe[] | null;
 };
 
 /* Prisma types */

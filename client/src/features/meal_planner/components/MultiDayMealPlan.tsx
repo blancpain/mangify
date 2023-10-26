@@ -3,12 +3,14 @@ import { DateTime } from 'luxon';
 import { nanoid } from '@reduxjs/toolkit';
 import { motion } from 'framer-motion';
 import { IconEye, IconReload, IconSalad } from '@tabler/icons-react';
+import { useEffect } from 'react';
 import {
   useGenerateMultiDayMealPlanMutation,
   useGenerateSingleDayMealPlanMutation,
+  useGetMealsQuery,
 } from '@/features/api';
-import { useAppDispatch, useAppSelector } from '@/hooks';
-import { selectUser, setMeals, setSingleDayDate, setCalendar } from '@/stores';
+import { useAppDispatch } from '@/hooks';
+import { setMeals, setSingleDayDate, setCalendar } from '@/stores';
 import { Meal } from './Meal';
 import { MealPlanHeader } from './MealPlanHeader';
 import {
@@ -26,9 +28,15 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
   const [generateMeals, { isLoading }] = useGenerateMultiDayMealPlanMutation();
   const [generateSingleDayMeals] = useGenerateSingleDayMealPlanMutation();
   const dispatch = useAppDispatch();
-  const { meals: userMeals } = useAppSelector(selectUser);
+  const { data: userMeals, isLoading: areMealsLoading, isSuccess } = useGetMealsQuery();
 
-  if (isLoading) {
+  useEffect(() => {
+    if (isSuccess && userMeals) {
+      dispatch(setMeals(userMeals));
+    }
+  }, [dispatch, isSuccess, userMeals]);
+
+  if (isLoading || areMealsLoading) {
     return (
       <Center sx={{ height: '100%' }}>
         <Loader color="teal" size="xl" variant="dots" />
@@ -61,16 +69,6 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
     const mealsForDate = userMeals?.filter(isTheSameDate(date)) || null;
     return { date, mealsForDate };
   });
-
-  // NOTE: for personal reference, we can also use reduce with the same result - see below
-
-  // const allMealsForEachDay = currentDateRange.reduce(
-  //   (acc: { date: Date; mealsForDate: MealRecipe[] | null }[], date) => {
-  //     const mealsForDate = userMeals?.filter(isTheSameDate(date)) || null;
-  //     return [...acc, { date, mealsForDate }];
-  //   },
-  //   [],
-  // );
 
   // TODO: error handling
   const handleGeneration = async () => {

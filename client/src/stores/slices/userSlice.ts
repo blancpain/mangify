@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { FullUserForClient, Sex, Goal, ActivityLevel, Diet, MealRecipe } from '@shared/types';
+import { FullUserForClient, Sex, Goal, ActivityLevel, Diet } from '@shared/types';
 import type { RootState } from '../store';
 
 const initialState: FullUserForClient = {
@@ -27,7 +27,6 @@ const initialState: FullUserForClient = {
     carbs: null,
     fats: null,
   },
-  meals: null,
 };
 
 const userSlice = createSlice({
@@ -37,16 +36,12 @@ const userSlice = createSlice({
     setUser: (state, action: PayloadAction<FullUserForClient>) => {
       state.user = action.payload.user;
       state.profile = action.payload.profile;
-      state.meals = action.payload.meals;
-    },
-    setMeals: (state, action: PayloadAction<MealRecipe[]>) => {
-      state.meals = action.payload;
     },
     logout: (state) => {
       state.user.name = null;
       state.user.email = null;
       state.profile = initialState.profile;
-      state.meals = initialState.meals;
+      // state.meals = initialState.meals;
     },
     setActivityLevel: (state, action: PayloadAction<ActivityLevel>) => {
       state.profile.activity_level = action.payload;
@@ -110,7 +105,6 @@ export const {
   setProtein,
   setCarbs,
   setFats,
-  setMeals,
 } = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user;

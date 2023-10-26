@@ -126,7 +126,7 @@ const saveMeal = async (req: Request, res: Response, _next: NextFunction): Promi
     return;
   }
 
-  // NOTE: change below to a query param as currently hardcoded
+  // WARN: change below to a query param as currently hardcoded
   const data = await mealGeneratorService.saveMeal(user.id, 661250);
 
   if (data) {
