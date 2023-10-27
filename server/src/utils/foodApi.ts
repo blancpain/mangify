@@ -11,12 +11,12 @@ import { TUserMeals, getUserMeals, syncMealsWithDb } from './db';
 import { TBuildURL, buildURL } from './url-builder';
 import { cacheMealData, redisClient } from './redis';
 import { lowerCaseFirstLetter } from './strings';
-import { Logger } from '@/lib';
 import { removeDuplicatesFromArrayOfObjects } from './helpers';
 
 // NOTE: we use a unique identifier for the meals (nanoid) that we update on new meal gen or on refresh
 // to ensure that the client and server and in sync and to ensure we can target a meal correctly for update/deletion
 // from the client
+// NOTE: we need to keep the 2 transform data functions in sync
 export const transformMealData = (
   data: TComplexMealSearchSchema,
   mealDate: Date,
@@ -67,46 +67,57 @@ export const transformMealDataForRefresh = (
   data: TRefreshMealSchema[],
   userMeals: TUserMeals,
 ): MealRecipe[] | null => {
-  if (!userMeals) return null;
-  if (data) {
-    const transformedData: MealRecipe[] = data.map((recipe) => ({
-      id: recipe.id,
-      ingredients: recipe.extendedIngredients?.map((ingredient) => ({
-        id: ingredient.id,
-        ingredient: ingredient.name ? ingredient.name.toString() : '',
-        ingredientImage: ingredient.image,
-        amount: ingredient.measures?.metric?.amount,
-        unit: ingredient.measures?.metric?.unitShort,
-      })),
-      title: recipe.title,
-      mealTypes: recipe.dishTypes,
-      image: recipe.image,
-      uniqueIdentifier: nanoid(),
-      date: userMeals.filter((meal) => meal.recipe_external_id === recipe.id)[0].day,
-      fullNutritionProfile: {
-        calories: recipe.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Calories')
-          ?.amount,
-        protein: recipe.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Protein')
-          ?.amount,
-        fats: recipe.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Fat')?.amount,
-        carbs: recipe.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Carbohydrates')
-          ?.amount,
-      },
-      directions: recipe.analyzedInstructions?.length
-        ? [
-            ...(recipe.analyzedInstructions?.[0].steps
-              ? recipe.analyzedInstructions[0].steps.map((step) => (step.step ? step.step : ''))
-              : ''),
-          ]
-        : [''],
-      fullRecipeURL: recipe.spoonacularSourceUrl,
-    }));
-    return transformedData;
-  }
-  return null;
+  if (!userMeals || !data) return null;
+
+  const finalMealData: MealRecipe[] = [];
+
+  userMeals.map((meal) => {
+    const mealData = data.find((item) => item.id === meal.recipe_external_id);
+    if (mealData) {
+      finalMealData.push({
+        id: mealData.id,
+        ingredients: removeDuplicatesFromArrayOfObjects(
+          mealData.extendedIngredients?.map((ingredient) => ({
+            id: ingredient.id,
+            ingredient: ingredient.name ? ingredient.name.toString() : '',
+            ingredientImage: ingredient.image,
+            amount: ingredient.measures?.metric?.amount,
+            unit: ingredient.measures?.metric?.unitShort,
+          })) as MealIngredients[],
+          'id',
+        ),
+        title: mealData.title,
+        mealTypes: mealData.dishTypes,
+        image: mealData.image,
+        uniqueIdentifier: nanoid(),
+        date: meal.day,
+        fullNutritionProfile: {
+          calories: mealData.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Calories')
+            ?.amount,
+          protein: mealData.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Protein')
+            ?.amount,
+          fats: mealData.nutrition?.nutrients?.find((nutrient) => nutrient.name === 'Fat')?.amount,
+          carbs: mealData.nutrition?.nutrients?.find(
+            (nutrient) => nutrient.name === 'Carbohydrates',
+          )?.amount,
+        },
+        directions: mealData.analyzedInstructions?.length
+          ? [
+              ...(mealData.analyzedInstructions?.[0].steps
+                ? mealData.analyzedInstructions[0].steps.map((step) => (step.step ? step.step : ''))
+                : ''),
+            ]
+          : [''],
+        fullRecipeURL: mealData.spoonacularSourceUrl,
+      });
+    }
+    return null;
+  });
+  return finalMealData;
 };
 
 // WARN: currently below is not in use as planned for future release
+// make sure to use a proper date!!!
 export const transformMealDateForFavoriteRecipes = (
   data: TRefreshMealSchema[],
 ): MealRecipe[] | null => {
@@ -323,23 +334,12 @@ export const getMealsFromCacheOrAPI = async (
   if (cachedMeals) {
     // WARN: check if type assumption is OK?
     const parsedCachedMeals = JSON.parse(cachedMeals) as MealRecipe[];
-    Logger.debug('we should only be seeing this if there is a cache hit. The meals:');
-    Logger.debug(parsedCachedMeals.map((meal) => meal.id));
-    Logger.debug('Length of meals:');
-    Logger.debug(parsedCachedMeals.length);
     return parsedCachedMeals;
   }
 
-  Logger.debug('is cached meals null?');
-  Logger.debug(cachedMeals);
   const userMeals = await getUserMeals(userProfileId);
 
   if (!userMeals || (userMeals && userMeals.length === 0)) return null;
-
-  Logger.debug('We should only be seeing this if there is a cache miss. Length of meals from DB:');
-  Logger.debug(userMeals.length);
-  Logger.debug('Meals from DB:');
-  Logger.debug(userMeals.map((meal) => meal.recipe_external_id));
 
   const { data } = await axios.get<TRefreshMealSchema[]>(
     `https://api.spoonacular.com/recipes/informationBulk?apiKey=${
@@ -349,13 +349,6 @@ export const getMealsFromCacheOrAPI = async (
 
   const transformedData = transformMealDataForRefresh(data, userMeals);
   if (!transformedData) return null;
-
-  Logger.debug(
-    'Length of meals after transform - this is the final list that goes to client and for db sync and caching:',
-  );
-  Logger.debug(userMeals.length);
-  Logger.debug('And the data:');
-  Logger.debug(transformedData.map((meal) => meal.id));
 
   // NOTE: we sync the DB with the new unique identifiers for the meals
   // we do this because after 1 hour we lose our cache and since we introduce the unique identifier when we transform the data
