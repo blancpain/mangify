@@ -143,15 +143,15 @@ export type TCarbsSchema = z.infer<typeof CarbsSchema>;
 
 // date types for meal generation
 
-// NOTE: we use string here and pass a luxon ISO string to the server to avoid issues with timezones and z.coerce
+// NOTE: we use strings here and pass a luxon ISO string to the server to avoid issues with timezones and z.coerce
 export const SingleDayMealDateSchema = z.object({
   date: z.string(),
 });
 export type TSingleDayMealDate = z.infer<typeof SingleDayMealDateSchema>;
 
 export const MultiMealDateSchema = z.object({
-  weekStart: z.coerce.date(),
-  weekEnd: z.coerce.date(),
+  weekStart: z.string(),
+  weekEnd: z.string(),
 });
 export type TMultiMealDate = z.infer<typeof MultiMealDateSchema>;
 
@@ -186,7 +186,6 @@ export type FullUserProfile = Profile;
 export type FullUserForAuth = {
   user: UserForAuth;
   profile: UserProfileForClient;
-  meals: MealRecipe[] | null;
 };
 
 export type UserForClient = {
@@ -222,7 +221,7 @@ export type UserMeals = {
 export type FullUserForClient = {
   user: UserForClient;
   profile: UserProfileForClient;
-  meals: MealRecipe[] | null;
+  // meals: MealRecipe[] | null;
 };
 
 /* Prisma types */

@@ -1,10 +1,11 @@
+import { useEffect } from 'react';
 import { nanoid } from '@reduxjs/toolkit';
 import { DateTime } from 'luxon';
-import { Box, Flex, Grid, Table, Text, Title } from '@mantine/core';
+import { Box, Center, Flex, Grid, Loader, Table, Text, Title } from '@mantine/core';
 import { IconSalad } from '@tabler/icons-react';
-import { useGenerateSingleDayMealPlanMutation } from '@/features/api';
-import { useAppDispatch, useAppSelector } from '@/hooks';
-import { selectUser, setMeals } from '@/stores';
+import { useGenerateSingleDayMealPlanMutation, useGetMealsQuery } from '@/features/api';
+import { useAppDispatch } from '@/hooks';
+import { setMeals } from '@/stores';
 import { isTheSameDate } from '@/utils';
 import { MealAccordion } from './MealAccordion';
 import { PieChart } from '@/components';
@@ -27,7 +28,21 @@ export function SingleDayMealPlan({
 }: SingleDayMealPlanProps) {
   const [generateMeals] = useGenerateSingleDayMealPlanMutation();
   const dispatch = useAppDispatch();
-  const { meals: userMeals } = useAppSelector(selectUser);
+  const { data: userMeals, isLoading, isSuccess } = useGetMealsQuery();
+
+  useEffect(() => {
+    if (isSuccess && userMeals) {
+      dispatch(setMeals(userMeals));
+    }
+  }, [dispatch, isSuccess, userMeals]);
+
+  if (isLoading) {
+    return (
+      <Center sx={{ height: '100%' }}>
+        <Loader color="teal" size="xl" variant="dots" />
+      </Center>
+    );
+  }
 
   // NOTE: we use Luxon to ensure timezone consistency across client and server
   const currentDate = DateTime.fromISO(day);

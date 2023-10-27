@@ -17,9 +17,9 @@ export const generateWeekDateArray = (startDate: Date, stopDate: Date): Date[] =
 };
 
 export function checkIfAllMealsHaveSameDate(meals: TUserMeals): Date | null {
-  if (!meals || !meals.meals) return null;
+  if (!meals) return null;
 
-  const allMealDates = meals.meals.map((meal) => meal.day);
+  const allMealDates = meals.map((meal) => meal.day);
 
   const allDatesAreSame = allMealDates.every((date) => date || null);
 

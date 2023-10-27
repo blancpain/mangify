@@ -34,6 +34,7 @@ import { baseQueryWithReauth } from '@/lib';
 export const mangifyApi = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
+  tagTypes: ['Meals'],
   endpoints: (build) => ({
     generateShowcaseMeals: build.mutation<ShowCaseRecipe[], TMealGeneratorLandingSchema>({
       query: ({ numberOfMeals, diet }) => ({
@@ -41,12 +42,20 @@ export const mangifyApi = createApi({
         method: 'GET',
       }),
     }),
+    getMeals: build.query<MealRecipe[], void>({
+      query: () => ({
+        url: `/meals`,
+        method: 'GET',
+      }),
+      providesTags: ['Meals'],
+    }),
     generateSingleDayMealPlan: build.mutation<MealRecipe[], TSingleDayMealDate>({
       query: (date) => ({
         url: `/meals/single-day`,
         method: 'POST',
         body: date,
       }),
+      invalidatesTags: ['Meals'],
     }),
     generateMultiDayMealPlan: build.mutation<MealRecipe[], TMultiMealDate>({
       query: (dates) => ({
@@ -54,6 +63,7 @@ export const mangifyApi = createApi({
         method: 'POST',
         body: dates,
       }),
+      invalidatesTags: ['Meals'],
     }),
     regenerateOneMeal: build.mutation<MealRecipe[], TOneMealRegenerationSchema>({
       query: (data) => ({
@@ -61,6 +71,7 @@ export const mangifyApi = createApi({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['Meals'],
     }),
     registerUser: build.mutation<NonSensitiveUser, TSignUpSchema>({
       query: ({ ...user }) => ({
@@ -209,4 +220,6 @@ export const {
   useGenerateSingleDayMealPlanMutation,
   useGenerateMultiDayMealPlanMutation,
   useRegenerateOneMealMutation,
+  // TODO: check what useLazyQuery does
+  useGetMealsQuery,
 } = mangifyApi;

@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks';
 import { setUser, logout, selectUser } from '@/stores';
 
 export const useAuth = () => {
-  const [authCheck, { isLoading, isUninitialized, isSuccess }] = useAuthCheckMutation();
+  const [authCheck, { isLoading, isUninitialized }] = useAuthCheckMutation();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(selectUser);
 
@@ -23,7 +23,6 @@ export const useAuth = () => {
   return {
     isLoading,
     isUninitialized,
-    isSuccess,
     user,
   };
 };
