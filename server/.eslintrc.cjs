@@ -12,8 +12,9 @@ module.exports = {
     browser: true,
     es2020: true,
     node: true,
+    jest: true,
   },
-  ignorePatterns: ['**/prisma/*', '.eslintrc.cjs', 'node_modules/*'],
+  ignorePatterns: ['**/prisma/*', '.eslintrc.cjs', 'node_modules/*', 'jest.config.ts'],
   rules: {
     '@typescript-eslint/semi': ['error'],
     '@typescript-eslint/explicit-function-return-type': 'off',

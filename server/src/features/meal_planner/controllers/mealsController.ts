@@ -23,7 +23,6 @@ const generateMultiDayMealPlan = async (
   let zodErrors = {};
 
   if (!result.success) {
-    req.session.destroy(() => {});
     result.error.issues.forEach((issue) => {
       zodErrors = { ...zodErrors, [issue.path[0]]: issue.message };
     });
@@ -54,7 +53,6 @@ const generateSingleDayMealPlan = async (
   let zodErrors = {};
 
   if (!result.success) {
-    req.session.destroy(() => {});
     result.error.issues.forEach((issue) => {
       zodErrors = { ...zodErrors, [issue.path[0]]: issue.message };
     });
@@ -85,7 +83,6 @@ const regenerateOneMeal = async (
   let zodErrors = {};
 
   if (!result.success) {
-    req.session.destroy(() => {});
     result.error.issues.forEach((issue) => {
       zodErrors = { ...zodErrors, [issue.path[0]]: issue.message };
     });

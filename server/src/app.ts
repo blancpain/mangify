@@ -11,6 +11,7 @@ import { userRouter, sessionRouter } from '@/features/auth';
 import { mealGeneratorShowcaseRouter } from '@/features/meal_generator_showcase';
 import { userSettingsRouter } from '@/features/users';
 import { mealsRouter } from '@/features/meal_planner';
+import { testingRouter } from '@/testing';
 
 // middleware
 import { morganMiddleware, sessionOptions, errorHandler } from '@/middleware';
@@ -43,6 +44,10 @@ app.use(
 );
 app.use(session(sessionOptions));
 app.use(morganMiddleware);
+
+if (process.env.NODE_ENV === 'development') {
+  app.use('/api/testing', testingRouter);
+}
 
 app.use('/api/users', userRouter);
 app.use('/api/session', sessionRouter);

@@ -23,8 +23,11 @@ const addUser = async (req: Request, res: Response, _next: NextFunction): Promis
   const result = signUpSchema.safeParse(body);
   let zodErrors = {};
 
-  // avoid creating sessions at registration point
-  req.session.destroy(() => {});
+  // NOTE: we do not want to destroy the session in test or development mode as we aren't using a mock session
+  if (process.env.NODE_ENV !== 'test' && process.env.NODE_ENV !== 'development') {
+    // Avoid creating new sessions if there are errors
+    req.session.destroy(() => {});
+  }
 
   if (!result.success) {
     req.session.destroy(() => {});
