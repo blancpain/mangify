@@ -136,6 +136,7 @@ export function Login(props: PaperProps) {
                 control={control}
                 render={({ field }) => (
                   <TextInput
+                    id="email"
                     label="Email"
                     placeholder="example@google.com"
                     radius="md"
@@ -151,6 +152,7 @@ export function Login(props: PaperProps) {
                 control={control}
                 render={({ field }) => (
                   <PasswordInput
+                    id="password"
                     label="Password"
                     placeholder="Your password"
                     radius="md"
@@ -166,13 +168,13 @@ export function Login(props: PaperProps) {
               <Anchor component={NavLink} to="/sign-up" color="dimmed" size="xs">
                 No account? Register
               </Anchor>
-              <Button type="submit" radius="xl" disabled={isSubmitting}>
+              <Button type="submit" radius="xl" id="login-button" disabled={isSubmitting}>
                 Login
               </Button>
             </Group>
           </form>
           {genericError !== '' ? (
-            <Text color="red" size="md" mt={10}>{`${genericError}`}</Text>
+            <Text color="red" size="md" mt={10} id="form-error">{`${genericError}`}</Text>
           ) : (
             ''
           )}

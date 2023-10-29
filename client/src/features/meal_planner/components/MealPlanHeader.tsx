@@ -11,7 +11,13 @@ export function MealPlanHeader({ handleGeneration, date }: MealPlanHeaderProps) 
       <Title order={2} mb="md">
         {date}
       </Title>
-      <Button leftIcon={<IconReload />} onClick={handleGeneration} color="teal" size="lg">
+      <Button
+        id="generate-meals"
+        leftIcon={<IconReload />}
+        onClick={handleGeneration}
+        color="teal"
+        size="lg"
+      >
         Generate
       </Button>
     </Flex>

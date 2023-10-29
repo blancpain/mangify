@@ -152,6 +152,7 @@ export function UserSettings() {
         </Title>
         <Select
           w="40%"
+          id="sex"
           value={profile.sex}
           placeholder="Your sex"
           // NOTE: type casting in this and the below enum fields should be OK since we have hardcoded them in the data array using the original type
@@ -167,6 +168,7 @@ export function UserSettings() {
         <Group>
           <NumberInput
             w="40%"
+            id="age"
             value={profile.age ? profile.age : ''}
             onChange={handleAgeInput}
             min={1}
@@ -179,6 +181,7 @@ export function UserSettings() {
         </Title>
         <Group>
           <NumberInput
+            id="height"
             w="40%"
             value={profile.height ? profile.height : ''}
             onChange={handleHeightInput}
@@ -193,6 +196,7 @@ export function UserSettings() {
         </Title>
         <Group>
           <NumberInput
+            id="weight"
             w="40%"
             value={profile.weight ? profile.weight : ''}
             onChange={handleWeightInput}
