@@ -25,17 +25,13 @@ import {
   syncMealsWithDb,
 } from '@/utils';
 
-// TODO: check if we need to use the active flag at all
-
 // NOTE: we use this function to add a delay between API calls
 const timeout = (ms: number) =>
   new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
 
-// TODO: (optional)
-// 1) implement a way to NOT generate meals for a particular day if the user already has meals for that day
-// 2) we might need to introduce a limit of how many single-day meal plans a user can generate
+// TODO: (optional): implement a way to NOT generate meals for a particular day if the user already has meals for that day
 
 const generateMultiDayMealPlan = async (
   id: string,

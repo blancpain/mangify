@@ -114,7 +114,7 @@ const refreshMeals = async (req: Request, res: Response, _next: NextFunction): P
   }
 };
 
-// WARN: the two controllers below are not currently in use, saved for a later release
+// WARN: saveMeal and getFavoriteMeals are not currently in use, saved for a later release
 const saveMeal = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
   const { user } = req.session;
 
