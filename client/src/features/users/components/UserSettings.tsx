@@ -108,7 +108,6 @@ export function UserSettings() {
     if (isNumber(val)) {
       dispatch(setHeight(val));
       await setUserHeight({ height: val });
-      // await updateNutritionProfileNotification();
     }
   };
 

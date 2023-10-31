@@ -27,7 +27,7 @@ export function UserMenu() {
     notifications.show({
       id: 'logout',
       loading: true,
-      title: 'Goodbye!',
+      title: 'See you later!',
       message: '',
       autoClose: false,
       withCloseButton: false,
@@ -40,9 +40,9 @@ export function UserMenu() {
         title: 'Logout successful ',
         message: '',
         icon: <IconCheck size="1rem" />,
-        autoClose: 1000,
+        autoClose: 2000,
       });
-    }, 2000);
+    }, 3000);
   };
 
   return (

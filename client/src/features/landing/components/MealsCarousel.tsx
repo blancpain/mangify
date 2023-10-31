@@ -30,7 +30,7 @@ export function MealsCarousel({ recipes }: Props) {
             },
           })}
         >
-          Your meals are ready, check them out below...
+          Your sample meals are ready, check them out below...
         </Title>
         <Carousel
           slideSize="50%"

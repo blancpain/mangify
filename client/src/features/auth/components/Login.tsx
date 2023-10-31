@@ -18,6 +18,7 @@ import {
   Container,
   Box,
   Title,
+  Flex,
 } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
 import { GoogleButton, FacebookButton } from '@/components/Buttons';
@@ -52,19 +53,17 @@ export function Login(props: PaperProps) {
     try {
       const userData = await login(data).unwrap();
       dispatch(setUser(userData));
-      // TODO: add toast effects here
       navigate('/', { replace: true });
       reset();
       notifications.show({
         id: 'login',
         icon: <IconCheck size="1rem" />,
-        title: 'Welcome!',
+        title: 'Login successful!',
         color: 'teal',
         message: '',
-        autoClose: 2000,
+        autoClose: 3000,
       });
     } catch (error: unknown) {
-      // TODO: add toast effects here
       if (isFetchBaseQueryError(error)) {
         if (
           error.data &&
@@ -110,7 +109,7 @@ export function Login(props: PaperProps) {
       component="main"
     >
       <Title>Welcome back</Title>
-      <Container size="xs" p="xl">
+      <Container p="xl" m="xl">
         <Paper
           radius="md"
           p="xl"
@@ -122,10 +121,14 @@ export function Login(props: PaperProps) {
             Sign in with
           </Text>
 
-          <Group grow mb="md" mt="md">
-            <GoogleButton radius="xl">Google</GoogleButton>
-            <FacebookButton radius="xl">Facebook</FacebookButton>
-          </Group>
+          <Flex mb="md" mt="md" gap="lg">
+            <GoogleButton radius="xl" disabled>
+              Google
+            </GoogleButton>
+            <FacebookButton radius="xl" disabled>
+              Facebook
+            </FacebookButton>
+          </Flex>
 
           <Divider label="Or continue with email" labelPosition="center" my="lg" />
 

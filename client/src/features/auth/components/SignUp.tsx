@@ -2,6 +2,7 @@ import { Controller, useForm, SubmitHandler } from 'react-hook-form';
 import { signUpSchema, TSignUpSchema } from '@shared/types';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { notifications } from '@mantine/notifications';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   TextInput,
@@ -12,13 +13,13 @@ import {
   PaperProps,
   Button,
   Divider,
-  Checkbox,
   Anchor,
   Stack,
   Box,
   Title,
   Container,
 } from '@mantine/core';
+import { IconCheck } from '@tabler/icons-react';
 import { GoogleButton, FacebookButton } from '@/components/Buttons';
 import { useRegisterUserMutation } from '@/features/api';
 import { isFetchBaseQueryError, isErrorWithMessage } from '@/utils';
@@ -50,10 +51,17 @@ export function SignUp(props: PaperProps) {
       await registerUser(data).unwrap();
       navigate('/login');
       reset();
+      notifications.show({
+        id: 'register-success',
+        icon: <IconCheck size="1rem" />,
+        title: 'Registration successful! You can now login.',
+        color: 'teal',
+        message: '',
+        autoClose: 5000,
+      });
     } catch (error: unknown) {
       /*
-       * Error handling flow:
-
+      NOTE: Error handling flow:
        * if the error is a fetchBaseQuery error we check the 'errors' property first
        * if it is an object we can assume this is a zodError due to how we set up the backend (i.e. {"errors": {"error1": "msg", "error2": "msg"} ... })
        * we go through all possible form validation errors
@@ -127,8 +135,12 @@ export function SignUp(props: PaperProps) {
           </Text>
 
           <Group grow mb="md" mt="md">
-            <GoogleButton radius="xl">Google</GoogleButton>
-            <FacebookButton radius="xl">Facebook</FacebookButton>
+            <GoogleButton radius="xl" disabled>
+              Google
+            </GoogleButton>
+            <FacebookButton radius="xl" disabled>
+              Facebook
+            </FacebookButton>
           </Group>
 
           <Divider label="Or register with email" labelPosition="center" my="lg" />
@@ -188,8 +200,6 @@ export function SignUp(props: PaperProps) {
               {errors.confirmPassword && (
                 <Text color="red" size="xs">{`${errors.confirmPassword.message}`}</Text>
               )}
-
-              <Checkbox label="I accept the terms and conditions" />
             </Stack>
 
             <Group position="apart" mt="xl">

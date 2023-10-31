@@ -83,17 +83,16 @@ export function Hero() {
   return (
     <div className={classes.hero}>
       <Overlay
-        gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.25) 40%)"
+        gradient="linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.50) 40%)"
         opacity={1}
         zIndex={0}
       />
       <Container className={classes.container}>
         <Title className={classes.title}>Plan. Shop. Cook. Eat.</Title>
         <Text className={classes.description} size="xl" mt="xl">
-          Use this simple and free of charge meal planner to remove the hassle of constantly
-          worrying about what to cook. This app can help you gain control of your life by suggesting
-          easy, nutrutious meals that fit your needs and turning them into shopping lists and
-          recipes.
+          Use this simple and free to use meal planner and never worry about what to cook again.
+          This app can help you gain control of your eating habits by suggesting easy, nutrutious
+          meals that fit your needs and preferences.
         </Text>
         <Button
           color="green"

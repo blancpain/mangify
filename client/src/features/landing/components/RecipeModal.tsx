@@ -1,6 +1,7 @@
 import { ShowCaseRecipe } from '@shared/types';
-import { Modal, Button, Group, createStyles, Title, List, Grid } from '@mantine/core';
+import { Modal, Button, Group, createStyles, List, Grid, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { nanoid } from '@reduxjs/toolkit';
 
 const useStyles = createStyles(() => ({
   seeRecipeBtn: {
@@ -15,12 +16,12 @@ type Props = { recipe: ShowCaseRecipe };
 export function RecipeModal({ recipe }: Props) {
   const { classes } = useStyles();
   const [opened, { open, close }] = useDisclosure(false);
-  const recipeSteps = recipe.steps?.map((step) => <li>{step}</li>);
+  const recipeSteps = recipe.steps?.map((step) => <li key={nanoid()}>{step}</li>);
   const ingredients = recipe.extendedIngredients?.map((ingredient) => {
     const firstLetter = ingredient.charAt(0).toUpperCase();
     const restOfWord = ingredient.slice(1).toLowerCase();
     const fullIngredientName = firstLetter + restOfWord;
-    return <List.Item>{fullIngredientName}</List.Item>;
+    return <List.Item key={nanoid()}>{fullIngredientName}</List.Item>;
   });
 
   return (
@@ -28,15 +29,19 @@ export function RecipeModal({ recipe }: Props) {
       <Modal
         opened={opened}
         onClose={close}
-        size="xl"
-        title={<Title order={3}>{recipe.title}</Title>}
+        size="auto"
+        title={
+          <Text size="xl" weight={900} pl={20}>
+            {recipe.title}
+          </Text>
+        }
       >
-        <Grid gutter={40} pl={30} pr={30}>
-          <Grid.Col span={6}>
+        <Grid pl={20} pr={20}>
+          <Grid.Col md={5} lg={6}>
             <h5>Ingredients:</h5>
             <List>{ingredients}</List>
           </Grid.Col>
-          <Grid.Col span={6}>
+          <Grid.Col md={5} lg={6}>
             <h5>Cooking instructions:</h5>
             <ol style={{ padding: '0px' }}>{recipeSteps}</ol>
           </Grid.Col>

@@ -34,6 +34,7 @@ const useStyles = createStyles((theme) => ({
 
     [theme.fn.smallerThan('sm')]: {
       width: '100%',
+      height: rem(60),
     },
   },
 

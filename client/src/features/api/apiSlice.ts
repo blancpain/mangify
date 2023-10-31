@@ -220,6 +220,5 @@ export const {
   useGenerateSingleDayMealPlanMutation,
   useGenerateMultiDayMealPlanMutation,
   useRegenerateOneMealMutation,
-  // TODO: check what useLazyQuery does
   useGetMealsQuery,
 } = mangifyApi;
