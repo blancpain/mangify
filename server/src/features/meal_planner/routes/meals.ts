@@ -16,8 +16,8 @@ mealsRouter.post(
 );
 mealsRouter.post('/one-meal', isAuthenticated, mealsController.regenerateOneMeal as RequestHandler);
 
-// TODO: second endpoint needs to be post
-// below two are saved for a future release
+// NOTE: below two are saved for a future release
+// second endpoint needs to be post!
 
 // mealsRouter.get('/favorites', isAuthenticated, mealsController.saveMeal as RequestHandler);
 // mealsRouter.get('/favorite', isAuthenticated, mealsController.getFavoriteMeals as RequestHandler);
