@@ -89,10 +89,10 @@ export function HeaderMegaMenu() {
             <Text component={NavLink} to="/" className={classes.link}>
               Home
             </Text>
-            <Text component={NavLink} to="/" className={classes.link}>
+            <Text component={NavLink} to="/learn" className={classes.link}>
               Learn
             </Text>
-            <Text component={NavLink} to="/" className={classes.link}>
+            <Text component={NavLink} to="/about" className={classes.link}>
               About
             </Text>
           </Group>
@@ -127,10 +127,10 @@ export function HeaderMegaMenu() {
           <Text component={NavLink} to="/" className={classes.link} onClick={closeDrawer}>
             Home
           </Text>
-          <Text component={NavLink} to="/" className={classes.link} onClick={closeDrawer}>
+          <Text component={NavLink} to="/learn" className={classes.link} onClick={closeDrawer}>
             Learn
           </Text>
-          <Text component={NavLink} to="/" className={classes.link} onClick={closeDrawer}>
+          <Text component={NavLink} to="/about" className={classes.link} onClick={closeDrawer}>
             About
           </Text>
 
