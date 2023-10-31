@@ -1,5 +1,6 @@
-import { Title } from '@mantine/core';
+import { Button, Center, Flex, Title } from '@mantine/core';
 import { nanoid } from '@reduxjs/toolkit';
+import { NavLink } from 'react-router-dom';
 import { selectUser } from '@/stores';
 import { useAppSelector } from '@/hooks';
 import { PieChart } from '@/components';
@@ -19,7 +20,16 @@ export function NutritionProfile() {
           carbs={profile.carbs}
         />
       )}
-      {!profile.calories && <Title>Please fill out your profile - click here...</Title>}
+      {!profile.calories && (
+        <Center h="50vh">
+          <Flex direction="column" gap={40} align="center">
+            <Title> You need to complete your profile to see your macros </Title>
+            <Button w="50%" color="teal" variant="filled" component={NavLink} to="/user-settings">
+              Click here
+            </Button>
+          </Flex>
+        </Center>
+      )}
     </>
   );
 }
