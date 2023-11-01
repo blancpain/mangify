@@ -24,11 +24,13 @@ const getRecipes = async (
       image: recipe.image,
       dishType: recipe.dishTypes?.[0],
       calories: recipe.summary ? extractCalories(recipe.summary) : null,
-      steps: [
-        ...(recipe.analyzedInstructions?.[0].steps
-          ? recipe.analyzedInstructions[0].steps.map((step) => (step.step ? step.step : ''))
-          : ''),
-      ],
+      steps: recipe.analyzedInstructions?.length
+        ? [
+            ...(recipe.analyzedInstructions?.[0].steps
+              ? recipe.analyzedInstructions[0].steps.map((step) => (step.step ? step.step : ''))
+              : ''),
+          ]
+        : [''],
     }));
     return transformedData;
   }

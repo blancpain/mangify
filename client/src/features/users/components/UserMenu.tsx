@@ -71,7 +71,7 @@ export function UserMenu() {
             }}
           >
             <Group>
-              <Avatar color="green" radius="xl">
+              <Avatar color="teal" radius="xl">
                 <IconUser size={rem(20)} />
               </Avatar>
               <Box sx={{ flex: 1 }} id="user-name">

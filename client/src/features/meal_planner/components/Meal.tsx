@@ -80,7 +80,6 @@ export function Meal({
     }
   };
 
-  // TODO: move the hover card to a separate component and add the colors from the pie chart for the macros
   return (
     <Group>
       <Modal

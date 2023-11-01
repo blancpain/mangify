@@ -74,9 +74,6 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-//! Photo by <a href="https://unsplash.com/@louishansel?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Louis Hansel</a> on <a href="https://unsplash.com/photos/phEaeqe555M?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
-//! check https://mantine.dev/core/aspect-ratio/ for image
-
 export function Hero() {
   const { classes } = useStyles();
 
@@ -95,7 +92,7 @@ export function Hero() {
           meals that fit your needs and preferences.
         </Text>
         <Button
-          color="green"
+          color="teal"
           size="xl"
           radius="xl"
           className={classes.control}

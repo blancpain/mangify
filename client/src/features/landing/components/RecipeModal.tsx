@@ -16,7 +16,9 @@ type Props = { recipe: ShowCaseRecipe };
 export function RecipeModal({ recipe }: Props) {
   const { classes } = useStyles();
   const [opened, { open, close }] = useDisclosure(false);
-  const recipeSteps = recipe.steps?.map((step) => <li key={nanoid()}>{step}</li>);
+  const recipeSteps = recipe.steps
+    ? recipe.steps.map((step) => <li key={nanoid()}>{step}</li>)
+    : '';
   const ingredients = recipe.extendedIngredients?.map((ingredient) => {
     const firstLetter = ingredient.charAt(0).toUpperCase();
     const restOfWord = ingredient.slice(1).toLowerCase();

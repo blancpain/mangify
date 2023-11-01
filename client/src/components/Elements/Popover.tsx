@@ -1,4 +1,5 @@
 import { Popover, Text } from '@mantine/core';
+import { motion } from 'framer-motion';
 
 type PopoverProps = {
   buttonText: string;
@@ -7,11 +8,13 @@ type PopoverProps = {
 
 export function CustomPopover({ buttonText, dropdownText }: PopoverProps) {
   return (
-    <Popover width={300} position="bottom" shadow="md">
+    <Popover width={300} position="bottom" shadow="xl">
       <Popover.Target>
-        <Text color="teal" underline size="md" fw={600}>
-          {buttonText}
-        </Text>
+        <motion.div whileHover={{ scale: 0.95 }}>
+          <Text size="xl" italic>
+            {buttonText}
+          </Text>
+        </motion.div>
       </Popover.Target>
       <Popover.Dropdown>
         <Text size="md">{dropdownText}</Text>

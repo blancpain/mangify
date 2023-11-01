@@ -126,7 +126,7 @@ export function MealGenerator() {
                 mt="md"
                 withinPortal
                 data={['vegetarian', 'keto', 'vegan']}
-                placeholder="Pick one or leave empty for any diet"
+                placeholder="Any"
                 label="Diet"
                 classNames={classes}
                 // eslint-disable-next-line react/jsx-props-no-spreading
@@ -136,7 +136,7 @@ export function MealGenerator() {
           />
         </Flex>
         <Flex justify="center" p={10} mb={10} pt={0}>
-          <Button color="green" size="xl" radius="xl" type="submit" id="meal-generator">
+          <Button color="teal" size="xl" radius="xl" type="submit" id="meal-generator">
             Generate
           </Button>
         </Flex>
@@ -148,7 +148,7 @@ export function MealGenerator() {
 
       {isLoading && (
         <Center>
-          <Loader color="green" size="xl" variant="dots" mt="xl" />
+          <Loader color="teal" size="xl" variant="dots" mt="xl" />
         </Center>
       )}
       {recipes && (

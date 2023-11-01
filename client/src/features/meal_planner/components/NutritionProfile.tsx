@@ -23,7 +23,7 @@ export function NutritionProfile() {
       {!profile.calories && (
         <Center h="50vh">
           <Flex direction="column" gap={40} align="center">
-            <Title> You need to complete your profile to see your macros </Title>
+            <Title align="center"> Please complete your profile to see your macros </Title>
             <Button w="50%" color="teal" variant="filled" component={NavLink} to="/user-settings">
               Click here
             </Button>

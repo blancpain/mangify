@@ -110,7 +110,7 @@ const refreshMeals = async (req: Request, res: Response, _next: NextFunction): P
   if (data) {
     res.json(data);
   } else {
-    res.status(502).json({ errors: 'Issue connecting to external service' });
+    res.status(204).end(); // if there is an axios error it will be picked up by the errorHandler
   }
 };
 

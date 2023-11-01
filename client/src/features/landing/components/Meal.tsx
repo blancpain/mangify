@@ -1,10 +1,7 @@
 import { createStyles, Text, Title, rem, Box, Paper, Flex } from '@mantine/core';
 import { ShowCaseRecipe } from '@shared/types';
 import { RecipeModal } from './RecipeModal';
-
-// TODO:
-// make sure we use a default image if no img provided
-// maybe also have general fallbacks in case stuff is null/missing....
+import { emptyMealImageShowcaseGen } from '@/assets';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -53,13 +50,15 @@ export function Meal({ recipe }: MealProps) {
         <Text className={classes.dishType} size="xs">
           {recipe.dishType ? recipe.dishType : 'Meal'}
         </Text>
-        <Title className={classes.title}>{recipe.title}</Title>
+        <Title className={classes.title}>
+          {recipe.title ? recipe.title : 'The best meal ever!'}
+        </Title>
       </Flex>
       <Paper
         shadow="md"
         p="xl"
         radius="md"
-        sx={{ backgroundImage: `url(${recipe.image})` }}
+        sx={{ backgroundImage: `url(${recipe.image ? recipe.image : emptyMealImageShowcaseGen})` }}
         className={classes.card}
       >
         <RecipeModal recipe={recipe} />

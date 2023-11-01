@@ -51,8 +51,6 @@ export function UserSettings() {
   const [setUserCarbs] = useSetCarbsMutation();
   const [setUserFats] = useSetFatsMutation();
 
-  // TODO: we should be showing a notificaiton to urge user to complete profile if settings are empty
-  // reword notif messages
   useEffect(() => {
     if (allUserSettingsProvided(profile)) {
       // NOTE: update Nutrition Profile based on changed user settings and trigger notification
@@ -102,8 +100,7 @@ export function UserSettings() {
     }
   }, [profile, dispatch, setUserCarbs, setUserCalories, setUserFats, setUserProtein]);
 
-  // TODO: refactor these, lots can be extracted in helper
-  // especially the error handling - currently none...
+  // NOTE: might have to do error handling for these in case of DB failure
   const handleHeightInput = async (val: unknown) => {
     if (isNumber(val)) {
       dispatch(setHeight(val));

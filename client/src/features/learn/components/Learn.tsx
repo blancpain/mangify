@@ -1,21 +1,26 @@
 import { useState } from 'react';
-import { Stepper, Flex } from '@mantine/core';
+import { Stepper, Flex, Text, Title } from '@mantine/core';
 import { CustomPopover } from '@/components';
 
 export function Learn() {
   const [active, setActive] = useState(0);
 
   return (
-    <Flex align="center" justify="center" m={50}>
-      <Stepper
-        active={active}
-        onStepClick={setActive}
-        orientation="vertical"
-        color="teal"
-        size="lg"
-      >
+    <Flex
+      align="center"
+      gap={50}
+      sx={{ minHeight: '100vh' }}
+      mt={50}
+      ml={30}
+      mr={30}
+      direction="column"
+    >
+      <Title order={1} align="center">
+        Follow the steps below to become a mangify expert in no time!
+      </Title>
+      <Stepper active={active} onStepClick={setActive} m={40} orientation="vertical" color="teal">
         <Stepper.Step
-          label="Step 1"
+          label={<Text size={35}>Step 1</Text>}
           description={
             <CustomPopover
               buttonText="Create an account"
@@ -25,7 +30,7 @@ export function Learn() {
           sx={{ paddingBottom: '100px' }}
         />
         <Stepper.Step
-          label="Step 2"
+          label={<Text size={35}>Step 2</Text>}
           description={
             <CustomPopover
               buttonText="Complete your user profile and set your preferences"
@@ -35,7 +40,7 @@ export function Learn() {
           sx={{ paddingBottom: '100px' }}
         />
         <Stepper.Step
-          label="Step 3"
+          label={<Text size={35}>Step 3</Text>}
           description={
             <CustomPopover
               buttonText="Find out your daily nutrition targets"
@@ -45,11 +50,11 @@ export function Learn() {
           sx={{ paddingBottom: '100px' }}
         />
         <Stepper.Step
-          label="Step 3"
+          label={<Text size={35}>Step 4</Text>}
           description={
             <CustomPopover
               buttonText="Generate some meals and start using Mangify!"
-              dropdownText="Enjoy your meal plan!"
+              dropdownText="With a single click you can generate up to a week's worth of meals. Enjoy your meal plan!"
             />
           }
           sx={{ paddingBottom: '100px' }}

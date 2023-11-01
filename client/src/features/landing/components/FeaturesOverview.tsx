@@ -42,7 +42,7 @@ const features = [
     icon: IconChartBar,
     title: 'Meal statistics',
     description:
-      'Get a detailed overview for each meal, including calories, macronutrients and more',
+      'Get a detailed overview for each meal, including calories, macronutrients, full ingredient amounts and more',
   },
   {
     icon: IconChartPie3,
@@ -91,14 +91,14 @@ export function FeaturesOverview() {
             Sign up today to take advantage of all the benefits of mangify
           </Title>
           <Text c="dimmed">
-            Becoming a member of mangify is completely free and only takes a few minutes. What are
-            you waiting for? Sign up now!
+            Becoming a member of mangify is <u>completely free</u> and only takes a few minutes.
+            What are you waiting for? Sign up now!
           </Text>
 
           <Stack>
             <Button
               variant="filled"
-              color="green"
+              color="teal"
               size="lg"
               radius="md"
               mt="xl"
