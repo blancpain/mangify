@@ -1,0 +1,2432 @@
+[
+  {
+    "id": 662375,
+    "ingredients": [
+      {
+        "id": 2069,
+        "ingredient": "balsamic vinegar",
+        "ingredientImage": "balsamic-vinegar.jpg",
+        "amount": 127.5,
+        "unit": "ml"
+      },
+      {
+        "id": 11951,
+        "ingredient": "& bell pepper",
+        "ingredientImage": "yellow-bell-pepper.jpg",
+        "amount": 4,
+        "unit": "servings"
+      },
+      {
+        "id": 19334,
+        "ingredient": "brown sugar",
+        "ingredientImage": "light-brown-sugar.jpg",
+        "amount": 110,
+        "unit": "g"
+      },
+      {
+        "id": 11260,
+        "ingredient": "button mushrooms",
+        "ingredientImage": "mushrooms-white.jpg",
+        "amount": 24,
+        "unit": ""
+      },
+      {
+        "id": 10211216,
+        "ingredient": "ginger",
+        "ingredientImage": "ginger.png",
+        "amount": 1,
+        "unit": "inch"
+      },
+      {
+        "id": 1012049,
+        "ingredient": "thyme",
+        "ingredientImage": "thyme.jpg",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 11215,
+        "ingredient": "garlic",
+        "ingredientImage": "garlic.png",
+        "amount": 4,
+        "unit": "cloves"
+      },
+      {
+        "id": 11291,
+        "ingredient": "green onions",
+        "ingredientImage": "spring-onions.jpg",
+        "amount": 4,
+        "unit": "servings"
+      },
+      {
+        "id": 1002030,
+        "ingredient": "pepper",
+        "ingredientImage": "pepper.jpg",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 9354,
+        "ingredient": "pineapple",
+        "ingredientImage": "pineapple-with-can.png",
+        "amount": 24,
+        "unit": "cubes"
+      },
+      {
+        "id": 9273,
+        "ingredient": "pineapple juice",
+        "ingredientImage": "pineapple-juice.jpg",
+        "amount": 118,
+        "unit": "ml"
+      },
+      {
+        "id": 10023232,
+        "ingredient": "ribeye steaks",
+        "ingredientImage": "ribeye-raw.jpg",
+        "amount": 907.185,
+        "unit": "g"
+      },
+      {
+        "id": 15270,
+        "ingredient": "shrimp",
+        "ingredientImage": "shrimp.png",
+        "amount": 24,
+        "unit": "large"
+      },
+      {
+        "id": 16124,
+        "ingredient": "soy sauce",
+        "ingredientImage": "soy-sauce.jpg",
+        "amount": 232,
+        "unit": "ml"
+      }
+    ],
+    "title": "Surf and Turf Kababs",
+    "image": "https://spoonacular.com/recipeImages/662375-312x231.jpg",
+    "date": "2023-11-01T00:00:00.000Z",
+    "uniqueIdentifier": "dNsxlJS8uAubLLAVbQTq8",
+    "mealTypes": ["lunch", "main course", "main dish", "dinner"],
+    "fullNutritionProfile": {
+      "calories": 880.28,
+      "protein": 72.2,
+      "fats": 33.38,
+      "carbs": 78.3
+    },
+    "directions": [
+      "Place cut meat &amp; vegetables in Ziploc bag and pour half of marinade over them.  Seal tight and roll bag in hands to thoroughly coat ingredients.",
+      "Place bag in refrigerator and let marinate at least 4 to 6 hours or overnight.When ready to grill, pour off excess marinade and string meat and veggies alternately on skewers.",
+      "Heat grill to medium-high heat and grill kabobs directly over coals or gas flame.  Grill for about 6 to 8 minutes per side or until desired doneness.  During the last 5 minutes of cooking, baste kabobs with glaze and close grill and let caramelize.Marinade &amp; Glaze",
+      "Combine marinade and pour off half into a small saucepan.",
+      "Pour the remaining half over meet and vegetables in Ziploc bag.For glaze:  Cook glaze over medium heat, stirring occasionally.  Reduce mixture by 1/3 to 1/2 or until glaze coats the back of a spoon."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/surf-and-turf-kababs-662375"
+  },
+  {
+    "id": 638936,
+    "ingredients": [
+      {
+        "id": 20081,
+        "ingredient": "all purpose flour",
+        "ingredientImage": "flour.png",
+        "amount": 218.75,
+        "unit": "g"
+      },
+      {
+        "id": 18369,
+        "ingredient": "baking powder",
+        "ingredientImage": "white-powder.jpg",
+        "amount": 2,
+        "unit": "tsps"
+      },
+      {
+        "id": 18372,
+        "ingredient": "baking soda",
+        "ingredientImage": "white-powder.jpg",
+        "amount": 0.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 19165,
+        "ingredient": "best quality cocoa",
+        "ingredientImage": "cocoa-powder.png",
+        "amount": 2,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 1123,
+        "ingredient": "egg",
+        "ingredientImage": "egg.png",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 19903,
+        "ingredient": "semi-sweet chocolate chips",
+        "ingredientImage": "dark-chocolate-pieces.jpg",
+        "amount": 131.25,
+        "unit": "ml"
+      },
+      {
+        "id": 1077,
+        "ingredient": "milk",
+        "ingredientImage": "milk.png",
+        "amount": 244,
+        "unit": "ml"
+      },
+      {
+        "id": 19335,
+        "ingredient": "sugar",
+        "ingredientImage": "sugar-in-bowl.png",
+        "amount": 150,
+        "unit": "g"
+      },
+      {
+        "id": 2050,
+        "ingredient": "vanilla extract",
+        "ingredientImage": "vanilla-extract.jpg",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 4669,
+        "ingredient": "c",
+        "ingredientImage": "vegetable-oil.jpg",
+        "amount": 1,
+        "unit": "tsp"
+      }
+    ],
+    "title": "Chocolate Chip Muffins",
+    "image": "https://spoonacular.com/recipeImages/638936-312x231.jpg",
+    "date": "2023-11-01T00:00:00.000Z",
+    "uniqueIdentifier": "Q9JOTsfHoHzk0kNuJbAzY",
+    "mealTypes": ["morning meal", "brunch", "breakfast"],
+    "fullNutritionProfile": {
+      "calories": 605.34,
+      "protein": 11.53,
+      "fats": 17.69,
+      "carbs": 101.34
+    },
+    "directions": [
+      "Preheat oven to 400degrees and fill muffin tin with paper cups.",
+      "Measure the dry ingredients into a large bowl.",
+      "Pour all the liquid ingredients into a measuring cup.",
+      "Mix both together, remembering that a lumpy batter makes teh best muffins. Spoon into waiting cups.",
+      "Sprinkle more chocolate chips on top, then cook for 20 minutes until muffins are dark, risen and springy."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/chocolate-chip-muffins-638936"
+  },
+  {
+    "id": 649431,
+    "ingredients": [
+      {
+        "id": 1041009,
+        "ingredient": "tasty cheese",
+        "ingredientImage": "cheddar-cheese.png",
+        "amount": 56.5,
+        "unit": "g"
+      },
+      {
+        "id": 1053,
+        "ingredient": "cream",
+        "ingredientImage": "fluid-cream.jpg",
+        "amount": 119,
+        "unit": "ml"
+      },
+      {
+        "id": 1125,
+        "ingredient": "egg yolks",
+        "ingredientImage": "egg-yolk.jpg",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 1123,
+        "ingredient": "eggs",
+        "ingredientImage": "egg.png",
+        "amount": 4,
+        "unit": ""
+      },
+      {
+        "id": 11215,
+        "ingredient": "garlic",
+        "ingredientImage": "garlic.png",
+        "amount": 1,
+        "unit": "Clove"
+      },
+      {
+        "id": 11246,
+        "ingredient": "leeks",
+        "ingredientImage": "leeks.jpg",
+        "amount": 2,
+        "unit": ""
+      },
+      {
+        "id": 9152,
+        "ingredient": "lemon juice",
+        "ingredientImage": "lemon-juice.jpg",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 1077,
+        "ingredient": "milk",
+        "ingredientImage": "milk.png",
+        "amount": 244,
+        "unit": "ml"
+      },
+      {
+        "id": 11260,
+        "ingredient": "mushrooms",
+        "ingredientImage": "mushrooms-white.jpg",
+        "amount": 250,
+        "unit": "g"
+      },
+      {
+        "id": 20081,
+        "ingredient": "flour",
+        "ingredientImage": "flour.png",
+        "amount": 125,
+        "unit": "g"
+      },
+      {
+        "id": 2047,
+        "ingredient": "salt",
+        "ingredientImage": "salt.jpg",
+        "amount": 4,
+        "unit": "servings"
+      },
+      {
+        "id": 1145,
+        "ingredient": "butter",
+        "ingredientImage": "butter-sliced.jpg",
+        "amount": 1,
+        "unit": "Tbsp"
+      }
+    ],
+    "title": "Leek and Mushroom Quiche",
+    "image": "https://spoonacular.com/recipeImages/649431-312x231.jpg",
+    "date": "2023-11-01T00:00:00.000Z",
+    "uniqueIdentifier": "s9-EZU6Y-bn4czBo-FI7P",
+    "mealTypes": [
+      "lunch",
+      "main course",
+      "morning meal",
+      "brunch",
+      "main dish",
+      "breakfast",
+      "dinner"
+    ],
+    "fullNutritionProfile": {
+      "calories": 467.67,
+      "protein": 20.24,
+      "fats": 26.58,
+      "carbs": 39.09
+    },
+    "directions": [
+      "Pastry:Sift flour and salt into a bowl, rub in butter, add egg yolk and lemon juice and mix to a firm dough. Cover and refrigerate 20 minutes.",
+      "Roll dough out large enough to line a 25cm flan tin, trim the edges. Cover pastry with greaseproof paper and fill with dried beans or rice to hold in shape while cooking.",
+      "Bake in a moderate oven for 7 minutes, remove paper and beans and bake a furthur 7 minutes. Set aside until required.",
+      "Whisk eggs, cream, milk and cheeses together and set aside.Slice leeks and mushrooms.Melt butter in a pan and cook garlic, mushrooms and leeks about 4 minutes until tender.",
+      "Spread leek mushroom mixture evenly over pastry.",
+      "Pour over egg mixture and sprinkle with paprika.",
+      "Bake in a moderate oven for about 30 minutes or until set.",
+      "Serves 4."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/leek-and-mushroom-quiche-649431"
+  },
+  {
+    "id": 1098240,
+    "ingredients": [
+      {
+        "id": 11215,
+        "ingredient": "garlic",
+        "ingredientImage": "garlic.png",
+        "amount": 7,
+        "unit": "cloves"
+      },
+      {
+        "id": 10611529,
+        "ingredient": "vine tomatoes",
+        "ingredientImage": "roma-tomatoes.png",
+        "amount": 2,
+        "unit": ""
+      },
+      {
+        "id": 11477,
+        "ingredient": "zucchini",
+        "ingredientImage": "zucchini.jpg",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 11416,
+        "ingredient": "pumpkin flowers",
+        "ingredientImage": "squash-blossoms.jpg",
+        "amount": 24,
+        "unit": ""
+      },
+      {
+        "id": 9150,
+        "ingredient": "lemon",
+        "ingredientImage": "lemon.png",
+        "amount": 0.5,
+        "unit": ""
+      },
+      {
+        "id": 2044,
+        "ingredient": "basil",
+        "ingredientImage": "basil.jpg",
+        "amount": 4,
+        "unit": "servings"
+      },
+      {
+        "id": 1014582,
+        "ingredient": "canola oil",
+        "ingredientImage": "vegetable-oil.jpg",
+        "amount": 112,
+        "unit": "ml"
+      },
+      {
+        "id": 4053,
+        "ingredient": "olive oil",
+        "ingredientImage": "olive-oil.jpg",
+        "amount": 2,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 1038,
+        "ingredient": "romano cheese",
+        "ingredientImage": "parmesan.jpg",
+        "amount": 4,
+        "unit": "servings"
+      },
+      {
+        "id": 1123,
+        "ingredient": "egg",
+        "ingredientImage": "egg.png",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 20081,
+        "ingredient": "flour",
+        "ingredientImage": "flour.png",
+        "amount": 125,
+        "unit": "g"
+      },
+      {
+        "id": 2047,
+        "ingredient": "salt",
+        "ingredientImage": "salt.jpg",
+        "amount": 0.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 1002030,
+        "ingredient": "pepper",
+        "ingredientImage": "pepper.jpg",
+        "amount": 0.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 1032009,
+        "ingredient": "pepper flakes",
+        "ingredientImage": "red-pepper-flakes.jpg",
+        "amount": 0.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 11420420,
+        "ingredient": "spaghetti",
+        "ingredientImage": "spaghetti.jpg",
+        "amount": 453.592,
+        "unit": "g"
+      }
+    ],
+    "title": "Lemon Fresh Spaghetti with Garden Sauce & Pumpkin Flowers",
+    "image": "https://spoonacular.com/recipeImages/1098240-312x231.jpg",
+    "date": "2023-11-02T00:00:00.000Z",
+    "uniqueIdentifier": "DNCj31mJiPaBkst62B39a",
+    "mealTypes": ["side dish", "lunch", "main course", "main dish", "dinner"],
+    "fullNutritionProfile": {
+      "calories": 814.66,
+      "protein": 30.99,
+      "fats": 24.18,
+      "carbs": 117.78
+    },
+    "directions": [
+      "Heat a large cast iron frying pan with a  inch of canola oil; add the zucchini slices and fry until golden. Do not overcrowd the pan.",
+      "Place the slices on a plate prepared with a paper towel to absorb the excess oil.Rinse the flowers with cold water in a colander. Gently pat the flowers dry.",
+      "Place the flour in a shallow bowl; in another shallow bowl beat the egg with a splash of water. Dip the flowers first in the flour; then the egg-wash and again in the flour.",
+      "Heat the frying pan with a  inch of canola oil and place the prepared flowers in the heated oil. Do not overcrowd the pan. Fry until slightly golden; then place the flowers on a plate prepared with a paper towel.Wipe any crumbs from the frying pan.",
+      "Heat a frying pan with two or three tablespoons of olive oil.",
+      "Add the diced tomatoes, chopped garlic, and lemon slices.",
+      "Saute the tomatoes on a medium heat until the tomatoes are soft and a sauce like consistency; add the seasonings to taste and the fresh basil.Prepare the pasta as the sauce cooks.",
+      "Place the pasta in the sauce and toss.Plate the pasta; garnish with the fried zucchini and the fried flowers. Finish the dish with dashes of red pepper flakes; a drizzle of olive oil, and fresh Romano cheese shavings."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/lemon-fresh-spaghetti-with-garden-sauce-pumpkin-flowers-1098240"
+  },
+  {
+    "id": 657256,
+    "ingredients": [
+      {
+        "id": 18033,
+        "ingredient": "day-old baguette",
+        "ingredientImage": "half-baguette.jpg",
+        "amount": 1.183,
+        "unit": "kgs"
+      },
+      {
+        "id": 1001,
+        "ingredient": "butter",
+        "ingredientImage": "butter-sliced.jpg",
+        "amount": 1,
+        "unit": "stick"
+      },
+      {
+        "id": 1125,
+        "ingredient": "eggs plus 1 yolk",
+        "ingredientImage": "egg-yolk.jpg",
+        "amount": 2,
+        "unit": "large"
+      },
+      {
+        "id": 1022001,
+        "ingredient": "ground allspice",
+        "ingredientImage": "allspice-ground.jpg",
+        "amount": 0.125,
+        "unit": "tsps"
+      },
+      {
+        "id": 1012010,
+        "ingredient": "ground cinnamon",
+        "ingredientImage": "cinnamon.jpg",
+        "amount": 0.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 2011,
+        "ingredient": "ground cloves",
+        "ingredientImage": "cloves.jpg",
+        "amount": 1,
+        "unit": "pinch"
+      },
+      {
+        "id": 2021,
+        "ingredient": "ground ginger",
+        "ingredientImage": "ginger.png",
+        "amount": 0.25,
+        "unit": "tsps"
+      },
+      {
+        "id": 1053,
+        "ingredient": "heavy cream",
+        "ingredientImage": "fluid-cream.jpg",
+        "amount": 238,
+        "unit": "ml"
+      },
+      {
+        "id": 2047,
+        "ingredient": "salt",
+        "ingredientImage": "salt.jpg",
+        "amount": 0.125,
+        "unit": "tsps"
+      },
+      {
+        "id": 11424,
+        "ingredient": "solid-pack pumpkin",
+        "ingredientImage": "pumpkin-puree.jpg",
+        "amount": 183.75,
+        "unit": "g"
+      },
+      {
+        "id": 19335,
+        "ingredient": "sugar",
+        "ingredientImage": "sugar-in-bowl.png",
+        "amount": 100,
+        "unit": "g"
+      },
+      {
+        "id": 1011077,
+        "ingredient": "milk",
+        "ingredientImage": "milk.png",
+        "amount": 122,
+        "unit": "ml"
+      }
+    ],
+    "title": "Pumpkin Bread Pudding",
+    "image": "https://spoonacular.com/recipeImages/657256-312x231.jpg",
+    "date": "2023-11-02T00:00:00.000Z",
+    "uniqueIdentifier": "3dcGyPoY66BJTnjCQR4ml",
+    "mealTypes": ["dessert"],
+    "fullNutritionProfile": {
+      "calories": 886.41,
+      "protein": 21.92,
+      "fats": 37.28,
+      "carbs": 116.44
+    },
+    "directions": [
+      "Preheat oven to 350F with rack in middle.",
+      "Whisk together cream, pumpkin, milk, sugar, eggs, yolk, salt, and spices in a bowl.Toss bread cubes with butter in another bowl, then add pumpkin mixture and toss to coat.",
+      "Transfer to an ungreased 8-inch square baking dish and bake until custard is set, 25 to 30 minutes."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/pumpkin-bread-pudding-657256"
+  },
+  {
+    "id": 655406,
+    "ingredients": [
+      {
+        "id": 18369,
+        "ingredient": "baking powder",
+        "ingredientImage": "white-powder.jpg",
+        "amount": 0.75,
+        "unit": "tsps"
+      },
+      {
+        "id": 18372,
+        "ingredient": "baking soda",
+        "ingredientImage": "white-powder.jpg",
+        "amount": 0.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 19334,
+        "ingredient": "brown sugar",
+        "ingredientImage": "light-brown-sugar.jpg",
+        "amount": 165,
+        "unit": "g"
+      },
+      {
+        "id": 1145,
+        "ingredient": "butter",
+        "ingredientImage": "butter-sliced.jpg",
+        "amount": 113.5,
+        "unit": "g"
+      },
+      {
+        "id": 1123,
+        "ingredient": "eggs",
+        "ingredientImage": "egg.png",
+        "amount": 2,
+        "unit": "large"
+      },
+      {
+        "id": 20081,
+        "ingredient": "flour",
+        "ingredientImage": "flour.png",
+        "amount": 2,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 1022001,
+        "ingredient": "ground allspice",
+        "ingredientImage": "allspice-ground.jpg",
+        "amount": 0.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 1032006,
+        "ingredient": "ground cardamom",
+        "ingredientImage": "cardamom-ground.jpg",
+        "amount": 0.25,
+        "unit": "tsps"
+      },
+      {
+        "id": 1012010,
+        "ingredient": "ground cinnamon",
+        "ingredientImage": "cinnamon.jpg",
+        "amount": 0.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 2021,
+        "ingredient": "ground ginger",
+        "ingredientImage": "ginger.png",
+        "amount": 0.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 9152,
+        "ingredient": "juice of lemon",
+        "ingredientImage": "lemon-juice.jpg",
+        "amount": 0.5,
+        "unit": ""
+      },
+      {
+        "id": 1082047,
+        "ingredient": "kosher salt",
+        "ingredientImage": "salt.jpg",
+        "amount": 0.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 9156,
+        "ingredient": "lemon zest",
+        "ingredientImage": "zest-lemon.jpg",
+        "amount": 2,
+        "unit": ""
+      },
+      {
+        "id": 9252,
+        "ingredient": "pears",
+        "ingredientImage": "pears-bosc.jpg",
+        "amount": 3,
+        "unit": ""
+      },
+      {
+        "id": 1056,
+        "ingredient": "cream",
+        "ingredientImage": "sour-cream.jpg",
+        "amount": 230,
+        "unit": "ml"
+      },
+      {
+        "id": 2050,
+        "ingredient": "vanilla extract",
+        "ingredientImage": "vanilla-extract.jpg",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 12155,
+        "ingredient": "walnuts",
+        "ingredientImage": "walnuts.jpg",
+        "amount": 117,
+        "unit": "g"
+      },
+      {
+        "id": 20078,
+        "ingredient": "wheat germ",
+        "ingredientImage": "wheat-germ.png",
+        "amount": 2,
+        "unit": "Tbsps"
+      }
+    ],
+    "title": "Pear and Walnut Coffee Cake",
+    "image": "https://spoonacular.com/recipeImages/655406-312x231.jpg",
+    "date": "2023-11-02T00:00:00.000Z",
+    "uniqueIdentifier": "nlI69a_rinNwu5QovhESQ",
+    "mealTypes": ["morning meal", "dessert", "brunch", "breakfast"],
+    "fullNutritionProfile": {
+      "calories": 527.7,
+      "protein": 6.68,
+      "fats": 24.95,
+      "carbs": 73.12
+    },
+    "directions": [
+      "Start topping by putting brown sugar, spices, flour, wheat germ, nuts and butter in a food processor. Blend down until crumbly. Cover and place in fridge to keep cold.Grease a 10 springform pan with butter, then lightly dust with flour and tap out the excess. Set aside. Toss pears with lemon juice and set aside.With an electric mixer, beat butter, sugar and lemon zest for cake batter until fluffy, approximately 3-5 minutes.",
+      "Add eggs and vanilla and mix until combined.In a separate bowl, whisk together flour, baking soda, baking powder and salt. Starting with sour cream, alternately add to cake batter along with dry ingredients until just combined.",
+      "Pour cake batter into the prepared pan. Top pears and sprinkle crumble topping over the fruit.",
+      "Bake in a preheated oven at 350 degrees for 40-50 minutes or until a tester comes out clean.",
+      "Remove from oven and cool in pan for at least 20-25 minutes before serving."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/pear-and-walnut-coffee-cake-655406"
+  },
+  {
+    "id": 1502521,
+    "ingredients": [
+      {
+        "id": 1005114,
+        "ingredient": "chicken breasts",
+        "ingredientImage": "rotisserie-chicken.png",
+        "amount": 2,
+        "unit": ""
+      },
+      {
+        "id": 93733,
+        "ingredient": "ranch seasoning",
+        "ingredientImage": "oregano-dried.png",
+        "amount": 4,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 10716050,
+        "ingredient": "cannellini beans",
+        "ingredientImage": "cooked-cannellini-beans.png",
+        "amount": 425.243,
+        "unit": "g"
+      },
+      {
+        "id": 10211693,
+        "ingredient": "tomatoes",
+        "ingredientImage": null,
+        "amount": 425.243,
+        "unit": "g"
+      },
+      {
+        "id": 16015,
+        "ingredient": "black beans",
+        "ingredientImage": "black-beans.jpg",
+        "amount": 425.243,
+        "unit": "g"
+      },
+      {
+        "id": 6194,
+        "ingredient": "chicken broth",
+        "ingredientImage": "chicken-broth.png",
+        "amount": 470,
+        "unit": "ml"
+      },
+      {
+        "id": 1017,
+        "ingredient": "cream cheese",
+        "ingredientImage": "cream-cheese.jpg",
+        "amount": 226.796,
+        "unit": "g"
+      },
+      {
+        "id": 10123,
+        "ingredient": "bacon",
+        "ingredientImage": "raw-bacon.png",
+        "amount": 8,
+        "unit": ""
+      },
+      {
+        "id": 1009,
+        "ingredient": "cheddar cheese",
+        "ingredientImage": "cheddar-cheese.png",
+        "amount": 226,
+        "unit": "g"
+      },
+      {
+        "id": 1102047,
+        "ingredient": "salt and pepper",
+        "ingredientImage": "salt-and-pepper.jpg",
+        "amount": 6,
+        "unit": "servings"
+      }
+    ],
+    "title": "Crack Chicken Chili",
+    "image": "https://spoonacular.com/recipeImages/1502521-312x231.jpg",
+    "date": "2023-11-03T00:00:00.000Z",
+    "uniqueIdentifier": "Gj7yOD-O84sILCCdIsNL1",
+    "mealTypes": ["lunch", "soup", "main course", "main dish", "dinner"],
+    "fullNutritionProfile": {
+      "calories": 585.94,
+      "protein": 25.62,
+      "fats": 38.02,
+      "carbs": 36.88
+    },
+    "directions": [
+      "Add shredded chicken, black beans, cannellini beans, tomatoes, and chicken broth to a large pot on medium-high heat. ",
+      "Add ranch dressing and stir to combine.",
+      "Bring to a boil and then lower to simmer. Simmer chili for 10 minutes, then add cream cheese. Allow simmering for 10 minutes, stirring often.",
+      "Add crumbled bacon and shredded cheese and serve immediately."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/crack-chicken-chili-1502521"
+  },
+  {
+    "id": 638408,
+    "ingredients": [
+      {
+        "id": 5062,
+        "ingredient": "chicken breasts",
+        "ingredientImage": "chicken-breasts.png",
+        "amount": 2,
+        "unit": ""
+      },
+      {
+        "id": 1053,
+        "ingredient": "cream",
+        "ingredientImage": "fluid-cream.jpg",
+        "amount": 238,
+        "unit": "ml"
+      },
+      {
+        "id": 14106,
+        "ingredient": "white wine",
+        "ingredientImage": "white-wine.jpg",
+        "amount": 240,
+        "unit": "ml"
+      },
+      {
+        "id": 6172,
+        "ingredient": "chicken stock",
+        "ingredientImage": "chicken-broth.png",
+        "amount": 480,
+        "unit": "ml"
+      },
+      {
+        "id": 11260,
+        "ingredient": "mushrooms",
+        "ingredientImage": "mushrooms.png",
+        "amount": 96,
+        "unit": "ml"
+      },
+      {
+        "id": 9132,
+        "ingredient": "grapes",
+        "ingredientImage": "red-grapes.jpg",
+        "amount": 151,
+        "unit": "g"
+      },
+      {
+        "id": 1032046,
+        "ingredient": "coarse dijon mustard",
+        "ingredientImage": "dijon-mustard.jpg",
+        "amount": 3,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 20027,
+        "ingredient": "flour",
+        "ingredientImage": "white-powder.jpg",
+        "amount": 32,
+        "unit": "g"
+      },
+      {
+        "id": 1001,
+        "ingredient": "butter",
+        "ingredientImage": "butter-sliced.jpg",
+        "amount": 2,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 4053,
+        "ingredient": "olive oil",
+        "ingredientImage": "olive-oil.jpg",
+        "amount": 3,
+        "unit": "servings"
+      },
+      {
+        "id": 1002030,
+        "ingredient": "salt",
+        "ingredientImage": "pepper.jpg",
+        "amount": 3,
+        "unit": "servings"
+      },
+      {
+        "id": 99226,
+        "ingredient": "sage",
+        "ingredientImage": "fresh-sage.png",
+        "amount": 3,
+        "unit": "servings"
+      }
+    ],
+    "title": "Chicken Veronique with Dijon and Mushrooms",
+    "image": "https://spoonacular.com/recipeImages/638408-312x231.jpg",
+    "date": "2023-11-03T00:00:00.000Z",
+    "uniqueIdentifier": "rXC0UUPk8dTrbUWzldSZX",
+    "mealTypes": ["lunch", "main course", "main dish", "dinner"],
+    "fullNutritionProfile": {
+      "calories": 854.28,
+      "protein": 41.42,
+      "fats": 56.85,
+      "carbs": 31.78
+    },
+    "directions": [
+      "Cut chicken breasts into 1-inch bite size pieces.",
+      "Place in a small bowl and season with salt, pepper, olive oil and lemon juice.",
+      "Sprinkle with cornstarch and set aside for about 5 minutes",
+      "Slice about a dozen medium sized button mushrooms. Saut mushrooms and fresh sage in 1 tbsp of butter and olive oil.",
+      "In a large pan over medium-high heat, begin cooking the chicken pieces in some olive oil and the remaining butter.",
+      "After a few minutes, add white wine and bring the liquid to a boil and then reduce the heat. Cook for about 5 minutes or until the liquid has reduced to about half.",
+      "Push chicken to one side of the pan. On the opposite side stir in the coarse Dijon mustard and the cream. When the two are mixed, stir the chicken pieces back in so that the cream and mustard mixture coast each piece.",
+      "Add and stir in the chicken stock and again bring to a medium boil and then reduce heat to simmer for about 15-20 minutes. Stir occasionally and season with salt and pepper if necessary.",
+      "After about 15 minutes, check the consistency of the sauce. It should be creamy, but not too thick. If it is okay, stir in the sauted mushrooms and grapes and heat for a couple of minutes.",
+      "Serve immediately with some rice pilaf, fried fingerling potatoes or couscous."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/chicken-veronique-with-dijon-and-mushrooms-638408"
+  },
+  {
+    "id": 643153,
+    "ingredients": [
+      {
+        "id": 93823,
+        "ingredient": "spelt flour",
+        "ingredientImage": "brown-flour.jpg",
+        "amount": 120,
+        "unit": "g"
+      },
+      {
+        "id": 10020077,
+        "ingredient": "wheat bran",
+        "ingredientImage": "bran.jpg",
+        "amount": 14.5,
+        "unit": "ml"
+      },
+      {
+        "id": 18369,
+        "ingredient": "baking powder",
+        "ingredientImage": "white-powder.jpg",
+        "amount": 1,
+        "unit": "Tbsp"
+      },
+      {
+        "id": 18372,
+        "ingredient": "baking soda",
+        "ingredientImage": "white-powder.jpg",
+        "amount": 0.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 2047,
+        "ingredient": "salt",
+        "ingredientImage": "salt.jpg",
+        "amount": 0.25,
+        "unit": "tsps"
+      },
+      {
+        "id": 19296,
+        "ingredient": "honey",
+        "ingredientImage": "honey.png",
+        "amount": 1,
+        "unit": "Tbsp"
+      },
+      {
+        "id": 1123,
+        "ingredient": "egg",
+        "ingredientImage": "egg.png",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 1082,
+        "ingredient": "soy milk",
+        "ingredientImage": "milk.png",
+        "amount": 236,
+        "unit": "ml"
+      },
+      {
+        "id": 1001,
+        "ingredient": "butter",
+        "ingredientImage": "butter-sliced.jpg",
+        "amount": 1,
+        "unit": "Tbsp"
+      },
+      {
+        "id": 2050,
+        "ingredient": "vanilla extract",
+        "ingredientImage": "vanilla-extract.jpg",
+        "amount": 2,
+        "unit": "tsps"
+      }
+    ],
+    "title": "Fluffy Spelt Pancakes",
+    "image": "https://spoonacular.com/recipeImages/643153-312x231.jpg",
+    "date": "2023-11-03T00:00:00.000Z",
+    "uniqueIdentifier": "7Dg08TnFou9p38ulFSp1N",
+    "mealTypes": ["morning meal", "brunch", "breakfast"],
+    "fullNutritionProfile": {
+      "calories": 144.89,
+      "protein": 5.33,
+      "fats": 3.73,
+      "carbs": 21.93
+    },
+    "directions": [
+      "Cup organic spelt flour",
+      "Cup wheat bran",
+      "Tbs baking powder",
+      "Tsp baking soda",
+      "Tsp salt",
+      "Add in 1 egg, 1 cup soy milk or low fat milk, 1 tbs melted butter, honey and 2 tsp vanilla extract into the dry ingredients.",
+      "Heat dry flat non-stick pan, no need to oil it.",
+      "Spoon 1/4 cup batter. A min or two on each side."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/fluffy-spelt-pancakes-643153"
+  },
+  {
+    "id": 1095798,
+    "ingredients": [
+      {
+        "id": 10316049,
+        "ingredient": "beans",
+        "ingredientImage": "white-beans.jpg",
+        "amount": 400,
+        "unit": "g"
+      },
+      {
+        "id": 11282,
+        "ingredient": "onions",
+        "ingredientImage": "brown-onion.png",
+        "amount": 2,
+        "unit": "medium"
+      },
+      {
+        "id": 11124,
+        "ingredient": "carrot",
+        "ingredientImage": "sliced-carrot.png",
+        "amount": 1,
+        "unit": "small"
+      },
+      {
+        "id": 2049,
+        "ingredient": "thyme sprig",
+        "ingredientImage": "thyme.jpg",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 2036,
+        "ingredient": "rosemary sprig",
+        "ingredientImage": "rosemary.jpg",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 2004,
+        "ingredient": "bay leaf",
+        "ingredientImage": "bay-leaves.jpg",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 14412,
+        "ingredient": "water",
+        "ingredientImage": "water.png",
+        "amount": 1500,
+        "unit": "ml"
+      },
+      {
+        "id": 98845,
+        "ingredient": "vegetable stock cube",
+        "ingredientImage": "stock-cube.jpg",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 1001,
+        "ingredient": "butter",
+        "ingredientImage": "butter-sliced.jpg",
+        "amount": 2,
+        "unit": "Tbs"
+      },
+      {
+        "id": 4053,
+        "ingredient": "olive oil",
+        "ingredientImage": "olive-oil.jpg",
+        "amount": 1,
+        "unit": "Tbs"
+      },
+      {
+        "id": 10211215,
+        "ingredient": "garlic cloves",
+        "ingredientImage": "garlic.jpg",
+        "amount": 3,
+        "unit": ""
+      },
+      {
+        "id": 11161,
+        "ingredient": "collard greens—stems cut",
+        "ingredientImage": "collard-greens.jpg",
+        "amount": 300,
+        "unit": "g"
+      },
+      {
+        "id": 7916,
+        "ingredient": "quality sausage",
+        "ingredientImage": "smoked-sausage.jpg",
+        "amount": 300,
+        "unit": "g"
+      },
+      {
+        "id": 1009159,
+        "ingredient": "lime zest",
+        "ingredientImage": "zest-lime.jpg",
+        "amount": 0.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 9160,
+        "ingredient": "lime juice",
+        "ingredientImage": "lime-juice.png",
+        "amount": 2,
+        "unit": "Tbs"
+      },
+      {
+        "id": 1002030,
+        "ingredient": "ground pepper",
+        "ingredientImage": "pepper.jpg",
+        "amount": 0.5,
+        "unit": "tsps"
+      }
+    ],
+    "title": "Collard greens with white beans and sausage",
+    "image": "https://spoonacular.com/recipeImages/1095798-312x231.jpg",
+    "date": "2023-11-04T00:00:00.000Z",
+    "uniqueIdentifier": "oLARchUEyvux44H6NWeDY",
+    "mealTypes": ["side dish"],
+    "fullNutritionProfile": {
+      "calories": 701.47,
+      "protein": 35.73,
+      "fats": 30.86,
+      "carbs": 74.02
+    },
+    "directions": [
+      "Soak your beans over night.The next day, slice 1 onion in half and slice the other onion.",
+      "Place beans, onion halves, carrot, thyme and rosemary sprig and bay leaf in a large pot; cover the beans with 1500 ml of water. Crumble in the vegetable cube, cover and bring to a boil. Reduce the flame; simmer about 30 minutes over low heat until the beans are nearly tender.",
+      "Drain the beans and reserve the cooking liquid. Discard all of the other solids. Set aside.",
+      "Saute sliced onion and garlic in butter and olive oil for 6 minutes over moderately high heat, stirring occasionally.",
+      "Add the collards (stems cut and leaves torn into small pieces) and cook, tossing, until slightly wilted.",
+      "Add half of the reserved bean cooking liquid, cover and cook over low heat, stirring occasionally, until the collards are tender, about 50 minutes.",
+      "Add the beans, sausage and the remaining bean cooking liquid to the pot and cook for 15 minutes.Just before serving, stir in the lime zest and juice. Season with pepper."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/collard-greens-with-white-beans-and-sausage-1095798"
+  },
+  {
+    "id": 649178,
+    "ingredients": [
+      {
+        "id": 2004,
+        "ingredient": "bay leaf",
+        "ingredientImage": "bay-leaves.jpg",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 1002030,
+        "ingredient": "pepper",
+        "ingredientImage": "pepper.jpg",
+        "amount": 0.5,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 1001,
+        "ingredient": "butter",
+        "ingredientImage": "butter-sliced.jpg",
+        "amount": 170.25,
+        "unit": "g"
+      },
+      {
+        "id": 2005,
+        "ingredient": "caraway seeds",
+        "ingredientImage": "caraway-seeds.jpg",
+        "amount": 0.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 10111143,
+        "ingredient": "celery stalks",
+        "ingredientImage": "celery.jpg",
+        "amount": 2,
+        "unit": ""
+      },
+      {
+        "id": 20027,
+        "ingredient": "cornstarch",
+        "ingredientImage": "white-powder.jpg",
+        "amount": 1,
+        "unit": "Tbsp"
+      },
+      {
+        "id": 93612,
+        "ingredient": "demi glace",
+        "ingredientImage": "gravy.jpg",
+        "amount": 85.049,
+        "unit": "g"
+      },
+      {
+        "id": 20081,
+        "ingredient": "flour",
+        "ingredientImage": "flour.png",
+        "amount": 3,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 2063,
+        "ingredient": "rosemary",
+        "ingredientImage": "rosemary.jpg",
+        "amount": 2,
+        "unit": "tsps"
+      },
+      {
+        "id": 1012049,
+        "ingredient": "thyme",
+        "ingredientImage": "thyme.jpg",
+        "amount": 1.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 11215,
+        "ingredient": "garlic",
+        "ingredientImage": "garlic.png",
+        "amount": 4,
+        "unit": "cloves"
+      },
+      {
+        "id": 14412,
+        "ingredient": "water",
+        "ingredientImage": "water.png",
+        "amount": 118.294,
+        "unit": "ml"
+      },
+      {
+        "id": 1082047,
+        "ingredient": "kosher salt",
+        "ingredientImage": "salt.jpg",
+        "amount": 1,
+        "unit": "Tbsp"
+      },
+      {
+        "id": 10017224,
+        "ingredient": "lamb",
+        "ingredientImage": "lamb-shanks.jpg",
+        "amount": 453.592,
+        "unit": "g"
+      },
+      {
+        "id": 9156,
+        "ingredient": "lemon zest",
+        "ingredientImage": "zest-lemon.jpg",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 1077,
+        "ingredient": "milk",
+        "ingredientImage": "milk.png",
+        "amount": 1.5,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 4053,
+        "ingredient": "olive oil",
+        "ingredientImage": "olive-oil.jpg",
+        "amount": 8,
+        "unit": "servings"
+      },
+      {
+        "id": 9216,
+        "ingredient": "orange zest",
+        "ingredientImage": "orange-zest.png",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 11304,
+        "ingredient": "peas",
+        "ingredientImage": "peas.jpg",
+        "amount": 145,
+        "unit": "g"
+      },
+      {
+        "id": 18334,
+        "ingredient": "crust",
+        "ingredientImage": "pie-crust.jpg",
+        "amount": 8,
+        "unit": "servings"
+      },
+      {
+        "id": 10011282,
+        "ingredient": "onion",
+        "ingredientImage": "red-onion.png",
+        "amount": 0.5,
+        "unit": "large"
+      },
+      {
+        "id": 14096,
+        "ingredient": "red wine",
+        "ingredientImage": "red-wine.jpg",
+        "amount": 240,
+        "unit": "ml"
+      },
+      {
+        "id": 2047,
+        "ingredient": "salt",
+        "ingredientImage": "salt.jpg",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 4615,
+        "ingredient": "shortening",
+        "ingredientImage": "shortening.jpg",
+        "amount": 102.5,
+        "unit": "g"
+      },
+      {
+        "id": 19335,
+        "ingredient": "sugar",
+        "ingredientImage": "sugar-in-bowl.png",
+        "amount": 1,
+        "unit": "Tbsp"
+      },
+      {
+        "id": 11507,
+        "ingredient": "sweet potatoes",
+        "ingredientImage": "sweet-potato.png",
+        "amount": 2,
+        "unit": "large"
+      }
+    ],
+    "title": "Lamb & Sweet Potato Pot Pie",
+    "image": "https://spoonacular.com/recipeImages/649178-312x231.jpg",
+    "date": "2023-11-04T00:00:00.000Z",
+    "uniqueIdentifier": "sMYQfCIrIlpxWw0kq2W9v",
+    "mealTypes": ["lunch", "main course", "main dish", "dinner"],
+    "fullNutritionProfile": {
+      "calories": 961.25,
+      "protein": 20.81,
+      "fats": 64.04,
+      "carbs": 70.27
+    },
+    "directions": [
+      "Start with crust.",
+      "Combine flour, sugar, rosemary, thyme and salt in a large bowl.",
+      "Add chilled butter and combine with a pastry blender.",
+      "Add shortening and combine to cut into flour and butter mixture.",
+      "Mixture should resemble coarse cornmeal.Slowly add ice water by tablespoons.",
+      "Mix well after each addition until dough begins to stick together.",
+      "Place dough on a flat surface and divide into 2 even pieces.",
+      "Roll into balls, dust lightly with flour and wrap in plastic.",
+      "Place in fridge for at least an hour.Toss lamb with salt, pepper, caraway seeds, garlic and flour.  Set aside.As dough chills, swirl a bit of olive oil in the bottom of a very wide and deep pan. When sizzling, add lamb pieces and cook on medium heat until just browned.  Scoop onto a separate plate.If necessary, swirl a bit more olive oil in the same pan.  Scrape up all the drippings on the pan, then slide onion and celery, cooking down until they soften and go translucent.",
+      "Pour in wine and demi glace.  Stir well.",
+      "Add lamb back to the vegetables, followed by peas and bay leaf.   Cover, turn down to a simmer and cook about 15 minutes.Stir together water and cornstarch and pour into lamb and veggies.",
+      "Mix well.",
+      "Add sweet potatoes and cook another 5-7 minutes.",
+      "Remove from heat and cool completely.",
+      "Remove bay leaf.Once filling has cooled, take chilled dough and, on a floured surface, roll one ball for bottom crust layer.  Drop in 9-inch pie dish and trim edges.",
+      "Place in the fridge and roll second piece of dough for top.",
+      "Remove bottom crust layer from fridge and pour in filling.  Top with second layer and trim edges if necessary.",
+      "Roll top crust edge over bottom crust.  Put back in the fridge or pop in freezer 2-4 minutes for a quick chill if dough feels at all soft.*Just before baking, brush milk over top crust.",
+      "Bake in a preheated oven at 375 degrees for 45-50 minutes or until golden brown.Heres where you can make this dish early.",
+      "Let the filling cool completely in the fridge.  When cool, assemble pie with both layers and filling and chill until ready to bake.  As for the continuous chilling methods, this is the best way to keep a flakey crust.  Never, never, never bake soft, soggy dough.  Avoid a disaster and overchill if necessary!"
+    ],
+    "fullRecipeURL": "https://spoonacular.com/lamb-sweet-potato-pot-pie-649178"
+  },
+  {
+    "id": 640398,
+    "ingredients": [
+      {
+        "id": 20081,
+        "ingredient": "flour",
+        "ingredientImage": "flour.png",
+        "amount": 250,
+        "unit": "g"
+      },
+      {
+        "id": 18369,
+        "ingredient": "baking powder",
+        "ingredientImage": "white-powder.jpg",
+        "amount": 2.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 18372,
+        "ingredient": "baking soda",
+        "ingredientImage": "white-powder.jpg",
+        "amount": 0.25,
+        "unit": "tsps"
+      },
+      {
+        "id": 2047,
+        "ingredient": "salt",
+        "ingredientImage": "salt.jpg",
+        "amount": 0.25,
+        "unit": "tsps"
+      },
+      {
+        "id": 19335,
+        "ingredient": "sugar",
+        "ingredientImage": "sugar-in-bowl.png",
+        "amount": 50,
+        "unit": "g"
+      },
+      {
+        "id": 1001,
+        "ingredient": "butter",
+        "ingredientImage": "butter-sliced.jpg",
+        "amount": 3.5,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 9079,
+        "ingredient": "cranberries",
+        "ingredientImage": "dried-cranberries.jpg",
+        "amount": 30.303,
+        "unit": "g"
+      },
+      {
+        "id": 9216,
+        "ingredient": "orange peel",
+        "ingredientImage": "orange-zest.png",
+        "amount": 2,
+        "unit": "tsps"
+      },
+      {
+        "id": 1085,
+        "ingredient": "non fat milk",
+        "ingredientImage": "milk.jpg",
+        "amount": 61.25,
+        "unit": "ml"
+      },
+      {
+        "id": 9206,
+        "ingredient": "squirt of orange juice",
+        "ingredientImage": "orange-juice.jpg",
+        "amount": 24,
+        "unit": "servings"
+      },
+      {
+        "id": 1123,
+        "ingredient": "egg",
+        "ingredientImage": "egg.png",
+        "amount": 1,
+        "unit": "large"
+      },
+      {
+        "id": 19336,
+        "ingredient": "powdered sugar",
+        "ingredientImage": "powdered-sugar.jpg",
+        "amount": 30,
+        "unit": "g"
+      }
+    ],
+    "title": "Cranberry Orange Scones",
+    "image": "https://spoonacular.com/recipeImages/640398-312x231.jpg",
+    "date": "2023-11-04T00:00:00.000Z",
+    "uniqueIdentifier": "Y9LZshf26QrnriVMqkIDX",
+    "mealTypes": ["morning meal", "dessert", "brunch", "breakfast"],
+    "fullNutritionProfile": {
+      "calories": 151.22,
+      "protein": 2.66,
+      "fats": 2.32,
+      "carbs": 30.56
+    },
+    "directions": [
+      "Preheat oven to 37",
+      "Combine flour, baking soda, baking powder, salt and sugar in a bowl.",
+      "Cut in butter with pastry blender or 2 knives until mixture resembles coarse meal (I used my hands). Stir in cranberries and rind.",
+      "Add milk, orange juice and egg stirring just until moist.",
+      "Turn dough out onto a lightly floured surface, and knead 15 times or until smooth.",
+      "Form into an 8 x8x square.",
+      "Cut 4 even rows into the dough.",
+      "Cut into triangles.  I got 6 scones per row. (sorry no picture, my hands were to sticky to pull out my camera)",
+      "Carefully",
+      "Transfer dough to a baking sheet coated with cooking spray or lined with parchment paper",
+      "Bake at 375 for 10-12 minutes or until golden.",
+      "Let them slightly cool for about 5 minutes.  Meanwhile make your glaze.",
+      "In a small bowl add your powdered sugar and orange juice (I juiced a 1/4 of an orange) mix until a consistency you like.",
+      "Add more sugar if to thin, add more juice if to thick.",
+      "Drizzle over the top of scones.",
+      "Eat and Enjoy!"
+    ],
+    "fullRecipeURL": "https://spoonacular.com/cranberry-orange-scones-640398"
+  },
+  {
+    "id": 637434,
+    "ingredients": [
+      {
+        "id": 18375,
+        "ingredient": "active yeast",
+        "ingredientImage": "yeast-granules.jpg",
+        "amount": 0.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 20081,
+        "ingredient": "all purpose flour",
+        "ingredientImage": "flour.png",
+        "amount": 125,
+        "unit": "g"
+      },
+      {
+        "id": 10011959,
+        "ingredient": "baby arugula",
+        "ingredientImage": "arugula-or-rocket-salad.jpg",
+        "amount": 2,
+        "unit": "servings"
+      },
+      {
+        "id": 1001,
+        "ingredient": "butter",
+        "ingredientImage": "butter-sliced.jpg",
+        "amount": 4,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 11239,
+        "ingredient": "chanterelle mushrooms",
+        "ingredientImage": "chanterelles.jpg",
+        "amount": 200,
+        "unit": "g"
+      },
+      {
+        "id": 1021026,
+        "ingredient": "mozzarella",
+        "ingredientImage": "mozzarella.png",
+        "amount": 2,
+        "unit": "servings"
+      },
+      {
+        "id": 4053,
+        "ingredient": "olive oil",
+        "ingredientImage": "olive-oil.jpg",
+        "amount": 0.5,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 2047,
+        "ingredient": "salt",
+        "ingredientImage": "salt.jpg",
+        "amount": 2,
+        "unit": "servings"
+      },
+      {
+        "id": 10110123,
+        "ingredient": "mangalitsa belly speck",
+        "ingredientImage": "speck.jpg",
+        "amount": 8,
+        "unit": "slice"
+      },
+      {
+        "id": 19335,
+        "ingredient": "sugar",
+        "ingredientImage": "sugar-in-bowl.png",
+        "amount": 1,
+        "unit": "Tbsp"
+      },
+      {
+        "id": 14412,
+        "ingredient": "warm water",
+        "ingredientImage": "water.png",
+        "amount": 157.725,
+        "unit": "ml"
+      },
+      {
+        "id": -1,
+        "ingredient": "mangalitsa lard",
+        "ingredientImage": null,
+        "amount": 2,
+        "unit": "Tbsps"
+      }
+    ],
+    "title": "Chanterelle and Mangalitsa Speck Pizza",
+    "image": "https://spoonacular.com/recipeImages/637434-312x231.jpg",
+    "date": "2023-11-05T00:00:00.000Z",
+    "uniqueIdentifier": "XP89rbUeKGkPnF7CqyZDL",
+    "mealTypes": ["lunch", "main course", "main dish", "dinner"],
+    "fullNutritionProfile": {
+      "calories": 742.77,
+      "protein": 19,
+      "fats": 46.45,
+      "carbs": 62.25
+    },
+    "directions": [
+      "Place the water in a large bowl, and sprinkle the yeast and sugar on top.",
+      "Let sit for 5 minutes.",
+      "Sprinkle over 1/2 cup of flour, and mix with a wooden spoon to form a paste.Cover and let sit for 30 minutes.",
+      "Add the remaining flour and salt.Using a mixer with a dough hook, stir on medium speed for 1 minute.",
+      "Add the lard.Stir on medium speed for 2 minutes.Reduce speed to low, and stir for 2 more minutes. If the dough is too sticky to form into a ball, add a bit more flour.Form the dough into a ball and place in a plastic bag or plastic container with a lid.",
+      "Pour the olive oil over the dough and turn to coat.Refrigerate overnight.",
+      "Remove the dough and bring to room temperature (about 30 minutes).Punch down the dough, and divide into two equal dough balls.Round each piece of dough and let rest, covered for 5 minutes.",
+      "Roll out each ball into a 6 to 8 inch round.Cover and rest the pizza dough while starting on the toppings.",
+      "Add the chanterelles to a hot skillet along with the butter.",
+      "Saute on high heat until the mushrooms soften slightly.Top each pizza with a spread of chanterelles and a few tears of mozzarella.  (For grill marks on the top, you can grill the untopped pizza on both sides before adding the toppings. Then top, and return to the grill to heat the mozzarella).Grill on a hot barbecue (or in a 500F oven with a pizza stone) until the crust bubbles and browns, and the mozzarella softens.Top with the speck, arugula and flaked salt/chile flakes if using."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/chanterelle-and-mangalitsa-speck-pizza-637434"
+  },
+  {
+    "id": 641845,
+    "ingredients": [
+      {
+        "id": 11531,
+        "ingredient": "tomatoes",
+        "ingredientImage": "tomatoes-canned.png",
+        "amount": 2,
+        "unit": "cans"
+      },
+      {
+        "id": 16034,
+        "ingredient": "kidney beans",
+        "ingredientImage": "kidney-beans.jpg",
+        "amount": 2,
+        "unit": "cans"
+      },
+      {
+        "id": 11549,
+        "ingredient": "tomato sauce",
+        "ingredientImage": "tomato-sauce-or-pasta-sauce.jpg",
+        "amount": 1,
+        "unit": "small can"
+      },
+      {
+        "id": 11143,
+        "ingredient": "celery",
+        "ingredientImage": "celery.jpg",
+        "amount": 3,
+        "unit": "stalks"
+      },
+      {
+        "id": 2009,
+        "ingredient": "chili powder",
+        "ingredientImage": "chili-powder.jpg",
+        "amount": 1.5,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 1002014,
+        "ingredient": "cumin",
+        "ingredientImage": "ground-cumin.jpg",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 10023572,
+        "ingredient": "ground beef",
+        "ingredientImage": "fresh-ground-beef.jpg",
+        "amount": 453.592,
+        "unit": "g"
+      },
+      {
+        "id": 11282,
+        "ingredient": "onion",
+        "ingredientImage": "brown-onion.png",
+        "amount": 80,
+        "unit": "g"
+      },
+      {
+        "id": 2028,
+        "ingredient": "paprika",
+        "ingredientImage": "paprika.jpg",
+        "amount": 1,
+        "unit": "Tbsp"
+      },
+      {
+        "id": 1002030,
+        "ingredient": "pepper",
+        "ingredientImage": "pepper.jpg",
+        "amount": 1,
+        "unit": "pinch"
+      },
+      {
+        "id": 2047,
+        "ingredient": "salt",
+        "ingredientImage": "salt.jpg",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 10011693,
+        "ingredient": "tomato paste",
+        "ingredientImage": "tomatoes-canned.png",
+        "amount": 1,
+        "unit": "small can"
+      },
+      {
+        "id": 14412,
+        "ingredient": "water",
+        "ingredientImage": "water.png",
+        "amount": 118.294,
+        "unit": "ml"
+      }
+    ],
+    "title": "Easy Beef and Bean Chili",
+    "image": "https://spoonacular.com/recipeImages/641845-312x231.jpg",
+    "date": "2023-11-05T00:00:00.000Z",
+    "uniqueIdentifier": "B44Cfa6dzziFICE99wi1d",
+    "mealTypes": ["lunch", "soup", "main course", "main dish", "dinner"],
+    "fullNutritionProfile": {
+      "calories": 607.64,
+      "protein": 37.79,
+      "fats": 25.4,
+      "carbs": 63.76
+    },
+    "directions": [
+      "Combine and fry beef, onion and celery lightly.",
+      "Place in a large, heavy pot.",
+      "Add the rest of the ingredients. Simmer for 2-4 hours."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/easy-beef-and-bean-chili-641845"
+  },
+  {
+    "id": 639728,
+    "ingredients": [
+      {
+        "id": 12104,
+        "ingredient": "coconut bliss smoothie",
+        "ingredientImage": "coconut.jpg",
+        "amount": 4,
+        "unit": "servings"
+      },
+      {
+        "id": 9040,
+        "ingredient": "bananas",
+        "ingredientImage": "bananas.jpg",
+        "amount": 2,
+        "unit": ""
+      },
+      {
+        "id": 9176,
+        "ingredient": "mango",
+        "ingredientImage": "mango.jpg",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 12118,
+        "ingredient": "coconut milk",
+        "ingredientImage": "coconut-milk.png",
+        "amount": 339,
+        "unit": "ml"
+      },
+      {
+        "id": 1009176,
+        "ingredient": "pear puree",
+        "ingredientImage": "mango-puree.png",
+        "amount": 0.75,
+        "unit": ""
+      },
+      {
+        "id": 10012108,
+        "ingredient": "coconut",
+        "ingredientImage": "shredded-coconut.jpg",
+        "amount": 2,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 12006,
+        "ingredient": "chia seeds",
+        "ingredientImage": "chia-seeds.jpg",
+        "amount": 2,
+        "unit": "Tbsps"
+      }
+    ],
+    "title": "Coconut Bliss Smoothie",
+    "image": "https://spoonacular.com/recipeImages/639728-312x231.jpg",
+    "date": "2023-11-05T00:00:00.000Z",
+    "uniqueIdentifier": "wZ5GmPYJgbHL_w-XPLl-g",
+    "mealTypes": ["morning meal", "brunch", "beverage", "breakfast", "drink"],
+    "fullNutritionProfile": {
+      "calories": 339.94,
+      "protein": 4.36,
+      "fats": 26.08,
+      "carbs": 28.56
+    },
+    "directions": ["Blend until smooth!", "Serve and Enjoy"],
+    "fullRecipeURL": "https://spoonacular.com/coconut-bliss-smoothie-639728"
+  },
+  {
+    "id": 636324,
+    "ingredients": [
+      {
+        "id": 4673,
+        "ingredient": "earth balance soy free spread",
+        "ingredientImage": "light-buttery-spread.png",
+        "amount": 198.447,
+        "unit": "g"
+      },
+      {
+        "id": 1123,
+        "ingredient": "eggs",
+        "ingredientImage": "egg.png",
+        "amount": 5,
+        "unit": "large"
+      },
+      {
+        "id": 10719335,
+        "ingredient": "cane sugar",
+        "ingredientImage": "sugar-in-bowl.png",
+        "amount": 400,
+        "unit": "g"
+      },
+      {
+        "id": 19904,
+        "ingredient": "chocolate",
+        "ingredientImage": "dark-chocolate-pieces.jpg",
+        "amount": 87.5,
+        "unit": "ml"
+      },
+      {
+        "id": 93813,
+        "ingredient": "vanilla paste",
+        "ingredientImage": "molasses.jpg",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 10014214,
+        "ingredient": "espresso powder",
+        "ingredientImage": "instant-coffee-or-instant-espresso.png",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 10093620,
+        "ingredient": "flour blend",
+        "ingredientImage": "gluten-free-flour.jpg",
+        "amount": 68,
+        "unit": "g"
+      },
+      {
+        "id": 19165,
+        "ingredient": "cocoa powder",
+        "ingredientImage": "cocoa-powder.png",
+        "amount": 64.5,
+        "unit": "g"
+      },
+      {
+        "id": 4047,
+        "ingredient": "coconut oil",
+        "ingredientImage": "oil-coconut.jpg",
+        "amount": 6,
+        "unit": "servings"
+      }
+    ],
+    "title": "Brownie Cake gluten free, dairy free",
+    "image": "https://spoonacular.com/recipeImages/636324-312x231.jpeg",
+    "date": "2023-11-06T00:00:00.000Z",
+    "uniqueIdentifier": "AFWg33q5QQxM6yuIKm5Qh",
+    "mealTypes": ["dessert"],
+    "fullNutritionProfile": {
+      "calories": 774.65,
+      "protein": 9.58,
+      "fats": 47.46,
+      "carbs": 87.66
+    },
+    "directions": [
+      "Preheat the oven to 325 degrees F.",
+      "Lightly spread coconut oil in an oval baking dish (9x12x2 inch deep).",
+      "Measure out the flour and cocoa powder and sift into a bowl, set aside.",
+      "In the bowl of an electric mixer, (or using a hand mixer) with the paddle attachment, beat the eggs and sugar on medium-high for about 5 minutes, until it looks very thick and pale yellow - like a cake batter.",
+      "When the egg and sugar mixture looks ready, lower the speed to low, add the vanilla and espresso powder.",
+      "Slowly add the flour and cocoa powder mixture (I like to put a dish towel over the mixture so I dont have cocoa dust everywhere).",
+      "Mix just until combined.",
+      "Add the margarine and mix for another 10 seconds until combined.",
+      "Pour the brownie mixture into the greased dish.",
+      "Place dish into an even bigger roasting pan, then slowly add very hot tap water (you do not want any water to splatter into the brownie dish) around the roasting pan filling it about halfway up the side of brownie dish.",
+      "Bake for 65 minutes exactly.",
+      "Allow it to cool for 20 minutes before serving.  It will appear like a cake on the outside with a pudding like texture inside.",
+      "Serve warm."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/brownie-cake-gluten-free-dairy-free-636324"
+  },
+  {
+    "id": 469862,
+    "ingredients": [
+      {
+        "id": 9037,
+        "ingredient": "avocado",
+        "ingredientImage": "avocado.jpg",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 10211821,
+        "ingredient": "bell pepper",
+        "ingredientImage": "yellow-bell-pepper.jpg",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 12087,
+        "ingredient": "cashews",
+        "ingredientImage": "cashews.jpg",
+        "amount": 30,
+        "unit": "g"
+      },
+      {
+        "id": 11165,
+        "ingredient": "cilantro",
+        "ingredientImage": "cilantro.png",
+        "amount": 4,
+        "unit": "g"
+      },
+      {
+        "id": 10211215,
+        "ingredient": "garlic cloves",
+        "ingredientImage": "garlic.jpg",
+        "amount": 2,
+        "unit": ""
+      },
+      {
+        "id": 9160,
+        "ingredient": "lime juice",
+        "ingredientImage": "lime-juice.png",
+        "amount": 1,
+        "unit": "Tbsp"
+      },
+      {
+        "id": 4053,
+        "ingredient": "olive oil",
+        "ingredientImage": "olive-oil.jpg",
+        "amount": 3,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 10111251,
+        "ingredient": "romaine lettuce hearts",
+        "ingredientImage": "romaine.jpg",
+        "amount": 2,
+        "unit": ""
+      },
+      {
+        "id": 1102047,
+        "ingredient": "salt and pepper",
+        "ingredientImage": "salt-and-pepper.jpg",
+        "amount": 2,
+        "unit": "servings"
+      },
+      {
+        "id": 15270,
+        "ingredient": "shrimp",
+        "ingredientImage": "shrimp.png",
+        "amount": 200,
+        "unit": "g"
+      },
+      {
+        "id": 1026168,
+        "ingredient": "tabasco sauce",
+        "ingredientImage": "hot-sauce-or-tabasco.png",
+        "amount": 3,
+        "unit": "dashes"
+      },
+      {
+        "id": 19056,
+        "ingredient": "tortilla chips",
+        "ingredientImage": "tortilla-chips.jpg",
+        "amount": 2,
+        "unit": "servings"
+      },
+      {
+        "id": 14412,
+        "ingredient": "water",
+        "ingredientImage": "water.png",
+        "amount": 2,
+        "unit": "servings"
+      }
+    ],
+    "title": "The \"Even my picky bf will eat it\" Salad",
+    "image": "https://spoonacular.com/recipeImages/469862-312x231.jpg",
+    "date": "2023-11-06T00:00:00.000Z",
+    "uniqueIdentifier": "AZaEHH4mFWT-2zmXpLxM3",
+    "mealTypes": ["side dish", "lunch", "salad", "main course", "main dish", "dinner"],
+    "fullNutritionProfile": {
+      "calories": 689.07,
+      "protein": 28.62,
+      "fats": 49.13,
+      "carbs": 41.88
+    },
+    "directions": [
+      "Wash and cut romaine lettuce and divide between two bowls.",
+      "Chop bell pepper and spread evenly between the two salads.",
+      "Make the dressing by blending the ripe avocado with the lime juice, Tabasco, cilantro, 2 tablespoons olive oil, and water (start with 1/4 cup and add more until the desired consistency is reached. We kept it pretty thick.) Season with salt and pepper to taste.",
+      "Heat a skillet over medium heat.",
+      "Add the remaining tablespoon oil. Then add the minced garlic. Once the garlic is fragrant, add the shrimp.",
+      "Once the shrimp is cooked through, add it to the salads. Divide the dressing between the two salads too.",
+      "Sprinkle cashews on top if desired.",
+      "Serve with tortilla chips."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/the-even-my-picky-bf-will-eat-it-salad-469862"
+  },
+  {
+    "id": 633428,
+    "ingredients": [
+      {
+        "id": 9003,
+        "ingredient": "whl apple",
+        "ingredientImage": "apple.jpg",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 4073,
+        "ingredient": "butter",
+        "ingredientImage": "butter-sliced.jpg",
+        "amount": 113.5,
+        "unit": "ml"
+      },
+      {
+        "id": 2010,
+        "ingredient": "cinnamon",
+        "ingredientImage": "cinnamon.jpg",
+        "amount": 1,
+        "unit": "Tbsp"
+      },
+      {
+        "id": 1123,
+        "ingredient": "whl eggs",
+        "ingredientImage": "egg.png",
+        "amount": 3,
+        "unit": ""
+      },
+      {
+        "id": 20081,
+        "ingredient": "flour",
+        "ingredientImage": "flour.png",
+        "amount": 125,
+        "unit": "g"
+      },
+      {
+        "id": 1077,
+        "ingredient": "milk",
+        "ingredientImage": "milk.png",
+        "amount": 122,
+        "unit": "ml"
+      },
+      {
+        "id": 12135,
+        "ingredient": "nuts and raisins",
+        "ingredientImage": "nuts-mixed.jpg",
+        "amount": 4,
+        "unit": "servings"
+      },
+      {
+        "id": 2047,
+        "ingredient": "salt",
+        "ingredientImage": "salt.jpg",
+        "amount": 0.25,
+        "unit": "tsps"
+      },
+      {
+        "id": 19335,
+        "ingredient": "sugar",
+        "ingredientImage": "sugar-in-bowl.png",
+        "amount": 150,
+        "unit": "g"
+      }
+    ],
+    "title": "Baked Apple Pancake",
+    "image": "https://spoonacular.com/recipeImages/633428-312x231.jpg",
+    "date": "2023-11-06T00:00:00.000Z",
+    "uniqueIdentifier": "dx8F6QwRHg5g69kM81zu3",
+    "mealTypes": ["morning meal", "brunch", "breakfast"],
+    "fullNutritionProfile": {
+      "calories": 734.43,
+      "protein": 14.03,
+      "fats": 42.92,
+      "carbs": 78.61
+    },
+    "directions": [
+      "Preheat oven to 450F.",
+      "Saute apple slices in butter over medium heat until tender.",
+      "Add sugar, cinnamon, nuts and raisins to the pan, stirring to coat apple.",
+      "Remove from heat and set aside.For the batter, melt butter in the microwave, set aside to cool. Spray skillet with Pam. In a bowl beat eggs until light. Slowly add flour and salt, blending until smooth. Beat in melted butter and milk.",
+      "Pour apple filling into skillet and top with batter.",
+      "Bake 15 minutes.Reduce oven temperature to 350F and bake five to ten minutes more.",
+      "Cut pancake into four pieces and serve with favorite topping.NOTES : Barbara Michel had this one marked as \"good !\" I have made the changes in the recipe that she indicated."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/baked-apple-pancake-633428"
+  },
+  {
+    "id": 631814,
+    "ingredients": [
+      {
+        "id": 10011959,
+        "ingredient": "pre-washed bagged baby arugula",
+        "ingredientImage": "arugula-or-rocket-salad.jpg",
+        "amount": 30,
+        "unit": "g"
+      },
+      {
+        "id": 10310123,
+        "ingredient": "regular bacon",
+        "ingredientImage": "raw-bacon.png",
+        "amount": 4,
+        "unit": "slice"
+      },
+      {
+        "id": 4609,
+        "ingredient": "drain off the bacon fat from the skillet",
+        "ingredientImage": "raw-bacon.png",
+        "amount": 4,
+        "unit": "servings"
+      },
+      {
+        "id": 2069,
+        "ingredient": "balsamic vinegar",
+        "ingredientImage": "balsamic-vinegar.jpg",
+        "amount": 2,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 11955,
+        "ingredient": "sun-dried tomatoes",
+        "ingredientImage": "sundried-tomatoes.jpg",
+        "amount": 3,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 11957,
+        "ingredient": "fennel bulbs",
+        "ingredientImage": "fennel.png",
+        "amount": 1,
+        "unit": "medium"
+      },
+      {
+        "id": 2044,
+        "ingredient": "basil leaves",
+        "ingredientImage": "basil.jpg",
+        "amount": 3,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 9089,
+        "ingredient": "figs",
+        "ingredientImage": "figs-fresh.jpg",
+        "amount": 4,
+        "unit": ""
+      },
+      {
+        "id": 10211215,
+        "ingredient": "garlic cloves",
+        "ingredientImage": "garlic.jpg",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 5662,
+        "ingredient": "ground turkey",
+        "ingredientImage": "meat-ground.jpg",
+        "amount": 226.796,
+        "unit": "g"
+      },
+      {
+        "id": 18350,
+        "ingredient": "aged teleme cheese thinly 2 • hamburger buns",
+        "ingredientImage": "hamburger-bun.jpg",
+        "amount": 56.699,
+        "unit": "g"
+      },
+      {
+        "id": 21118,
+        "ingredient": "prepare a medium-hot fire in a charcoal grill",
+        "ingredientImage": "hotdogs.png",
+        "amount": 4,
+        "unit": "servings"
+      },
+      {
+        "id": 1009150,
+        "ingredient": "lemons",
+        "ingredientImage": "lemon.png",
+        "amount": 0.5,
+        "unit": ""
+      },
+      {
+        "id": 1034053,
+        "ingredient": "olive oil",
+        "ingredientImage": "olive-oil.jpg",
+        "amount": 2,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 11282,
+        "ingredient": "onion",
+        "ingredientImage": "brown-onion.png",
+        "amount": 2,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 2047,
+        "ingredient": "salt",
+        "ingredientImage": "salt.jpg",
+        "amount": 4,
+        "unit": "servings"
+      },
+      {
+        "id": 10123,
+        "ingredient": "heat a",
+        "ingredientImage": "raw-bacon.png",
+        "amount": 1,
+        "unit": "stick"
+      },
+      {
+        "id": 4669,
+        "ingredient": "vegetable oil",
+        "ingredientImage": "vegetable-oil.jpg",
+        "amount": 3,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 10112155,
+        "ingredient": "walnuts",
+        "ingredientImage": "walnuts.jpg",
+        "amount": 4,
+        "unit": "Tbsps"
+      }
+    ],
+    "title": "$50,000 Burger",
+    "image": "https://spoonacular.com/recipeImages/631814-312x231.jpg",
+    "date": "2023-11-07T00:00:00.000Z",
+    "uniqueIdentifier": "R6cBGII29WKUrjulwy8_I",
+    "mealTypes": ["lunch", "main course", "main dish", "dinner"],
+    "fullNutritionProfile": {
+      "calories": 770.32,
+      "protein": 30.61,
+      "fats": 52.7,
+      "carbs": 47.02
+    },
+    "directions": [
+      "Combine the chuck, basil, sun-dried tomatoes, onion, garlic, and salt in a large bowl, handling as little as possible. Shape into 2 patties to fit the bun size. Loosely cover with plastic wrap and set aside.For the fennel:Grate 1/2 teaspoons zest from the lemons.",
+      "Put the fennel rings in a medium-sized bowl (I used half a fennel bulb) and juice the lemon over half the fennel and toss to coat all the fennel rings.",
+      "Add oil and season with salt.",
+      "Put the fennel in a grill basket and grill, shaking the basket occasionally, until soft, 10 to 12 minutes. (I did this on the stove top)",
+      "Transfer the fennel to a sheet of foil, sprinkle with the lemon zest, and wrap to keep warm.",
+      "Heat a large, heavy nonstick fire-proof skillet on the grill.",
+      "Add the bacon and cook until crisp."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/-50-000-burger-631814"
+  },
+  {
+    "id": 1697773,
+    "ingredients": [
+      {
+        "id": 23232,
+        "ingredient": "hanger steak",
+        "ingredientImage": "ribeye-raw.jpg",
+        "amount": 453.592,
+        "unit": "g"
+      },
+      {
+        "id": 1034053,
+        "ingredient": "olive oil",
+        "ingredientImage": "olive-oil.jpg",
+        "amount": 108,
+        "unit": "ml"
+      },
+      {
+        "id": 1022068,
+        "ingredient": "red wine vinegar",
+        "ingredientImage": "red-wine-vinegar.jpg",
+        "amount": 2,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 10311297,
+        "ingredient": "flat leaf parsley",
+        "ingredientImage": "parsley.jpg",
+        "amount": 30,
+        "unit": "g"
+      },
+      {
+        "id": 99226,
+        "ingredient": "sage",
+        "ingredientImage": "fresh-sage.png",
+        "amount": 2,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 2027,
+        "ingredient": "oregano",
+        "ingredientImage": "oregano.jpg",
+        "amount": 2,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 11677,
+        "ingredient": "shallot",
+        "ingredientImage": "shallots.jpg",
+        "amount": 1,
+        "unit": "small"
+      },
+      {
+        "id": 10211215,
+        "ingredient": "garlic cloves",
+        "ingredientImage": "garlic.jpg",
+        "amount": 2,
+        "unit": ""
+      },
+      {
+        "id": 10011819,
+        "ingredient": "habanero pepper",
+        "ingredientImage": "habanero-pepper.jpg",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 1012047,
+        "ingredient": "maldon sea salt",
+        "ingredientImage": "salt.jpg",
+        "amount": 2,
+        "unit": "servings"
+      },
+      {
+        "id": 1002030,
+        "ingredient": "freshly cracked pepper",
+        "ingredientImage": "pepper.jpg",
+        "amount": 2,
+        "unit": "servings"
+      }
+    ],
+    "title": "A Chimichurri You'll Want to Put on Everything",
+    "image": "https://spoonacular.com/recipeImages/1697773-312x231.jpg",
+    "date": "2023-11-07T00:00:00.000Z",
+    "uniqueIdentifier": "_IHipNz1V1EpnKakk49WK",
+    "mealTypes": ["sauce"],
+    "fullNutritionProfile": {
+      "calories": 997.02,
+      "protein": 47.49,
+      "fats": 86.78,
+      "carbs": 9.49
+    },
+    "directions": [
+      "Start by mixing extra-virgin olive oil and red wine vinegar together in a bowl.",
+      "Add the finely chopped parsley, oregano, and sage. Then add the chopped garlic and shallots. Taste it, to see if you like the balance.",
+      "Next, put on some gloves, chop the habanero pepper as finely as possible, and you’ll probably want to leave the seeds out too. ",
+      "Stir everything and season with Maldon sea salt and some freshly cracked tellicherry pepper.",
+      "Cover and put in the fridge for at least 30 minutes (or overnight), to let the flavors mingle with the oil.",
+      "After meat has cooked and rested, spoon the chimichurri sauce on top for serving."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/a-chimichurri-youll-want-to-put-on-everything-1697773"
+  },
+  {
+    "id": 636589,
+    "ingredients": [
+      {
+        "id": 11485,
+        "ingredient": "butternut squash",
+        "ingredientImage": "butternut-squash.jpg",
+        "amount": 1,
+        "unit": "large"
+      },
+      {
+        "id": 1159,
+        "ingredient": "goat cheese",
+        "ingredientImage": "goat-cheese.jpg",
+        "amount": 14.175,
+        "unit": "g"
+      },
+      {
+        "id": 1226,
+        "ingredient": "liquid egg substitute",
+        "ingredientImage": "liquid-egg-substitute.jpg",
+        "amount": 120,
+        "unit": "ml"
+      },
+      {
+        "id": 1085,
+        "ingredient": "non-fat milk",
+        "ingredientImage": "milk.jpg",
+        "amount": 2,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 10211821,
+        "ingredient": "bell pepper",
+        "ingredientImage": "bell-pepper-orange.png",
+        "amount": 1,
+        "unit": "serving"
+      }
+    ],
+    "title": "Butternut Squash Frittata",
+    "image": "https://spoonacular.com/recipeImages/636589-312x231.jpg",
+    "date": "2023-11-07T00:00:00.000Z",
+    "uniqueIdentifier": "0G3kfjOUZZW7oUsV-5rJw",
+    "mealTypes": [
+      "lunch",
+      "main course",
+      "morning meal",
+      "brunch",
+      "main dish",
+      "breakfast",
+      "dinner"
+    ],
+    "fullNutritionProfile": {
+      "calories": 481.46,
+      "protein": 24.63,
+      "fats": 4.21,
+      "carbs": 100.53
+    },
+    "directions": [
+      "Preheat oven to 350Spray a 10 oz oven safe dish with cooking spray",
+      "Add your butternut squash",
+      "In a measuring cup add your eggs and milk.",
+      "Mix until combined.",
+      "Pour over butternut squash.",
+      "Sprinkle with pepper and top with cheese.",
+      "Bake in oven for 30-35 minutes, until middle is slightly firm",
+      "Let it cool for a few minutes"
+    ],
+    "fullRecipeURL": "https://spoonacular.com/butternut-squash-frittata-636589"
+  }
+]

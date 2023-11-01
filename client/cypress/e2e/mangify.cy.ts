@@ -49,6 +49,10 @@ describe('Log in and out', function () {
       cy.login({ email: 'blancpain@testing.com', password: 'pass123456' });
     });
 
+    it('a session cookie exists', function () {
+      cy.getCookie('connect.sid').should('exist');
+    });
+
     it('user can successfully log out', function () {
       cy.get('#user-name').click();
       cy.contains('Logout').click();
@@ -65,8 +69,7 @@ describe('Nutrition profile', function () {
   describe('When a user logs in for the first time', function () {
     it('and navigates to their Nutrition Profile page, it would nudge them to complete their User Settings', function () {
       cy.contains('Nutrition Profile').click();
-      // TODO: update below once finalised
-      cy.contains('Please fill out your profile - click here...');
+      cy.contains('Please complete your profile to see your macros');
     });
 
     it('the user can populate their User Settings page and then visit the Nutrition Profile page to see their generated macros', function () {
@@ -89,18 +92,85 @@ describe('Meal planning', function () {
     cy.login({ email: 'blancpain@testing.com', password: 'pass123456' });
   });
 
-  describe('When logged in and on the Meal Planner page', function () {
+  describe('When the user tries to generate a single-day meal plan', function () {
     beforeEach(function () {
+      // NOTE: we hard code the date because the json file we use for the fixture has a date of 28 Oct 2023 (months are 0 indexed)
+      cy.clock(Date.UTC(2023, 9, 28), ['Date']);
       cy.login({ email: 'blancpain@testing.com', password: 'pass123456' });
       cy.contains('Meal Planner').click();
     });
 
-    it('and the user tries to generate a single day meal-plan', function () {
+    it('and there are no errors, they see the meals', function () {
       cy.intercept('POST', '/api/meals/single-day', { fixture: 'exampleTransformedMealData.json' });
       cy.intercept('GET', '/api/meals', { fixture: 'exampleTransformedMealData.json' });
       cy.get('#generate-meals').click();
 
-      cy.contains('Mini Ham Omelets').click();
+      cy.contains('Mini Ham Omelets');
+    });
+
+    it('but a 502 status code is returned, they see the relevant error notification', function () {
+      cy.intercept('POST', '/api/meals/single-day', { statusCode: 502 });
+      cy.get('#generate-meals').click();
+
+      cy.contains('Something went wrong');
+    });
+
+    it('but an empty response is returned, they see the notification when no meals are returned', function () {
+      cy.intercept('POST', '/api/meals/single-day', {});
+      cy.get('#generate-meals').click();
+
+      cy.contains('No meals found');
+    });
+  });
+
+  describe('When the user tries to generate a multi-day meal plan', function () {
+    beforeEach(function () {
+      cy.clock(Date.UTC(2023, 10, 1), ['Date']);
+      cy.login({ email: 'blancpain@testing.com', password: 'pass123456' });
+      cy.contains('Meal Planner').click();
+    });
+
+    it('and there are no errors, they see the meals', function () {
+      cy.get('#calendar-switch').click();
+      cy.intercept('POST', '/api/meals/multi-day', {
+        fixture: 'exampleTransformedMealDataMultiDay.json',
+      });
+      cy.intercept('GET', '/api/meals', { fixture: 'exampleTransformedMealDataMultiDay.json' });
+      cy.get('#generate-meals').click();
+
+      cy.contains('Baked Apple Pancake');
+      cy.contains('Butternut Squash Frittata');
+      cy.contains('Surf and Turf Kababs');
+    });
+
+    it('and they want to re-generate a single-day but a 502 status code is returned, they see the relevant error notification', function () {
+      cy.get('#calendar-switch').click();
+      cy.intercept('POST', '/api/meals/single-day', { statusCode: 502 });
+      cy.contains('Wednesday, 01 November').get('#single-day-regenerate').click();
+
+      cy.contains('Something went wrong');
+    });
+
+    it('but a 502 status code is returned, they see the relevant error notification', function () {
+      cy.get('#calendar-switch').click();
+      cy.intercept('POST', '/api/meals/multi-day', {
+        statusCode: 502,
+      });
+      cy.get('#generate-meals').click();
+
+      cy.contains('Something went wrong');
+    });
+
+    it('but an empty response is returned, they see the notification when no meals are returned', function () {
+      cy.get('#calendar-switch').click();
+      cy.intercept('POST', '/api/meals/multi-day', {});
+      cy.get('#generate-meals').click();
+
+      cy.contains('No meals found');
     });
   });
 });
+
+// TODO: add tests for multi-day meal plan and also for when we don't get back any meals or we get back an error
+// for the client in terms of unit tests - maybe test the protected vs unprotected routes when we have a user set
+// and the macro calculator
