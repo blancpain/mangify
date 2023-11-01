@@ -1,8 +1,9 @@
 import { Text, Accordion, Title, Flex, ActionIcon } from '@mantine/core';
-import { IconReload } from '@tabler/icons-react';
+import { IconReload, IconX } from '@tabler/icons-react';
 import { MealRecipe } from '@shared/types';
 import { nanoid } from '@reduxjs/toolkit';
 import { DateTime } from 'luxon';
+import { notifications } from '@mantine/notifications';
 import { Meal } from './Meal';
 import { capitalizeFirstLetterOfArray, extractSingleMealType } from '@/utils';
 import { useAppDispatch } from '@/hooks';
@@ -33,7 +34,14 @@ export function MealAccordion({ meal }: MealAccordionProps) {
       const updatedMeals = await regenerateMeal(mealData).unwrap();
       dispatch(setMeals(updatedMeals));
     } catch (error: unknown) {
-      console.log(error);
+      notifications.show({
+        id: 'generate-meals-error',
+        icon: <IconX size="1rem" />,
+        title: 'Something went wrong, please try again later.',
+        color: 'red',
+        message: '',
+        autoClose: 5000,
+      });
     }
   };
 

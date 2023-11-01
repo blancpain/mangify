@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { nanoid } from '@reduxjs/toolkit';
 import { DateTime } from 'luxon';
 import { Box, Center, Flex, Grid, Loader, Table, Text, Title } from '@mantine/core';
-import { IconSalad } from '@tabler/icons-react';
+import { IconMoodSad, IconSalad, IconX } from '@tabler/icons-react';
+import { notifications } from '@mantine/notifications';
 import { useGenerateSingleDayMealPlanMutation, useGetMealsQuery } from '@/features/api';
 import { useAppDispatch } from '@/hooks';
 import { setMeals } from '@/stores';
@@ -26,9 +27,12 @@ export function SingleDayMealPlan({
   userCarbs,
   userFats,
 }: SingleDayMealPlanProps) {
-  const [generateMeals] = useGenerateSingleDayMealPlanMutation();
+  const [
+    generateMeals,
+    { data: fetchedMeals, isLoading: isLoadingMealFetching, isSuccess: isSuccessMealFetching },
+  ] = useGenerateSingleDayMealPlanMutation();
   const dispatch = useAppDispatch();
-  const { data: userMeals, isLoading, isSuccess } = useGetMealsQuery();
+  const { data: userMeals, isSuccess, isLoading } = useGetMealsQuery();
 
   useEffect(() => {
     if (isSuccess && userMeals) {
@@ -36,7 +40,7 @@ export function SingleDayMealPlan({
     }
   }, [dispatch, isSuccess, userMeals]);
 
-  if (isLoading) {
+  if (isLoading || isLoadingMealFetching) {
     return (
       <Center sx={{ height: '100%' }}>
         <Loader color="teal" size="xl" variant="dots" />
@@ -59,7 +63,6 @@ export function SingleDayMealPlan({
     convertedDate ===
     new Date().toLocaleDateString(undefined, { weekday: 'long', day: '2-digit', month: 'long' });
 
-  // TODO: error handling
   const handleGeneration = async () => {
     try {
       const mealDateToIso = currentDate.toISO();
@@ -67,8 +70,14 @@ export function SingleDayMealPlan({
       const meals = await generateMeals({ date: mealDateToIso }).unwrap();
       dispatch(setMeals(meals));
     } catch (error: unknown) {
-      // TODO: add notification here
-      console.log(error);
+      notifications.show({
+        id: 'generate-meals-error',
+        icon: <IconX size="1rem" />,
+        title: 'Something went wrong, please try again later.',
+        color: 'red',
+        message: '',
+        autoClose: 5000,
+      });
     }
   };
 
@@ -109,17 +118,35 @@ export function SingleDayMealPlan({
     </tr>
   ));
 
-  // TODO: add loading state for when we are fetching meals
-  // TODO: add error state for when we have no meals
+  if (isSuccessMealFetching && !fetchedMeals) {
+    return (
+      <Box mt={30}>
+        <MealPlanHeader
+          handleGeneration={handleGeneration}
+          date={isToday ? 'Today' : convertedDate}
+        />
+
+        <Flex direction="column" align="center" justify="center" gap="md">
+          <Title order={3}>No meals found</Title>
+          <IconMoodSad size={150} />
+          <Text size="sm" align="center">
+            It looks like there are no meals that fit your criteria. Please try again or modify some
+            of your diet preferences before re-generating
+          </Text>
+        </Flex>
+      </Box>
+    );
+  }
+
   return (
     <Box mt={30}>
       <MealPlanHeader
         handleGeneration={handleGeneration}
         date={isToday ? 'Today' : convertedDate}
       />
-      {allMeals && allMeals.length === 0 ? (
+      {!allMeals || (allMeals && allMeals.length === 0) ? (
         <Flex direction="column" align="center" justify="center" gap="md">
-          <Title order={3}>You have no meals for this day</Title>
+          <Title order={3}>You have no meals</Title>
           <IconSalad size={350} />
           <Text size="sm">Click the button above to generate some</Text>
         </Flex>
