@@ -1,9 +1,20 @@
-import { Loader, Box, Title, SimpleGrid, Space, Flex, ActionIcon, Center } from '@mantine/core';
+import {
+  Loader,
+  Box,
+  Title,
+  SimpleGrid,
+  Space,
+  Flex,
+  ActionIcon,
+  Center,
+  Text,
+} from '@mantine/core';
 import { DateTime } from 'luxon';
 import { nanoid } from '@reduxjs/toolkit';
 import { motion } from 'framer-motion';
-import { IconEye, IconReload, IconSalad } from '@tabler/icons-react';
+import { IconEye, IconMoodSad, IconReload, IconSalad, IconX } from '@tabler/icons-react';
 import { useEffect } from 'react';
+import { notifications } from '@mantine/notifications';
 import {
   useGenerateMultiDayMealPlanMutation,
   useGenerateSingleDayMealPlanMutation,
@@ -25,7 +36,10 @@ type MultiDayMealPlanProps = {
 };
 
 export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
-  const [generateMeals, { isLoading }] = useGenerateMultiDayMealPlanMutation();
+  const [
+    generateMeals,
+    { isLoading, isSuccess: isSuccessMealFetching, data: fetchedMultiDayMeals },
+  ] = useGenerateMultiDayMealPlanMutation();
   const [generateSingleDayMeals] = useGenerateSingleDayMealPlanMutation();
   const dispatch = useAppDispatch();
   const { data: userMeals, isLoading: areMealsLoading, isSuccess } = useGetMealsQuery();
@@ -66,11 +80,20 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
   );
 
   const allMealsForEachDay = currentDateRange.map((date) => {
-    const mealsForDate = userMeals?.filter(isTheSameDate(date)) || null;
+    // NOTE: this is a workaround for the fact that the API returns mealTypes as an array of strings; we sort alphabetically breakfast > main course > snack
+    const mealsForDate =
+      userMeals
+        ?.filter(isTheSameDate(date))
+        .map((meal) => ({
+          ...meal,
+          mealTypes: meal.mealTypes
+            ? extractSingleMealType(capitalizeFirstLetterOfArray(meal.mealTypes))
+            : 'Main course',
+        }))
+        .sort((a, b) => a.mealTypes.localeCompare(b.mealTypes)) || null;
     return { date, mealsForDate };
   });
 
-  // TODO: error handling
   const handleGeneration = async () => {
     try {
       if (!convertedStartOfWeekISO || !convertedEndOfWeekISO) return;
@@ -80,7 +103,14 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
       }).unwrap();
       dispatch(setMeals(meals));
     } catch (error: unknown) {
-      console.log(error);
+      notifications.show({
+        id: 'generate-meals-error',
+        icon: <IconX size="1rem" />,
+        title: 'Something went wrong, please try again later.',
+        color: 'red',
+        message: '',
+        autoClose: 5000,
+      });
     }
   };
 
@@ -93,7 +123,14 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
       const meals = await generateSingleDayMeals({ date: convertedMealDate }).unwrap();
       dispatch(setMeals(meals));
     } catch (error: unknown) {
-      console.log(error);
+      notifications.show({
+        id: 'generate-meals-error',
+        icon: <IconX size="1rem" />,
+        title: 'Something went wrong, please try again.',
+        color: 'red',
+        message: '',
+        autoClose: 5000,
+      });
     }
   };
 
@@ -104,7 +141,7 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
     dispatch(setCalendar());
   };
 
-  const allMealsCards = allMealsForEachDay?.map((obj) => (
+  const allMealsCards = allMealsForEachDay?.sort().map((obj) => (
     <Box
       key={nanoid()}
       sx={{
@@ -135,11 +172,7 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
             <Meal
               image={meal.image}
               label={meal.title ? meal.title : ''}
-              description={
-                meal.mealTypes
-                  ? extractSingleMealType(capitalizeFirstLetterOfArray(meal.mealTypes))
-                  : ''
-              }
+              description={meal.mealTypes}
               directions={meal.directions ? meal.directions : []}
               nutritionProfile={meal.fullNutritionProfile ? meal.fullNutritionProfile : null}
               ingredients={meal.ingredients ? meal.ingredients : null}
@@ -160,6 +193,7 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
           component="button"
           data-meal-date={obj.date.toISOString()}
           onClick={singleDayMealsGeneration}
+          id="single-day-regenerate"
         >
           <IconReload />
         </ActionIcon>
@@ -175,6 +209,27 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
       </Flex>
     </Box>
   ));
+
+  // if the request has gone through but no meals were found
+  if (isSuccessMealFetching && !fetchedMultiDayMeals) {
+    return (
+      <Box mt={30}>
+        <MealPlanHeader
+          handleGeneration={handleGeneration}
+          date={`${startOfWeek} - ${endOfWeek}`}
+        />
+
+        <Flex direction="column" align="center" justify="center" gap="md">
+          <Title order={3}>No meals found</Title>
+          <IconMoodSad size={150} />
+          <Text size="sm" align="center">
+            It looks like there are no meals that fit your criteria. Please try again or modify some
+            of your diet preferences before re-generating
+          </Text>
+        </Flex>
+      </Box>
+    );
+  }
 
   return (
     <Box mt={30} mb={30}>

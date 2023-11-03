@@ -1,4 +1,6 @@
-import { createStyles, Group, Anchor, rem, Box } from '@mantine/core';
+import { createStyles, Group, Text, rem, Box } from '@mantine/core';
+import { nanoid } from '@reduxjs/toolkit';
+import { NavLink } from 'react-router-dom';
 import { Logo } from '@/components/Logo';
 
 const useStyles = createStyles((theme) => ({
@@ -34,15 +36,9 @@ interface FooterProps {
 export function Footer({ links }: FooterProps) {
   const { classes } = useStyles();
   const items = links.map((link) => (
-    <Anchor<'a'>
-      color="dimmed"
-      key={link.label}
-      href={link.link}
-      onClick={(event) => event.preventDefault()}
-      size="sm"
-    >
+    <Text component={NavLink} to={link.link} color="dimmed" key={nanoid()} size="sm">
       {link.label}
-    </Anchor>
+    </Text>
   ));
 
   return (

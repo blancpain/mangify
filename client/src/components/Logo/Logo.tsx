@@ -1,13 +1,16 @@
-import { Group, Title } from '@mantine/core';
+import { Button, Group, Title } from '@mantine/core';
 import { IconSalad } from '@tabler/icons-react';
+import { NavLink } from 'react-router-dom';
 
 export function Logo() {
   return (
     <Group spacing={3}>
-      <IconSalad color="green" size={35} />
-      <Title order={1} color="green">
-        mangify
-      </Title>
+      <IconSalad color="teal" size={35} />
+      <Button color="teal" component={NavLink} to="/" variant="transparent">
+        <Title order={2} color="teal">
+          mangify
+        </Title>
+      </Button>
     </Group>
   );
 }

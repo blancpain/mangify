@@ -12,7 +12,7 @@ import {
   Container,
 } from '@mantine/core';
 import { NavLink } from 'react-router-dom';
-import { IconFlame, IconChecklist, IconShoppingCart } from '@tabler/icons-react';
+import { IconChecklist, IconShoppingCart, IconChartPie3, IconChartBar } from '@tabler/icons-react';
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -29,24 +29,26 @@ const features = [
   {
     icon: IconChecklist,
     title: 'Multiple meal filters',
-    description: 'Advanced filters to suit your particular eating habits and preferences',
+    description:
+      'Advanced meal searching filters to suit your particular eating habits and preferences',
   },
   {
     icon: IconShoppingCart,
-    title: 'Grocery list',
-    description: 'Automatically generate a grocery list based on planned meals',
+    title: 'Shopping list',
+    description:
+      'Generate shopping lists for your meals on the fly and never forget an ingredient again',
   },
   {
-    icon: IconFlame,
-    title: 'Some other shit',
+    icon: IconChartBar,
+    title: 'Meal statistics',
     description:
-      'With new :focus-visible selector focus ring will appear only when user navigates with keyboard',
+      'Get a detailed overview for each meal, including calories, macronutrients, full ingredient amounts and more',
   },
   {
-    icon: IconFlame,
-    title: 'Flexible',
+    icon: IconChartPie3,
+    title: 'Personal macros',
     description:
-      'Customize colors, spacing, shadows, fonts and many other settings with global theme object',
+      'Generate a personalised nutrition profile based on your goals, activity level and more',
   },
 ];
 
@@ -86,18 +88,17 @@ export function FeaturesOverview() {
       >
         <Col span={12} md={5}>
           <Title className={classes.title} order={2}>
-            Sign up today to explore all the benefits of mangify
+            Sign up today to take advantage of all the benefits of mangify
           </Title>
           <Text c="dimmed">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt dolore repellendus porro
-            excepturi corrupti temporibus aliquam consectetur animi quam, recusandae quaerat natus
-            dolorem aperiam expedita libero eveniet unde consequatur sed.
+            Becoming a member of mangify is <u>completely free</u> and only takes a few minutes.
+            What are you waiting for? Sign up now!
           </Text>
 
           <Stack>
             <Button
               variant="filled"
-              color="green"
+              color="teal"
               size="lg"
               radius="md"
               mt="xl"

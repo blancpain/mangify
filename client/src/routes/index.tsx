@@ -1,8 +1,15 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
 import { useAuth } from '@/hooks';
 
 // public routes
-import { PublicRoot, Landing, SignUpRoute, LoginRoute } from '@/routes/public';
+import {
+  PublicRoot,
+  Landing,
+  LearnRoute,
+  SignUpRoute,
+  LoginRoute,
+  AboutRoute,
+} from '@/routes/public';
 
 // protected routes
 import {
@@ -51,6 +58,11 @@ export function AppRoutes() {
           element: <NutritionProfileRoute />,
           path: 'nutrition-profile',
         },
+        // catch all route
+        {
+          element: <Navigate to="/" />,
+          path: '*',
+        },
       ],
     },
   ]);
@@ -71,6 +83,19 @@ export function AppRoutes() {
         {
           element: <SignUpRoute />,
           path: 'sign-up',
+        },
+        {
+          element: <AboutRoute />,
+          path: 'about',
+        },
+        {
+          element: <LearnRoute />,
+          path: 'learn',
+        },
+        // catch all route
+        {
+          element: <Navigate to="/" />,
+          path: '*',
         },
       ],
     },

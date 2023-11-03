@@ -18,6 +18,7 @@ import {
   Container,
   Box,
   Title,
+  Flex,
 } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
 import { GoogleButton, FacebookButton } from '@/components/Buttons';
@@ -52,19 +53,17 @@ export function Login(props: PaperProps) {
     try {
       const userData = await login(data).unwrap();
       dispatch(setUser(userData));
-      // TODO: add toast effects here
       navigate('/', { replace: true });
       reset();
       notifications.show({
         id: 'login',
         icon: <IconCheck size="1rem" />,
-        title: 'Welcome!',
+        title: 'Login successful!',
         color: 'teal',
         message: '',
-        autoClose: 2000,
+        autoClose: 3000,
       });
     } catch (error: unknown) {
-      // TODO: add toast effects here
       if (isFetchBaseQueryError(error)) {
         if (
           error.data &&
@@ -109,8 +108,8 @@ export function Login(props: PaperProps) {
       }}
       component="main"
     >
-      <Title>Welcome back</Title>
-      <Container size="xs" p="xl">
+      <Title>Sign in</Title>
+      <Container p="xl" m="xl">
         <Paper
           radius="md"
           p="xl"
@@ -122,10 +121,14 @@ export function Login(props: PaperProps) {
             Sign in with
           </Text>
 
-          <Group grow mb="md" mt="md">
-            <GoogleButton radius="xl">Google</GoogleButton>
-            <FacebookButton radius="xl">Facebook</FacebookButton>
-          </Group>
+          <Flex mb="md" mt="md" gap="lg">
+            <GoogleButton radius="xl" disabled>
+              Google
+            </GoogleButton>
+            <FacebookButton radius="xl" disabled>
+              Facebook
+            </FacebookButton>
+          </Flex>
 
           <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
@@ -136,6 +139,7 @@ export function Login(props: PaperProps) {
                 control={control}
                 render={({ field }) => (
                   <TextInput
+                    id="email"
                     label="Email"
                     placeholder="example@google.com"
                     radius="md"
@@ -151,6 +155,7 @@ export function Login(props: PaperProps) {
                 control={control}
                 render={({ field }) => (
                   <PasswordInput
+                    id="password"
                     label="Password"
                     placeholder="Your password"
                     radius="md"
@@ -166,13 +171,13 @@ export function Login(props: PaperProps) {
               <Anchor component={NavLink} to="/sign-up" color="dimmed" size="xs">
                 No account? Register
               </Anchor>
-              <Button type="submit" radius="xl" disabled={isSubmitting}>
+              <Button type="submit" radius="xl" id="login-button" disabled={isSubmitting}>
                 Login
               </Button>
             </Group>
           </form>
           {genericError !== '' ? (
-            <Text color="red" size="md" mt={10}>{`${genericError}`}</Text>
+            <Text color="red" size="md" mt={10} id="form-error">{`${genericError}`}</Text>
           ) : (
             ''
           )}

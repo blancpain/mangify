@@ -1,30 +1,31 @@
 import { Text, Accordion, Title, Flex, ActionIcon } from '@mantine/core';
-import { IconReload } from '@tabler/icons-react';
+import { IconReload, IconX } from '@tabler/icons-react';
 import { MealRecipe } from '@shared/types';
 import { nanoid } from '@reduxjs/toolkit';
 import { DateTime } from 'luxon';
+import { notifications } from '@mantine/notifications';
 import { Meal } from './Meal';
-import { capitalizeFirstLetterOfArray, extractSingleMealType } from '@/utils';
 import { useAppDispatch } from '@/hooks';
 import { useRegenerateOneMealMutation } from '@/features/api';
 import { setMeals } from '@/stores';
 
+type MealRecipeWithSingleMealType = Omit<MealRecipe, 'mealTypes'> & {
+  mealTypes: string;
+};
+
 type MealAccordionProps = {
-  meal: MealRecipe;
+  meal: MealRecipeWithSingleMealType;
 };
 
 export function MealAccordion({ meal }: MealAccordionProps) {
   const dispatch = useAppDispatch();
   const [regenerateMeal] = useRegenerateOneMealMutation();
 
-  // TODO: error handling
   const handleRegeneration = async (e: React.MouseEvent) => {
-    const { id } = e.currentTarget as HTMLButtonElement;
+    const id = e.currentTarget.getAttribute('data-id');
     const convertedDate = new Date(meal.date || new Date());
     const targetedMealDate = DateTime.fromJSDate(convertedDate).toISO();
-    const mealType = meal.mealTypes
-      ? extractSingleMealType(capitalizeFirstLetterOfArray(meal.mealTypes))
-      : 'Main Course';
+    const mealType = meal.mealTypes;
 
     if (!id || !targetedMealDate || !mealType) return;
     const mealData = { date: targetedMealDate, mealType, uniqueIdentifier: id };
@@ -33,7 +34,14 @@ export function MealAccordion({ meal }: MealAccordionProps) {
       const updatedMeals = await regenerateMeal(mealData).unwrap();
       dispatch(setMeals(updatedMeals));
     } catch (error: unknown) {
-      console.log(error);
+      notifications.show({
+        id: 'generate-meals-error',
+        icon: <IconX size="1rem" />,
+        title: 'Something went wrong, please try again later.',
+        color: 'red',
+        message: '',
+        autoClose: 5000,
+      });
     }
   };
 
@@ -44,11 +52,7 @@ export function MealAccordion({ meal }: MealAccordionProps) {
           <Meal
             image={meal.image}
             label={meal.title ? meal.title : ''}
-            description={
-              meal.mealTypes
-                ? extractSingleMealType(capitalizeFirstLetterOfArray(meal.mealTypes))
-                : ''
-            }
+            description={meal.mealTypes}
             directions={meal.directions ? meal.directions : []}
             nutritionProfile={meal.fullNutritionProfile ? meal.fullNutritionProfile : null}
             ingredients={meal.ingredients ? meal.ingredients : null}
@@ -69,7 +73,8 @@ export function MealAccordion({ meal }: MealAccordionProps) {
               color="teal"
               size="xl"
               variant="subtle"
-              id={meal.uniqueIdentifier || ''}
+              id="regenerate-meal"
+              data-id={meal.uniqueIdentifier}
               onClick={handleRegeneration}
             >
               <IconReload />

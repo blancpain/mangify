@@ -1,0 +1,357 @@
+[
+  {
+    "id": 640909,
+    "ingredients": [
+      {
+        "id": 11011,
+        "ingredient": "bundle of asparagus",
+        "ingredientImage": "asparagus.png",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 1034053,
+        "ingredient": "olive oil",
+        "ingredientImage": "olive-oil.jpg",
+        "amount": 4,
+        "unit": "servings"
+      },
+      {
+        "id": 1102047,
+        "ingredient": "salt & pepper",
+        "ingredientImage": "salt-and-pepper.jpg",
+        "amount": 4,
+        "unit": "servings"
+      },
+      {
+        "id": 1145,
+        "ingredient": "butter",
+        "ingredientImage": "butter-sliced.jpg",
+        "amount": 1.014,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 20081,
+        "ingredient": "flour",
+        "ingredientImage": "flour.png",
+        "amount": 1.5,
+        "unit": "Tbsps"
+      },
+      {
+        "id": 1077,
+        "ingredient": "milk",
+        "ingredientImage": "milk.png",
+        "amount": 244,
+        "unit": "ml"
+      },
+      {
+        "id": 1002025,
+        "ingredient": "nutmeg",
+        "ingredientImage": "ground-nutmeg.jpg",
+        "amount": 1,
+        "unit": "dash"
+      },
+      {
+        "id": 1023,
+        "ingredient": "gruyere cheese",
+        "ingredientImage": "gruyere.jpg",
+        "amount": 226.796,
+        "unit": "g"
+      },
+      {
+        "id": 1032,
+        "ingredient": "parmesan cheese",
+        "ingredientImage": "parmesan.jpg",
+        "amount": 25,
+        "unit": "ml"
+      },
+      {
+        "id": 18069,
+        "ingredient": "bread",
+        "ingredientImage": "white-bread.jpg",
+        "amount": 8,
+        "unit": "slice"
+      },
+      {
+        "id": 1032046,
+        "ingredient": "dijon mustard",
+        "ingredientImage": "dijon-mustard.jpg",
+        "amount": 4,
+        "unit": "servings"
+      },
+      {
+        "id": 93756,
+        "ingredient": "forest ham",
+        "ingredientImage": "black-forest-ham.jpg",
+        "amount": 4,
+        "unit": "slice"
+      },
+      {
+        "id": 1123,
+        "ingredient": "eggs",
+        "ingredientImage": "egg.png",
+        "amount": 4,
+        "unit": ""
+      }
+    ],
+    "title": "Croque-Madame with Asparagus",
+    "image": "https://spoonacular.com/recipeImages/640909-312x231.jpg",
+    "date": "2023-10-28T00:00:00.000Z",
+    "uniqueIdentifier": "SA_NLoKe23JEVIW7L1dAK",
+    "mealTypes": ["lunch", "main course", "main dish", "dinner"],
+    "fullNutritionProfile": {
+      "calories": 689.57,
+      "protein": 36.64,
+      "fats": 45.67,
+      "carbs": 32.44
+    },
+    "directions": [
+      "Preheat oven to 400 degrees f. On a large baking sheet, toss asparagus with a little olive oil, salt & pepper. Roast until just tender, about 10 minutes, shaking the pan once or twice to redistribute the asparagus.",
+      "Remove from oven and set aside.",
+      "Melt the butter in a small saucepan over low heat, whisk in the flour, cook and stir for about 2 minutes. Slowly whisk in the milk, increase the heat to medium-high and bring to a simmer, stirring constantly, simmer for about 2 minutes to thicken.",
+      "Remove from heat, add nutmeg, 1/8 t. salt, a bit of fresh ground black pepper, 1/4 c. shredded Gruyere and 1/4 c. Parmesan. Stir to combine, set aside.",
+      "On another baking sheet, place the bread slices.",
+      "Bake for 5 minutes, flip bread and bake about another 4 minutes (keeping an eye on it), until the bread is lightly toasted.",
+      "Remove from oven.",
+      "Spread 4 of the slices lightly with Dijon mustard, top with a layer of ham, a few asparagus spears and half the remaining Gruyere cheese. Top with the remaining toasted bread. Slather the tops of the sandwiches with some of the bechamel sauce and top with the rest of the cheese.",
+      "Bake sandwiches for 5 minutes, then broil until bubbly and golden, about another 3-5 minutes.",
+      "Serve sandwiches topped with a poached or fried egg."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/croque-madame-with-asparagus-640909"
+  },
+  {
+    "id": 654527,
+    "ingredients": [
+      {
+        "id": 12087,
+        "ingredient": "cashew nuts",
+        "ingredientImage": "cashews.jpg",
+        "amount": 129,
+        "unit": "g"
+      },
+      {
+        "id": 10111215,
+        "ingredient": "garlic paste",
+        "ingredientImage": "garlic-paste.png",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 93754,
+        "ingredient": "ginger paste",
+        "ingredientImage": "ginger-garlic-paste.png",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 2043,
+        "ingredient": "turmeric powder",
+        "ingredientImage": "turmeric.jpg",
+        "amount": 1.5,
+        "unit": "tsps"
+      },
+      {
+        "id": 1002013,
+        "ingredient": "coriander powder",
+        "ingredientImage": "ground-coriander.jpg",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 2014,
+        "ingredient": "cumin seeds",
+        "ingredientImage": "ground-cumin.jpg",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 93663,
+        "ingredient": "garam masala",
+        "ingredientImage": "garam-masala.jpg",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 2009,
+        "ingredient": "chilli powder",
+        "ingredientImage": "chili-powder.jpg",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 1082,
+        "ingredient": "milk",
+        "ingredientImage": "milk.png",
+        "amount": 118,
+        "unit": "ml"
+      },
+      {
+        "id": 14412,
+        "ingredient": "water",
+        "ingredientImage": "water.png",
+        "amount": 177.441,
+        "unit": "ml"
+      },
+      {
+        "id": 2047,
+        "ingredient": "salt",
+        "ingredientImage": "salt.jpg",
+        "amount": 1,
+        "unit": "tsp"
+      },
+      {
+        "id": 10511282,
+        "ingredient": "onions",
+        "ingredientImage": "brown-onion.png",
+        "amount": 160,
+        "unit": "g"
+      },
+      {
+        "id": 10211529,
+        "ingredient": "roma tomatoes",
+        "ingredientImage": "roma-tomatoes.png",
+        "amount": 236.588,
+        "unit": "g"
+      },
+      {
+        "id": 1002010,
+        "ingredient": "cinnamon stick",
+        "ingredientImage": "cinnamon.jpg",
+        "amount": 1,
+        "unit": ""
+      },
+      {
+        "id": 98847,
+        "ingredient": "paneer",
+        "ingredientImage": "paneer.png",
+        "amount": 450,
+        "unit": "g"
+      },
+      {
+        "id": 10020006,
+        "ingredient": "farro",
+        "ingredientImage": "farro-or-spelt.jpg",
+        "amount": 314,
+        "unit": "g"
+      },
+      {
+        "id": 11124,
+        "ingredient": "carrots",
+        "ingredientImage": "sliced-carrot.png",
+        "amount": 32,
+        "unit": "g"
+      },
+      {
+        "id": 11165,
+        "ingredient": "cilantro",
+        "ingredientImage": "cilantro.png",
+        "amount": 1,
+        "unit": "Tbsp"
+      }
+    ],
+    "title": "Paneer And Farro Casserole",
+    "image": "https://spoonacular.com/recipeImages/654527-312x231.jpg",
+    "date": "2023-10-28T00:00:00.000Z",
+    "uniqueIdentifier": "c7ASLd4PEb-bMB22IBAhn",
+    "mealTypes": ["side dish", "lunch", "main course", "main dish", "dinner"],
+    "fullNutritionProfile": {
+      "calories": 657.65,
+      "protein": 25.95,
+      "fats": 43.52,
+      "carbs": 45.17
+    },
+    "directions": [
+      "Preheat the oven at 375 degree Fahrenheit.",
+      "Combine cashew nuts, garlic, ginger, turmeric powder, coriander powder, cumin seeds, garam masala, chilli powder in a food processor and grind as fine as possible.",
+      "Then add milk and water and process again into a smooth paste. Take this paste out in a bowl and then mix in the salt properly.",
+      "In a baking dish layer it with  cup of the ground paste. Put a cinnamon stick in the middle of the baking dish.",
+      "Add another layer of onions and then tomatoes.",
+      "Add another layer of paneer and then again spread another layer of farro.",
+      "Lastly, layer it with the remaining cashew nut paste. Top it with carrots.",
+      "Cover the baking dish with aluminum foil properly and put it in the below most rack in the oven.",
+      "Bake it for 35 minutes.",
+      "Garnish with cilantro and serve hot."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/paneer-and-farro-casserole-654527"
+  },
+  {
+    "id": 636769,
+    "ingredients": [
+      {
+        "id": 10311529,
+        "ingredient": "cherry tomatoes",
+        "ingredientImage": "cherry-tomatoes.png",
+        "amount": 6,
+        "unit": ""
+      },
+      {
+        "id": 1123,
+        "ingredient": "eggs",
+        "ingredientImage": "egg.png",
+        "amount": 2,
+        "unit": ""
+      },
+      {
+        "id": 1077,
+        "ingredient": "milk",
+        "ingredientImage": "milk.png",
+        "amount": 1,
+        "unit": "Tbsp"
+      },
+      {
+        "id": 11282,
+        "ingredient": "onions",
+        "ingredientImage": "brown-onion.png",
+        "amount": 2,
+        "unit": "small"
+      },
+      {
+        "id": 1032,
+        "ingredient": "parmesan cheese",
+        "ingredientImage": "parmesan.jpg",
+        "amount": 1,
+        "unit": "Tbsp"
+      },
+      {
+        "id": 10211821,
+        "ingredient": "bell pepper",
+        "ingredientImage": "yellow-bell-pepper.jpg",
+        "amount": 6,
+        "unit": "servings"
+      },
+      {
+        "id": 10010123,
+        "ingredient": "prosciutto",
+        "ingredientImage": "proscuitto.jpg",
+        "amount": 6,
+        "unit": "slice"
+      }
+    ],
+    "title": "Mini Ham Omelets",
+    "image": "https://spoonacular.com/recipeImages/636769-312x231.jpg",
+    "date": "2023-10-28T00:00:00.000Z",
+    "uniqueIdentifier": "WEf5qDhGQ4iuISIrR_Gk5",
+    "mealTypes": [
+      "antipasti",
+      "starter",
+      "morning meal",
+      "snack",
+      "brunch",
+      "appetizer",
+      "antipasto",
+      "breakfast",
+      "hor d'oeuvre"
+    ],
+    "fullNutritionProfile": {
+      "calories": 110.48,
+      "protein": 5.08,
+      "fats": 5.37,
+      "carbs": 12.27
+    },
+    "directions": [
+      "Wash, chop the spring onions and check.In a mixing bowl with a whisk the eggs with the grated Parmesan.",
+      "Add chopped onions, milk and a sprinkling of pepper.Lining six cavities of a mold silicone muffin with slices of ham and fill with a couple of tablespoons of dough.Enter a washed and dried tomatoes in the center of each cake and bake in a preheated oven at 180C for 12-15 minutes."
+    ],
+    "fullRecipeURL": "https://spoonacular.com/mini-ham-omelets-636769"
+  }
+]

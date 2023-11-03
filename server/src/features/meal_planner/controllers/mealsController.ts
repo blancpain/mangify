@@ -23,7 +23,6 @@ const generateMultiDayMealPlan = async (
   let zodErrors = {};
 
   if (!result.success) {
-    req.session.destroy(() => {});
     result.error.issues.forEach((issue) => {
       zodErrors = { ...zodErrors, [issue.path[0]]: issue.message };
     });
@@ -54,7 +53,6 @@ const generateSingleDayMealPlan = async (
   let zodErrors = {};
 
   if (!result.success) {
-    req.session.destroy(() => {});
     result.error.issues.forEach((issue) => {
       zodErrors = { ...zodErrors, [issue.path[0]]: issue.message };
     });
@@ -85,7 +83,6 @@ const regenerateOneMeal = async (
   let zodErrors = {};
 
   if (!result.success) {
-    req.session.destroy(() => {});
     result.error.issues.forEach((issue) => {
       zodErrors = { ...zodErrors, [issue.path[0]]: issue.message };
     });
@@ -113,11 +110,11 @@ const refreshMeals = async (req: Request, res: Response, _next: NextFunction): P
   if (data) {
     res.json(data);
   } else {
-    res.status(502).json({ errors: 'Issue connecting to external service' });
+    res.status(204).end(); // if there is an axios error it will be picked up by the errorHandler
   }
 };
 
-// WARN: the two controllers below are not currently in use, saved for a later release
+// WARN: saveMeal and getFavoriteMeals are not currently in use, saved for a later release
 const saveMeal = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
   const { user } = req.session;
 

@@ -8,9 +8,8 @@ export function PublicRoot() {
       <Outlet />
       <Footer
         links={[
-          { label: 'About', link: 'www.google.com' },
-          { label: 'Contact', link: 'www.google.com' },
-          { label: 'Learn', link: 'www.google.com' },
+          { label: 'Learn', link: '/learn' },
+          { label: 'About', link: '/about' },
         ]}
       />
     </>

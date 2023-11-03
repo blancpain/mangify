@@ -1,9 +1,8 @@
 import { notifications } from '@mantine/notifications';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { Menu, UnstyledButton, Group, Box, useMantineTheme, rem, Avatar } from '@mantine/core';
 import {
   IconSettings,
-  IconMessageCircle,
   IconLogout,
   IconChevronRight,
   IconChevronLeft,
@@ -28,7 +27,7 @@ export function UserMenu() {
     notifications.show({
       id: 'logout',
       loading: true,
-      title: 'Goodbye!',
+      title: 'See you later!',
       message: '',
       autoClose: false,
       withCloseButton: false,
@@ -41,9 +40,9 @@ export function UserMenu() {
         title: 'Logout successful ',
         message: '',
         icon: <IconCheck size="1rem" />,
-        autoClose: 1000,
+        autoClose: 2000,
       });
-    }, 2000);
+    }, 3000);
   };
 
   return (
@@ -72,10 +71,12 @@ export function UserMenu() {
             }}
           >
             <Group>
-              <Avatar color="green" radius="xl">
+              <Avatar color="teal" radius="xl">
                 <IconUser size={rem(20)} />
               </Avatar>
-              <Box sx={{ flex: 1 }}>{user.name}</Box>
+              <Box sx={{ flex: 1 }} id="user-name">
+                {user.name}
+              </Box>
 
               {theme.dir === 'ltr' ? (
                 <IconChevronRight size={rem(20)} />
@@ -89,12 +90,14 @@ export function UserMenu() {
 
       <Menu.Dropdown>
         <Menu.Label>User</Menu.Label>
-        <Menu.Item icon={<IconSettings size={14} />}>Settings</Menu.Item>
-        <Menu.Item icon={<IconMessageCircle size={14} />}>Messages</Menu.Item>
+        <Menu.Item component={NavLink} to="/user-settings" icon={<IconSettings size={14} />}>
+          Settings
+        </Menu.Item>
 
         <Menu.Divider />
 
         <Menu.Item
+          id="logout"
           color="red"
           icon={<IconLogout size={14} />}
           component="button"

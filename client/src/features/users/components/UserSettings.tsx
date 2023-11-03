@@ -51,8 +51,6 @@ export function UserSettings() {
   const [setUserCarbs] = useSetCarbsMutation();
   const [setUserFats] = useSetFatsMutation();
 
-  // TODO: we should be showing a notificaiton to urge user to complete profile if settings are empty
-  // reword notif messages
   useEffect(() => {
     if (allUserSettingsProvided(profile)) {
       // NOTE: update Nutrition Profile based on changed user settings and trigger notification
@@ -102,13 +100,11 @@ export function UserSettings() {
     }
   }, [profile, dispatch, setUserCarbs, setUserCalories, setUserFats, setUserProtein]);
 
-  // TODO: refactor these, lots can be extracted in helper
-  // especially the error handling - currently none...
+  // NOTE: might have to do error handling for these in case of DB failure
   const handleHeightInput = async (val: unknown) => {
     if (isNumber(val)) {
       dispatch(setHeight(val));
       await setUserHeight({ height: val });
-      // await updateNutritionProfileNotification();
     }
   };
 
@@ -152,6 +148,7 @@ export function UserSettings() {
         </Title>
         <Select
           w="40%"
+          id="sex"
           value={profile.sex}
           placeholder="Your sex"
           // NOTE: type casting in this and the below enum fields should be OK since we have hardcoded them in the data array using the original type
@@ -167,6 +164,7 @@ export function UserSettings() {
         <Group>
           <NumberInput
             w="40%"
+            id="age"
             value={profile.age ? profile.age : ''}
             onChange={handleAgeInput}
             min={1}
@@ -179,6 +177,7 @@ export function UserSettings() {
         </Title>
         <Group>
           <NumberInput
+            id="height"
             w="40%"
             value={profile.height ? profile.height : ''}
             onChange={handleHeightInput}
@@ -193,6 +192,7 @@ export function UserSettings() {
         </Title>
         <Group>
           <NumberInput
+            id="weight"
             w="40%"
             value={profile.weight ? profile.weight : ''}
             onChange={handleWeightInput}

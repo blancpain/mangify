@@ -1,11 +1,7 @@
-import { createStyles, Paper, Text, Title, rem, Box } from '@mantine/core';
+import { createStyles, Text, Title, rem, Box, Paper, Flex } from '@mantine/core';
 import { ShowCaseRecipe } from '@shared/types';
 import { RecipeModal } from './RecipeModal';
-
-// TODO: figure out how to squeeze the food title in if a long title + image stuff - check mantine aspect ratio...
-//! make sure we use a default image if no img provided
-//! maybe also have general fallbacks in case stuff is null/missing....
-//! also make sure we show the calories....
+import { emptyMealImageShowcaseGen } from '@/assets';
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -21,10 +17,10 @@ const useStyles = createStyles((theme) => ({
   title: {
     fontFamily: `Greycliff CF, ${theme.fontFamily}`,
     fontWeight: 900,
-    lineHeight: 1.2,
-    fontSize: rem(25),
+    lineHeight: 1.1,
+    fontSize: rem(20),
     marginTop: theme.spacing.xs,
-    marginBottom: theme.spacing.lg,
+    marginBottom: theme.spacing.xl,
     maxHeight: '20px',
   },
 
@@ -50,19 +46,19 @@ export function Meal({ recipe }: MealProps) {
 
   return (
     <Box>
-      <div>
+      <Flex direction="column" mb={40}>
         <Text className={classes.dishType} size="xs">
-          {recipe.dishType}
+          {recipe.dishType ? recipe.dishType : 'Meal'}
         </Text>
-        <Title order={3} className={classes.title}>
-          {recipe.title}
+        <Title className={classes.title}>
+          {recipe.title ? recipe.title : 'The best meal ever!'}
         </Title>
-      </div>
+      </Flex>
       <Paper
         shadow="md"
         p="xl"
         radius="md"
-        sx={{ backgroundImage: `url(${recipe.image})` }}
+        sx={{ backgroundImage: `url(${recipe.image ? recipe.image : emptyMealImageShowcaseGen})` }}
         className={classes.card}
       >
         <RecipeModal recipe={recipe} />

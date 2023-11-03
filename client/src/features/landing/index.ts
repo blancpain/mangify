@@ -1,2 +1,2 @@
-export { Hero } from './components/Hero';
-export { MealGenerator } from './components/MealGenerator';
+export * from './components/MealGenerator';
+export * from './components/Hero';

@@ -25,17 +25,13 @@ import {
   syncMealsWithDb,
 } from '@/utils';
 
-// TODO: check if we need to use the active flag at all
-
 // NOTE: we use this function to add a delay between API calls
 const timeout = (ms: number) =>
   new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
 
-// TODO: (optional)
-// 1) implement a way to NOT generate meals for a particular day if the user already has meals for that day
-// 2) we might need to introduce a limit of how many single-day meal plans a user can generate
+// NOTE: (optional addition): implement a way to NOT generate meals for a particular day if the user already has meals for that day
 
 const generateMultiDayMealPlan = async (
   id: string,
@@ -138,7 +134,7 @@ const regenerateOneMeal = async (
   if (!extractedDate) return null;
 
   // HACK: we only use the active flag for single meal re-generation - the reason is that unlike one-day meal gen where we explicitly filter out meals
-  // from that day and then only return the meals outside of that day plus the news ones OR with multi-day meal gen where we simply delete all meals and genereate new ones,
+  // of the same date and then only return the meals that don't have that date + any new ones OR with multi-day meal gen where we simply delete all meals and genereate new ones,
   // for one meal re-gen we need a way to "exclude" the meal from the existing meals and deactivating it allows us to then select all meals apart from
   // the one we want to re-generate and it's then effectively deleted when we sync the meals with the DB
 

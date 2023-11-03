@@ -1,4 +1,5 @@
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import cors from 'cors';
 import 'express-async-errors';
 import session from 'express-session';
@@ -11,9 +12,17 @@ import { userRouter, sessionRouter } from '@/features/auth';
 import { mealGeneratorShowcaseRouter } from '@/features/meal_generator_showcase';
 import { userSettingsRouter } from '@/features/users';
 import { mealsRouter } from '@/features/meal_planner';
+import { testingRouter } from '@/testing';
 
 // middleware
 import { morganMiddleware, sessionOptions, errorHandler } from '@/middleware';
+
+// rate limiter for /meals and /meal-generator-showcase endpoints
+const sharedLimiter = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+  max: 1500, // Maximum requests per day
+  message: 'Daily request limit exceeded.', // status code 429 is returned
+});
 
 export const app = express();
 app.use(helmet());
@@ -44,8 +53,13 @@ app.use(
 app.use(session(sessionOptions));
 app.use(morganMiddleware);
 
+if (process.env.NODE_ENV === 'development') {
+  app.use('/api/testing', testingRouter);
+}
+
 app.use('/api/users', userRouter);
 app.use('/api/session', sessionRouter);
+app.use(['/api/meals', '/api/meal-generator-showcase'], sharedLimiter); // add rate limiter to these endpoints
 app.use('/api/meal-generator-showcase', mealGeneratorShowcaseRouter);
 app.use('/api/user', userSettingsRouter);
 app.use('/api/meals', mealsRouter);
