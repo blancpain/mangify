@@ -1,11 +1,11 @@
 import { HashLink } from 'react-router-hash-link';
 import { createStyles, Overlay, Container, Title, Button, Text, rem } from '@mantine/core';
-import { heroBG } from '@/assets';
+import { heroBG2 } from '@/assets';
 
 const useStyles = createStyles((theme) => ({
   hero: {
     position: 'relative',
-    backgroundImage: `url(${heroBG})`,
+    backgroundImage: `url(${heroBG2})`,
     backgroundAttachment: 'fixed',
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
@@ -23,7 +23,7 @@ const useStyles = createStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
     paddingBottom: `calc(${theme.spacing.xl} * 6)`,
     zIndex: 1,
     position: 'relative',
