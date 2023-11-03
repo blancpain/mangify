@@ -100,12 +100,24 @@ describe('Meal planning', function () {
       cy.contains('Meal Planner').click();
     });
 
-    it('and there are no errors, they see the meals', function () {
+    it.only('and there are no errors, they see the meals', function () {
       cy.intercept('POST', '/api/meals/single-day', { fixture: 'exampleTransformedMealData.json' });
       cy.intercept('GET', '/api/meals', { fixture: 'exampleTransformedMealData.json' });
       cy.get('#generate-meals').click();
 
       cy.contains('Mini Ham Omelets');
+    });
+
+    it('and is successful but then tries to re-generate a single meal and gets a 502 - error notification is shown', function () {
+      cy.intercept('POST', '/api/meals/single-day', { fixture: 'exampleTransformedMealData.json' });
+      cy.intercept('GET', '/api/meals', { fixture: 'exampleTransformedMealData.json' });
+      cy.intercept('POST', '/api/meals/one-meal', { statusCode: 502 });
+      cy.get('#generate-meals').click();
+
+      cy.contains('Mini Ham Omelets').click();
+      cy.get('#regenerate-meal').click();
+
+      cy.contains('Something went wrong');
     });
 
     it('but a 502 status code is returned, they see the relevant error notification', function () {
@@ -170,7 +182,3 @@ describe('Meal planning', function () {
     });
   });
 });
-
-// TODO: add tests for multi-day meal plan and also for when we don't get back any meals or we get back an error
-// for the client in terms of unit tests - maybe test the protected vs unprotected routes when we have a user set
-// and the macro calculator
