@@ -80,7 +80,17 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
   );
 
   const allMealsForEachDay = currentDateRange.map((date) => {
-    const mealsForDate = userMeals?.filter(isTheSameDate(date)) || null;
+    // NOTE: this is a workaround for the fact that the API returns mealTypes as an array of strings; we sort alphabetically breakfast > main course > snack
+    const mealsForDate =
+      userMeals
+        ?.filter(isTheSameDate(date))
+        .map((meal) => ({
+          ...meal,
+          mealTypes: meal.mealTypes
+            ? extractSingleMealType(capitalizeFirstLetterOfArray(meal.mealTypes))
+            : 'Main course',
+        }))
+        .sort((a, b) => a.mealTypes.localeCompare(b.mealTypes)) || null;
     return { date, mealsForDate };
   });
 
@@ -131,7 +141,7 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
     dispatch(setCalendar());
   };
 
-  const allMealsCards = allMealsForEachDay?.map((obj) => (
+  const allMealsCards = allMealsForEachDay?.sort().map((obj) => (
     <Box
       key={nanoid()}
       sx={{
@@ -162,11 +172,7 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
             <Meal
               image={meal.image}
               label={meal.title ? meal.title : ''}
-              description={
-                meal.mealTypes
-                  ? extractSingleMealType(capitalizeFirstLetterOfArray(meal.mealTypes))
-                  : ''
-              }
+              description={meal.mealTypes}
               directions={meal.directions ? meal.directions : []}
               nutritionProfile={meal.fullNutritionProfile ? meal.fullNutritionProfile : null}
               ingredients={meal.ingredients ? meal.ingredients : null}

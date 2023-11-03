@@ -7,7 +7,7 @@ import { notifications } from '@mantine/notifications';
 import { useGenerateSingleDayMealPlanMutation, useGetMealsQuery } from '@/features/api';
 import { useAppDispatch } from '@/hooks';
 import { setMeals } from '@/stores';
-import { isTheSameDate } from '@/utils';
+import { capitalizeFirstLetterOfArray, extractSingleMealType, isTheSameDate } from '@/utils';
 import { MealAccordion } from './MealAccordion';
 import { PieChart } from '@/components';
 import { MealPlanHeader } from './MealPlanHeader';
@@ -83,6 +83,13 @@ export function SingleDayMealPlan({
 
   const allMeals = userMeals
     ?.filter(isTheSameDate(currentDateJs))
+    .map((meal) => ({
+      ...meal,
+      mealTypes: meal.mealTypes
+        ? extractSingleMealType(capitalizeFirstLetterOfArray(meal.mealTypes))
+        : 'Main course',
+    }))
+    .sort((a, b) => a.mealTypes.localeCompare(b.mealTypes))
     .map((meal) => <MealAccordion key={nanoid()} meal={meal} />);
 
   const totalMealCalories = userMeals
