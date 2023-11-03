@@ -115,40 +115,42 @@ export function Meal({
         </Grid>
       </Modal>
 
-      <HoverCard shadow="md" radius="lg" position="right">
-        <HoverCard.Target>
-          <Group position="center">
-            {image ? (
-              <Avatar onClick={open} src={image} radius="xl" size="lg" />
-            ) : (
-              <Image onClick={open} src={emptyMealImage} radius="lg" maw={60} />
-            )}
-          </Group>
-        </HoverCard.Target>
-        <HoverCard.Dropdown>
-          <Title order={5}>Calories:</Title>
-          <Text>{nutritionProfile?.calories?.toFixed(0)}</Text>
-          <Title order={5}>Macros:</Title>
-          <Flex>
-            <Text pr={5}>Protein:</Text>
-            <Text>{nutritionProfile?.protein?.toFixed(1)} g</Text>
-          </Flex>
-          <Flex>
-            <Text pr={5}>Carbs:</Text>
-            <Text>{nutritionProfile?.carbs?.toFixed(1)} g</Text>
-          </Flex>
-          <Flex>
-            <Text pr={5}>Fats:</Text>
-            <Text>{nutritionProfile?.fats?.toFixed(1)} g</Text>
-          </Flex>
-        </HoverCard.Dropdown>
-      </HoverCard>
-      <div>
-        <Text fw={600}>{covertStringToTitleCase(label)}</Text>
-        <Text size="sm" color="dimmed" weight={400}>
-          {description}
-        </Text>
-      </div>
+      <Flex gap={30}>
+        <HoverCard shadow="md" radius="lg" position="right">
+          <HoverCard.Target>
+            <Group position="center">
+              {image ? (
+                <Avatar onClick={open} src={image} radius="xl" size="lg" />
+              ) : (
+                <Image onClick={open} src={emptyMealImage} radius="lg" maw={60} />
+              )}
+            </Group>
+          </HoverCard.Target>
+          <HoverCard.Dropdown>
+            <Title order={5}>Calories:</Title>
+            <Text>{nutritionProfile?.calories?.toFixed(0)}</Text>
+            <Title order={5}>Macros:</Title>
+            <Flex>
+              <Text pr={5}>Protein:</Text>
+              <Text>{nutritionProfile?.protein?.toFixed(1)} g</Text>
+            </Flex>
+            <Flex>
+              <Text pr={5}>Carbs:</Text>
+              <Text>{nutritionProfile?.carbs?.toFixed(1)} g</Text>
+            </Flex>
+            <Flex>
+              <Text pr={5}>Fats:</Text>
+              <Text>{nutritionProfile?.fats?.toFixed(1)} g</Text>
+            </Flex>
+          </HoverCard.Dropdown>
+        </HoverCard>
+        <div>
+          <Text fw={600}>{covertStringToTitleCase(label)}</Text>
+          <Text size="sm" color="dimmed" weight={400}>
+            {description}
+          </Text>
+        </div>
+      </Flex>
     </Group>
   );
 }
