@@ -108,7 +108,7 @@ export function Login(props: PaperProps) {
       }}
       component="main"
     >
-      <Title>Welcome back</Title>
+      <Title>Sign in</Title>
       <Container p="xl" m="xl">
         <Paper
           radius="md"
