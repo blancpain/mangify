@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { Title, Select, Space, Flex, NumberInput, Group, Text } from '@mantine/core';
-import { ActivityLevel, Sex, Goal } from '@shared/types';
 import { IconCheck } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
+import { ActivityLevel, Sex, Goal } from '@/types';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import {
   setSex,

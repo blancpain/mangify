@@ -1,5 +1,4 @@
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
-import { signUpSchema, TSignUpSchema } from '@shared/types';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { notifications } from '@mantine/notifications';
@@ -20,6 +19,7 @@ import {
   Container,
 } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
+import { signUpSchema, TSignUpSchema } from '@/types';
 import { GoogleButton, FacebookButton } from '@/components/Buttons';
 import { useRegisterUserMutation } from '@/features/api';
 import { isFetchBaseQueryError, isErrorWithMessage } from '@/utils';

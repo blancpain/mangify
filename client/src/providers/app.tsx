@@ -21,7 +21,6 @@ export function AppProvider({ children }: AppProviderProps) {
   });
 
   const toggleColorScheme = (value?: ColorScheme) =>
-    // eslint-disable-next-line implicit-arrow-linebreak
     setColorScheme(value || (colorScheme === 'dark' ? 'light' : 'dark'));
 
   useHotkeys([['mod+J', () => toggleColorScheme()]]);

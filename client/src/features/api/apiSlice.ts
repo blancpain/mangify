@@ -1,13 +1,12 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
+import { MealRecipe, ShowCaseRecipe } from 'mangify-shared-types';
 import {
+  NonSensitiveUser,
+  Sex,
   ActivityLevel,
   Diet,
   FullUserForClient,
   Goal,
-  MealRecipe,
-  NonSensitiveUser,
-  Sex,
-  ShowCaseRecipe,
   TActivitySchema,
   TAgeSchema,
   TCaloriesSchema,
@@ -28,7 +27,7 @@ import {
   TSingleDayMealDate,
   TMultiMealDate,
   TOneMealRegenerationSchema,
-} from '@shared/types';
+} from '@/types';
 import { baseQueryWithReauth } from '@/lib';
 
 export const mangifyApi = createApi({

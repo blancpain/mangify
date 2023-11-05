@@ -1,230 +1,4 @@
-import { z, ZodType } from "zod";
-import { User, Profile } from "../server/node_modules/.prisma/client/index";
-
-/*
-
- * Zod types and schemas *
-
- */
-
-// NOTE: wrapper to allow us to pass generic schemas
-export type ZodSchemaGenericWrapper<T> = ZodType<T>;
-
-// meal generator - showcase
-export const MealGeneratorLandingSchema = z.object({
-  numberOfMeals: z
-    .string()
-    .min(1, { message: "Please specify the number of meals" }),
-  diet: z.string().optional(),
-});
-
-export type TMealGeneratorLandingSchema = z.infer<
-  typeof MealGeneratorLandingSchema
->;
-
-// sign-up and login
-export const signUpSchema = z
-
-  .object({
-    name: z.string().min(1, "Please enter your name"),
-    email: z.string().min(1, "Please enter your email").email(),
-    password: z.string().min(10, "Password must be at least 10 characters"),
-    confirmPassword: z.string(),
-  })
-
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords must match",
-    path: ["confirmPassword"],
-  });
-
-export type TSignUpSchema = z.infer<typeof signUpSchema>;
-
-export const loginSchema = z.object({
-  email: z.string().min(1, "Please enter your email").email(),
-  password: z.string().min(1, "Please enter your password"),
-});
-
-export type TLoginSchema = z.infer<typeof loginSchema>;
-
-// user settings
-
-export enum Sex {
-  MALE = "MALE",
-  FEMALE = "FEMALE",
-}
-export const SexSchema = z.object({
-  sex: z.nativeEnum(Sex),
-});
-export type TSexSchema = z.infer<typeof SexSchema>;
-
-export enum ActivityLevel {
-  SEDENTARY = "SEDENTARY",
-  LIGHT = "LIGHT",
-  MODERATE = "MODERATE",
-  VERYACTIVE = "VERYACTIVE",
-}
-export const ActivitySchema = z.object({
-  activity: z.nativeEnum(ActivityLevel),
-});
-export type TActivitySchema = z.infer<typeof ActivitySchema>;
-
-export enum Goal {
-  LOSEWEIGHT = "LOSEWEIGHT",
-  MAINTAIN = "MAINTAIN",
-  GAINWEIGHT = "GAINWEIGHT",
-}
-export const GoalSchema = z.object({
-  goal: z.nativeEnum(Goal),
-});
-export type TGoalSchema = z.infer<typeof GoalSchema>;
-
-export enum Diet {
-  ANYTHING = "ANYTHING",
-  VEGETARIAN = "VEGETARIAN",
-  VEGAN = "VEGAN",
-  KETOGENIC = "KETOGENIC",
-  PALEO = "PALEO",
-  PESCETARIAN = "PESCETARIAN",
-}
-export const DietSchema = z.object({
-  diet: z.nativeEnum(Diet),
-});
-export type TDietSchema = z.infer<typeof DietSchema>;
-
-export const AgeSchema = z.object({
-  age: z.number().optional(),
-});
-export type TAgeSchema = z.infer<typeof AgeSchema>;
-
-export const WeightSchema = z.object({
-  weight: z.number(),
-});
-export type TWeightSchema = z.infer<typeof WeightSchema>;
-
-export const HeightSchema = z.object({
-  height: z.number(),
-});
-export type THeightSchema = z.infer<typeof HeightSchema>;
-
-export const NumberOfMealsSchema = z.object({
-  numberOfMeals: z.number(),
-});
-export type TNumberOfMealsSchema = z.infer<typeof NumberOfMealsSchema>;
-
-export const CuisinesSchema = z.object({
-  cuisines: z.string().array(),
-});
-export type TCuisinesSchema = z.infer<typeof CuisinesSchema>;
-
-export const IntolerancesSchema = z.object({
-  intolerances: z.string().array(),
-});
-export type TIntolerancesSchema = z.infer<typeof IntolerancesSchema>;
-
-export const CaloriesSchema = z.object({
-  calories: z.number(),
-});
-export type TCaloriesSchema = z.infer<typeof CaloriesSchema>;
-
-export const ProteinSchema = z.object({
-  protein: z.number(),
-});
-export type TProteinSchema = z.infer<typeof ProteinSchema>;
-
-export const FatsSchema = z.object({
-  fats: z.number(),
-});
-export type TFatsSchema = z.infer<typeof FatsSchema>;
-
-export const CarbsSchema = z.object({
-  carbs: z.number(),
-});
-export type TCarbsSchema = z.infer<typeof CarbsSchema>;
-
-// date types for meal generation
-
-// NOTE: we use strings here and pass a luxon ISO string to the server to avoid issues with timezones and z.coerce
-export const SingleDayMealDateSchema = z.object({
-  date: z.string(),
-});
-export type TSingleDayMealDate = z.infer<typeof SingleDayMealDateSchema>;
-
-export const MultiMealDateSchema = z.object({
-  weekStart: z.string(),
-  weekEnd: z.string(),
-});
-export type TMultiMealDate = z.infer<typeof MultiMealDateSchema>;
-
-// schema and type for one meal regeneration
-
-export const OneMealRegenerationSchema = z.object({
-  date: z.string(),
-  uniqueIdentifier: z.string(),
-  mealType: z.string(),
-});
-export type TOneMealRegenerationSchema = z.infer<
-  typeof OneMealRegenerationSchema
->;
-
-/* Zod types */
-
-/*
-
- * Prisma types - custom *
-
-*/
-
-export type NonSensitiveUser = Pick<User, "id" | "name" | "email" | "role">;
-
-export type UserForAuth = Pick<
-  User,
-  "id" | "email" | "role" | "disabled" | "name"
->;
-
-export type FullUserProfile = Profile;
-
-export type FullUserForAuth = {
-  user: UserForAuth;
-  profile: UserProfileForClient;
-};
-
-export type UserForClient = {
-  name: string | null;
-  email: string | null;
-};
-
-export type UserProfileForClient = Omit<
-  FullUserProfile,
-  "id" | "userId" | "updatedAt" | "createdAt"
->;
-
-type RequiredNonNullableObject<T extends object> = {
-  [P in keyof Required<T>]: NonNullable<T[P]>;
-};
-
-type NonNullableUserProfile = RequiredNonNullableObject<UserProfileForClient>;
-
-export type NonNullableUserProfileForClient = Pick<
-  NonNullableUserProfile,
-  "activity_level" | "age" | "goal" | "weight" | "height" | "sex"
->;
-
-export type UserMeal = {
-  recipe_external_id: number | null;
-  active: boolean;
-};
-
-export type UserMeals = {
-  meals: UserMeal[];
-};
-
-export type FullUserForClient = {
-  user: UserForClient;
-  profile: UserProfileForClient;
-  // meals: MealRecipe[] | null;
-};
-
-/* Prisma types */
+import { z } from 'zod';
 
 /*
 
@@ -234,7 +8,7 @@ export type FullUserForClient = {
 
 // Schema for random meal API endpoint
 
-export const ConsistencySchema = z.enum(["LIQUID", "SOLID"]);
+export const ConsistencySchema = z.enum(['LIQUID', 'SOLID']);
 export type Consistency = z.infer<typeof ConsistencySchema>;
 
 export const MetricSchema = z.object({
@@ -319,9 +93,7 @@ export const RecipeSchema = z.object({
   license: z.union([z.null(), z.string()]).optional(),
   sourceName: z.union([z.null(), z.string()]).optional(),
   pricePerServing: z.union([z.number(), z.null()]).optional(),
-  extendedIngredients: z
-    .union([z.array(ExtendedIngredientSchema), z.null()])
-    .optional(),
+  extendedIngredients: z.union([z.array(ExtendedIngredientSchema), z.null()]).optional(),
   id: z.number(),
   title: z.union([z.null(), z.string()]).optional(),
   readyInMinutes: z.union([z.number(), z.null()]).optional(),
@@ -335,9 +107,7 @@ export const RecipeSchema = z.object({
   diets: z.union([z.array(z.any()), z.null()]).optional(),
   occasions: z.union([z.array(z.any()), z.null()]).optional(),
   instructions: z.union([z.null(), z.string()]).optional(),
-  analyzedInstructions: z
-    .union([z.array(AnalyzedInstructionSchema), z.null()])
-    .optional(),
+  analyzedInstructions: z.union([z.array(AnalyzedInstructionSchema), z.null()]).optional(),
   originalId: z.null().optional(),
   spoonacularSourceUrl: z.union([z.null(), z.string()]).optional(),
 });
@@ -349,19 +119,9 @@ export const RecipeListSchema = z.object({
 
 export type RecipeList = z.infer<typeof RecipeListSchema>;
 
-// Meal generator - showcase type for frontend
-export type ShowCaseRecipe = {
-  extendedIngredients?: string[];
-  title?: string | null;
-  image?: string | null;
-  calories?: number | null;
-  dishType?: string | null;
-  steps?: string[];
-};
-
 // Schema for a complex search API endpoint (some overlap with above schemas so reusing types/schemas)
 
-export const UnitSchema = z.enum(["", "g", "IU", "kcal", "mg", "%", "µg"]);
+export const UnitSchema = z.enum(['', 'g', 'IU', 'kcal', 'mg', '%', 'µg']);
 export type Unit = z.infer<typeof UnitSchema>;
 
 export const WeightPerServingSchema = z.object({
@@ -442,9 +202,7 @@ export const ResultSchema = z.object({
   creditsText: z.union([z.null(), z.string()]).optional(),
   sourceName: z.union([z.null(), z.string()]).optional(),
   pricePerServing: z.union([z.number(), z.null()]).optional(),
-  extendedIngredients: z
-    .union([z.array(EdIngredientSchema), z.null()])
-    .optional(),
+  extendedIngredients: z.union([z.array(EdIngredientSchema), z.null()]).optional(),
   id: z.number(),
   title: z.union([z.null(), z.string()]).optional(),
   readyInMinutes: z.union([z.number(), z.null()]).optional(),
@@ -458,15 +216,11 @@ export const ResultSchema = z.object({
   dishTypes: z.union([z.array(z.string()), z.null()]).optional(),
   diets: z.union([z.array(z.string()), z.null()]).optional(),
   occasions: z.union([z.array(z.any()), z.null()]).optional(),
-  analyzedInstructions: z
-    .union([z.array(AnalyzedInstructionSchema), z.null()])
-    .optional(),
+  analyzedInstructions: z.union([z.array(AnalyzedInstructionSchema), z.null()]).optional(),
   spoonacularSourceUrl: z.union([z.null(), z.string()]).optional(),
   usedIngredientCount: z.union([z.number(), z.null()]).optional(),
   missedIngredientCount: z.union([z.number(), z.null()]).optional(),
-  missedIngredients: z
-    .union([z.array(EdIngredientSchema), z.null()])
-    .optional(),
+  missedIngredients: z.union([z.array(EdIngredientSchema), z.null()]).optional(),
   likes: z.union([z.number(), z.null()]).optional(),
   usedIngredients: z.union([z.array(z.any()), z.null()]).optional(),
   unusedIngredients: z.union([z.array(z.any()), z.null()]).optional(),
@@ -480,36 +234,6 @@ export const ComplexMealSearchSchema = z.object({
   totalResults: z.union([z.number(), z.null()]).optional(),
 });
 export type TComplexMealSearchSchema = z.infer<typeof ComplexMealSearchSchema>;
-
-// Meal planning types for frontend
-
-export type MealIngredients = {
-  id?: number | null;
-  ingredient?: string | null;
-  ingredientImage?: string | null;
-  amount?: number | null;
-  unit?: string | null;
-};
-
-export type FullNutritionProfile = {
-  calories?: number | null;
-  protein?: number | null;
-  carbs?: number | null;
-  fats?: number | null;
-};
-
-export type MealRecipe = {
-  id?: number | null;
-  uniqueIdentifier?: string | null;
-  ingredients?: MealIngredients[];
-  title?: string | null;
-  image?: string | null;
-  fullNutritionProfile?: FullNutritionProfile | null;
-  directions?: string[];
-  fullRecipeURL?: string | null;
-  mealTypes?: string[] | null; // NOTE: since the API returns multiple meal types we probably need to check dynamically for breakfast or snack - the rest we can assume are main courses...
-  date: Date | null;
-};
 
 // Schema and types for Get Recipe Info bulk endpoint
 
@@ -608,9 +332,7 @@ export const RefreshMealSchema = z.object({
   license: z.union([z.null(), z.string()]).optional(),
   sourceName: z.union([z.null(), z.string()]).optional(),
   pricePerServing: z.union([z.number(), z.null()]).optional(),
-  extendedIngredients: z
-    .union([z.array(ExtendedIngredientSchema), z.null()])
-    .optional(),
+  extendedIngredients: z.union([z.array(ExtendedIngredientSchema), z.null()]).optional(),
   id: z.number(),
   title: z.union([z.null(), z.string()]).optional(),
   readyInMinutes: z.union([z.number(), z.null()]).optional(),
@@ -626,17 +348,13 @@ export const RefreshMealSchema = z.object({
   occasions: z.union([z.array(z.any()), z.null()]).optional(),
   winePairing: z.union([WinePairingSchema, z.null()]).optional(),
   instructions: z.union([z.null(), z.string()]).optional(),
-  analyzedInstructions: z
-    .union([z.array(AnalyzedInstructionSchema), z.null()])
-    .optional(),
+  analyzedInstructions: z.union([z.array(AnalyzedInstructionSchema), z.null()]).optional(),
   report: z.null().optional(),
   tips: z.union([TipsSchema, z.null()]).optional(),
   openLicense: z.union([z.number(), z.null()]).optional(),
   suspiciousDataScore: z.union([z.number(), z.null()]).optional(),
   approved: z.union([z.number(), z.null()]).optional(),
-  unknownIngredients: z
-    .union([z.array(UnknownIngredientSchema), z.null()])
-    .optional(),
+  unknownIngredients: z.union([z.array(UnknownIngredientSchema), z.null()]).optional(),
   userTags: z.union([z.array(z.any()), z.null()]).optional(),
   originalId: z.null().optional(),
   spoonacularSourceUrl: z.union([z.null(), z.string()]).optional(),

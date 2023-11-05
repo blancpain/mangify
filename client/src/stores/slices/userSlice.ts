@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { FullUserForClient, Sex, Goal, ActivityLevel, Diet } from '@shared/types';
+import { FullUserForClient, Sex, Goal, ActivityLevel, Diet } from '@/types';
 import type { RootState } from '../store';
 
 const initialState: FullUserForClient = {
@@ -21,7 +21,7 @@ const initialState: FullUserForClient = {
     favorite_cuisines: [],
     meals_per_day: 3,
     // WARN: favorite recipes not in use yet
-    favorite_recipes: [],
+    // favorite_recipes: [],
     calories: null,
     protein: null,
     carbs: null,

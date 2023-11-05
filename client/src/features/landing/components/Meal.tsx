@@ -1,5 +1,5 @@
 import { createStyles, Text, Title, rem, Box, Paper, Flex } from '@mantine/core';
-import { ShowCaseRecipe } from '@shared/types';
+import { ShowCaseRecipe } from 'mangify-shared-types';
 import { RecipeModal } from './RecipeModal';
 import { emptyMealImageShowcaseGen } from '@/assets';
 

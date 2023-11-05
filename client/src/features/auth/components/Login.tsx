@@ -2,7 +2,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { notifications } from '@mantine/notifications';
 import { useState } from 'react';
 import { Controller, useForm, SubmitHandler } from 'react-hook-form';
-import { loginSchema, TLoginSchema } from '@shared/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   TextInput,
@@ -21,6 +20,7 @@ import {
   Flex,
 } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
+import { loginSchema, TLoginSchema } from '@/types';
 import { GoogleButton, FacebookButton } from '@/components/Buttons';
 import { useLoginMutation } from '@/features/api';
 import { isFetchBaseQueryError, isErrorWithMessage } from '@/utils';

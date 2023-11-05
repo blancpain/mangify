@@ -1,7 +1,7 @@
 import { Carousel } from '@mantine/carousel';
 import { useMediaQuery } from '@mantine/hooks';
 import { useMantineTheme, rem, Container, Stack, Title } from '@mantine/core';
-import { ShowCaseRecipe } from '@shared/types';
+import { ShowCaseRecipe } from 'mangify-shared-types';
 import { nanoid } from '@reduxjs/toolkit';
 import { Meal } from './Meal';
 

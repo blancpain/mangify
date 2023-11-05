@@ -1,5 +1,5 @@
-import { ZodSchemaGenericWrapper } from '@shared/types';
 import { NextFunction, Request, Response } from 'express';
+import { ZodSchemaGenericWrapper } from '@/types';
 
 // type guards
 export const isNumber = (input: unknown): input is number => typeof input === 'number';

@@ -1,6 +1,6 @@
 import { Text, Accordion, Title, Flex, ActionIcon } from '@mantine/core';
 import { IconReload, IconX } from '@tabler/icons-react';
-import { MealRecipe } from '@shared/types';
+import { MealRecipe } from 'mangify-shared-types';
 import { nanoid } from '@reduxjs/toolkit';
 import { DateTime } from 'luxon';
 import { notifications } from '@mantine/notifications';

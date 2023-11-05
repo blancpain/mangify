@@ -1,5 +1,5 @@
 import { createClient } from 'redis';
-import { MealRecipe } from '@shared/types';
+import { MealRecipe } from 'mangify-shared-types';
 import { Logger } from '@/lib';
 
 const redisClient = createClient({

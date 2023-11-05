@@ -1,4 +1,4 @@
-import { UserProfileForClient, NonNullableUserProfileForClient } from '@shared/types';
+import { UserProfileForClient, NonNullableUserProfileForClient } from '@/types';
 
 export const validateUserSettings = (
   profile: UserProfileForClient,

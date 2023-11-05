@@ -1,4 +1,4 @@
-import { MealRecipe, MealIngredients } from '@shared/types';
+import { MealRecipe, MealIngredients } from 'mangify-shared-types';
 
 export type CalendarState = {
   day: boolean;

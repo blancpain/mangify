@@ -1,5 +1,7 @@
 import { Prisma } from '@prisma/client';
-import { FullUserProfile, MealRecipe } from '@shared/types';
+import { MealRecipe } from 'mangify-shared-types';
+// eslint-disable-next-line import/no-relative-packages
+import { Profile as FullUserProfile } from '../../node_modules/.prisma/client/index';
 import { prisma } from './postgres';
 
 export const extractUserProfileId = async (userId: string): Promise<string | null> => {
