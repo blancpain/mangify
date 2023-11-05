@@ -1,0 +1,13 @@
+FROM node:16-alpine as build-stage
+WORKDIR /usr/src/client
+
+COPY . .
+
+RUN npm ci
+ENV VITE_BACKEND_URL=/api
+
+RUN npm run build
+
+# copy to nginx for serving static files
+FROM nginx:1.20.1
+COPY --from=build-stage /usr/src/client/build /usr/share/nginx/html
