@@ -14,11 +14,10 @@ npm run build
 
 cd ..
 
-# remove old containers & images (volumes should persist)
+# remove old containers, images and volumes
 docker compose down
 docker stop $(docker ps -aq)
-docker rm -f $(docker ps -aq)
-docker volume rm $(docker volume ls -q)
 docker system prune -a
+docker volume rm $(docker volume ls -q)
 
 docker compose up -d

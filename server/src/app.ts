@@ -25,7 +25,7 @@ const sharedLimiter = rateLimit({
 });
 
 export const app = express();
-app.set('trust proxy', true); // needed for rate limiter to work behind nginx
+app.set('trust proxy', 1); // needed for rate limiter to work behind nginx proxy
 app.use(helmet());
 
 // Augment express-session at root. For some reason having this as a separate *.d.ts file does not work globally
@@ -47,7 +47,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: 'http://localhost:5173', // NOTE: can add more as needed
     credentials: true,
   }),
 );

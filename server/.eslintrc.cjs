@@ -9,12 +9,17 @@ module.exports = {
   ],
   plugins: ['@typescript-eslint'],
   env: {
-    browser: true,
     es2020: true,
     node: true,
     jest: true,
   },
-  ignorePatterns: ['**/prisma/*', '.eslintrc.cjs', 'node_modules/*', 'jest.config.ts'],
+  ignorePatterns: [
+    '**/prisma/*',
+    '.eslintrc.cjs',
+    'node_modules/*',
+    'jest.config.ts',
+    'types/foodApi.ts',
+  ],
   rules: {
     '@typescript-eslint/semi': ['error'],
     '@typescript-eslint/explicit-function-return-type': 'off',
