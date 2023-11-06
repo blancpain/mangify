@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
 
 jobs:
   deployment_pipeline:
@@ -17,8 +20,8 @@ jobs:
           host: ${{ secrets.HOST }}
           script: |
             ENV_CONTENT="${{ secrets.MAIN_ENV }}"
-            echo "$ENV_CONTENT" > /mangify/.env
-            echo "$ENV_CONTENT" > /mangify/server/.env
+            printf '%s\n' "$ENV_CONTENT" > /mangify/.env
+            printf '%s\n' "$ENV_CONTENT" > /mangify/server/.env
 
       - name: SSH into VM and fetch latest source code
         uses: appleboy/ssh-action@v1.0.0
