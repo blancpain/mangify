@@ -17,6 +17,7 @@ services:
   # redis db
   redis:
     image: redis:7
+    restart: always
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
       - ./server/src/db/redis_data_prod:/data
@@ -25,6 +26,7 @@ services:
   # server
   server:
     image: mangify-server
+    restart: always
     depends_on:
       redis:
         condition: service_started
@@ -44,6 +46,7 @@ services:
   #client
   client:
     image: mangify-client
+    restart: always
     build:
       context: ./client/
       dockerfile: Dockerfile
@@ -59,6 +62,7 @@ services:
   # reverse proxy
   nginx:
     image: nginx:1.20.1
+    restart: always
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
