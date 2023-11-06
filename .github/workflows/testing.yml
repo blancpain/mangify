@@ -1,0 +1,24 @@
+name: Testing pipeline
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
+
+jobs:
+  deployment_pipeline:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run tests and linting
+        env:
+          NODE_ENV: development
+        run: |
+          docker-compose -f docker-compose.dev.yml up -d  # Start the testing environment
+          docker-compose -f docker-compose.dev.yml exec mangify-server-dev npm run lint # run server linting
+          docker-compose -f docker-compose.dev.yml exec mangify-client-dev npm run lint # run client linting
+          docker-compose -f docker-compose.dev.yml exec mangify-server-dev npm test  # run server tests
+          cd client
+          npm run cypress:open
+          docker-compose -f docker-compose.dev.yml down -v  # Stop and remove the testing environment
