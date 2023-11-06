@@ -3,10 +3,10 @@ name: Deployment pipeline
 on:
   push:
     branches:
-      - main
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize]
+      - testing-ci-cd
+  # pull_request:
+  #   branches: [main]
+  #   types: [opened, synchronize]
 
 jobs:
   deployment_pipeline:
@@ -20,30 +20,20 @@ jobs:
           host: ${{secrets.HOST}}
           script: |
             cd mangify
-            git checkout main
-            git stash
-            git pull origin main
-            git stash pop
-
-            # git stash 2>&1 | grep -v "No local changes to save"
-            # if git stash list | grep -q 'stash'; then
-            #     git stash pop
-            # fi
-            # cd mangify
-            # git stash 2>&1 | grep -v "No local changes to save" # to suppres regular git messages
-            # git pull
-            # git stash pop 2>&1 | grep -v "No stash entries found" #to suppress regular git message
-
-  #     - name: SSH into VM and run deployment script
-  #       uses: appleboy/ssh-action@v1.0.0
-  #       with:
-  #         key: ${{secrets.KEY}}
-  #         username: ${{secrets.USERNAME}}
-  #         host: ${{secrets.HOST}}
-  #         script: |
-  #           cd fso-part_11_ex11.20
-  #           chmod +x deploy.sh
-  #           ./deploy.sh
+            git stash 2>&1 | grep -v "No local changes to save"
+            if git stash list | grep -q 'stash'; then
+                git stash pop
+            fi
+      - name: SSH into VM and run deployment script
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          key: ${{secrets.KEY}}
+          username: ${{secrets.USERNAME}}
+          host: ${{secrets.HOST}}
+          script: |
+            cd mangify
+            chmod +x deploy.sh
+            ./deploy.sh
   #     - name: test success
   #       uses: rjstone/discord-webhook-notify@v1
   #       if: success()
