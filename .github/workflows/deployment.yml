@@ -22,18 +22,6 @@ jobs:
             if git stash list | grep -q 'stash'; then
                 git stash pop
             fi
-      - name: Adjust db volume permissions and ownership
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          key: ${{ secrets.KEY }}
-          username: ${{ secrets.USERNAME }}
-          host: ${{ secrets.HOST }}
-          script: |
-            cd mangify
-            sudo chmod -R 755 ./server/src/db/redis_data_prod
-            sudo chown -R 1000:1000 ./server/src/db/redis_data_prod
-            sudo chmod -R 755 ./server/src/db/postgres_data_prod
-            sudo chown -R 1000:1000 ./server/src/db/postgres_data_prod
       - name: Generate an .env file from github secrets
         uses: appleboy/ssh-action@v1.0.0
         with:
