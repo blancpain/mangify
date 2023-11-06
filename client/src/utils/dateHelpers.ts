@@ -1,4 +1,4 @@
-import { MealRecipe } from '@shared/types';
+import { MealRecipe } from 'mangify-shared-types';
 import { isEqual, startOfDay } from 'date-fns';
 
 // NOTE: we return a function in order to pass an additional param (currentDate) to the filter method where this is used

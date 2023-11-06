@@ -1,5 +1,5 @@
 import { Title, Space, Flex, Radio, MultiSelect } from '@mantine/core';
-import { Diet } from '@shared/types';
+import { Diet } from '@/types';
 import { useAppDispatch, useAppSelector } from '@/hooks';
 import { selectUser, setCuisines, setDiet, setIntolerances } from '@/stores';
 import {
@@ -73,7 +73,7 @@ export function DietPreferences() {
         <Title order={4}>Cuisines</Title>
         <MultiSelect
           placeholder="Select your favorite cuisines or leave blank."
-          value={profile.favorite_cuisines}
+          value={profile.favorite_cuisines ? profile.favorite_cuisines : []}
           searchable
           clearable
           dropdownPosition="bottom"
@@ -114,7 +114,7 @@ export function DietPreferences() {
         <Title order={4}>Intolerances</Title>
         <MultiSelect
           placeholder="Please add any introlerances you may have or leave blank."
-          value={profile.intolerances}
+          value={profile.intolerances ? profile.intolerances : []}
           searchable
           clearable
           dropdownPosition="top"

@@ -7,6 +7,9 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 // eslint-disable-next-line import/no-default-export
 export default defineConfig({
   plugins: [react(), tsconfigPaths()],
+  build: {
+    outDir: 'build',
+  },
   server: {
     watch: {
       usePolling: true,

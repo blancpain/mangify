@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { MealRecipe } from '@shared/types';
+import { MealRecipe } from 'mangify-shared-types';
 import type { RootState } from '../store';
 import { MealsState } from '@/types';
 

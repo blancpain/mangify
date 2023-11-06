@@ -1,17 +1,14 @@
-import {
-  FullUserProfile,
-  MealRecipe,
-  TComplexMealSearchSchema,
-  TRefreshMealSchema,
-  MealIngredients,
-} from '@shared/types';
+import { MealRecipe, MealIngredients } from 'mangify-shared-types';
 import { nanoid } from 'nanoid';
 import axios from 'axios';
+import { TRefreshMealSchema, TComplexMealSearchSchema } from '@/types';
 import { TUserMeals, getUserMeals, syncMealsWithDb } from './db';
 import { TBuildURL, buildURL } from './url-builder';
 import { cacheMealData, redisClient } from './redis';
 import { lowerCaseFirstLetter } from './strings';
 import { removeDuplicatesFromArrayOfObjects } from './helpers';
+// eslint-disable-next-line import/no-relative-packages
+import { Profile as FullUserProfile } from '../../node_modules/.prisma/client/index';
 
 // NOTE: we use a unique identifier for the meals (nanoid) that we update on new meal gen or on refresh
 // to ensure that the client and server and in sync and to ensure we can target a meal correctly for update/deletion

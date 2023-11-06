@@ -1,5 +1,5 @@
 import supertest from 'supertest';
-import { TSignUpSchema } from '@shared/types';
+import { TSignUpSchema } from '@/types';
 import { prisma, redisClient } from '@/utils';
 import { app } from '@/app';
 

@@ -100,7 +100,7 @@ describe('Meal planning', function () {
       cy.contains('Meal Planner').click();
     });
 
-    it.only('and there are no errors, they see the meals', function () {
+    it('and there are no errors, they see the meals', function () {
       cy.intercept('POST', '/api/meals/single-day', { fixture: 'exampleTransformedMealData.json' });
       cy.intercept('GET', '/api/meals', { fixture: 'exampleTransformedMealData.json' });
       cy.get('#generate-meals').click();

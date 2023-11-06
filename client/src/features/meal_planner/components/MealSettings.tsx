@@ -21,7 +21,7 @@ export function MealSettings() {
       <Flex justify="space-between">
         <Title order={4}>Number of meals per day</Title>
         <Select
-          value={profile.meals_per_day.toString()}
+          value={profile.meals_per_day?.toString()}
           onChange={handleNumberOfMealsInput}
           data={[
             { value: '2', label: 'Two' },

@@ -1,5 +1,5 @@
-import { signUpSchema } from '@shared/types';
 import { NextFunction, Request, Response } from 'express';
+import { signUpSchema } from '@/types';
 import { userService } from '../services/userService';
 
 const getAll = async (_req: Request, res: Response, _next: NextFunction): Promise<void> => {

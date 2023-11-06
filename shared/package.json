@@ -1,14 +1,12 @@
 {
-  "name": "shared",
-  "version": "1.0.0",
-  "description": "shared dir",
+  "name": "mangify-shared-types",
+  "version": "1.0.7",
+  "description": "Type declarations for shared types between Mangify services",
   "scripts": {},
   "author": "Yasen Dimitrov",
   "license": "ISC",
+  "types": "index.d.ts",
   "devDependencies": {
     "typescript": "^5.2.2"
-  },
-  "dependencies": {
-    "zod": "^3.22.4"
   }
 }

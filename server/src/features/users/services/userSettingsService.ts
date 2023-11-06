@@ -13,7 +13,7 @@ import {
   TProteinSchema,
   TCarbsSchema,
   TFatsSchema,
-} from '@shared/types';
+} from '@/types';
 import { prisma } from '@/utils';
 
 // HACK: https://www.prisma.io/docs/concepts/components/prisma-client/relation-queries#update-or-create-a-related-record

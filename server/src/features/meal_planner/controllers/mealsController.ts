@@ -1,9 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import {
-  MultiMealDateSchema,
-  OneMealRegenerationSchema,
-  SingleDayMealDateSchema,
-} from '@shared/types';
+import { MultiMealDateSchema, OneMealRegenerationSchema, SingleDayMealDateSchema } from '@/types';
 import { mealGeneratorService } from '../services/mealsServices';
 
 const generateMultiDayMealPlan = async (

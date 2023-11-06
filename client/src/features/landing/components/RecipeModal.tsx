@@ -1,4 +1,4 @@
-import { ShowCaseRecipe } from '@shared/types';
+import { ShowCaseRecipe } from 'mangify-shared-types';
 import { Modal, Button, Group, createStyles, List, Grid, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { nanoid } from '@reduxjs/toolkit';

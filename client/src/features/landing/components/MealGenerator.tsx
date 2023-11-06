@@ -1,4 +1,4 @@
-import { zodResolver } from '@hookform/resolvers/zod';
+import { ShowCaseRecipe } from 'mangify-shared-types';
 import {
   createStyles,
   rem,
@@ -11,12 +11,9 @@ import {
   Center,
 } from '@mantine/core';
 import { useForm, Controller, SubmitHandler } from 'react-hook-form';
-import {
-  MealGeneratorLandingSchema,
-  ShowCaseRecipe,
-  TMealGeneratorLandingSchema,
-} from '@shared/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
+import { MealGeneratorLandingSchema, TMealGeneratorLandingSchema } from '@/types';
 import { MealsCarousel } from './MealsCarousel';
 import { FeaturesOverview } from './FeaturesOverview';
 import { useGenerateShowcaseMealsMutation } from '@/features/api';

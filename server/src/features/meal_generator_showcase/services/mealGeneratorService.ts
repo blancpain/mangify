@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { RecipeList, ShowCaseRecipe } from '@shared/types';
+import { ShowCaseRecipe } from 'mangify-shared-types';
+import { RecipeList } from '@/types';
 import { extractCalories } from '@/utils';
 
 const getRecipes = async (

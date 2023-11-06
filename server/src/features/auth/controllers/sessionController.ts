@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { loginSchema, FullUserForClient } from '@shared/types';
+import { loginSchema, FullUserForClient } from '@/types';
 import { sessionService } from '../services/sessionService';
 import { Logger } from '@/lib';
 import { prisma } from '@/utils';

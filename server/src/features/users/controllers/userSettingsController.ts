@@ -1,3 +1,4 @@
+import { NextFunction, Request, Response } from 'express';
 import {
   SexSchema,
   GoalSchema,
@@ -13,8 +14,7 @@ import {
   ProteinSchema,
   CarbsSchema,
   FatsSchema,
-} from '@shared/types';
-import { NextFunction, Request, Response } from 'express';
+} from '@/types';
 import { userSettingsService } from '../services/userSettingsService';
 import { processUserSettingsUpdate } from '@/utils';
 

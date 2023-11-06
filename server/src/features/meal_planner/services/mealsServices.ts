@@ -1,11 +1,11 @@
 import axios from 'axios';
+import { MealRecipe } from 'mangify-shared-types';
 import {
-  MealRecipe,
   TRefreshMealSchema,
-  TSingleDayMealDate,
   TMultiMealDate,
   TOneMealRegenerationSchema,
-} from '@shared/types';
+  TSingleDayMealDate,
+} from '@/types';
 import {
   prisma,
   extractUserProfileId,

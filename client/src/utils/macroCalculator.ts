@@ -1,5 +1,4 @@
-import { ActivityLevel, Goal, NonNullableUserProfileForClient } from '@shared/types';
-import { NutritionMacros } from '@/types';
+import { ActivityLevel, Goal, NonNullableUserProfileForClient, NutritionMacros } from '@/types';
 
 // method: Calcs taken from: https://healthyeater.com/how-to-calculate-your-macros
 

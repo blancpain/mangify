@@ -13,7 +13,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { nanoid } from '@reduxjs/toolkit';
 import { IconShoppingCartPlus } from '@tabler/icons-react';
-import { FullNutritionProfile, MealIngredients } from '@shared/types';
+import { FullNutritionProfile, MealIngredients } from 'mangify-shared-types';
 import { useLocalStorage } from 'usehooks-ts';
 import { ShoppingListItem } from '@/types';
 import { capitalizeFirstLetterOfString, covertStringToTitleCase } from '@/utils';

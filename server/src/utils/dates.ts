@@ -1,4 +1,4 @@
-import { MealRecipe } from '@shared/types';
+import { MealRecipe } from 'mangify-shared-types';
 import { isEqual, startOfDay } from 'date-fns';
 import { isNumber } from './helpers';
 import { TUserMeals } from './db';
