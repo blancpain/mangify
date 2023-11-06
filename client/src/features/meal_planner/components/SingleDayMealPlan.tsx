@@ -173,7 +173,7 @@ export function SingleDayMealPlan({
             <Table mb={40} highlightOnHover>
               <thead>
                 <tr>
-                  <th> </th>
+                  <th aria-label="blank"> </th>
                   <th style={{ textAlign: 'center' }}>Totals</th>
                   <th style={{ textAlign: 'center' }}>Your target</th>
                 </tr>

@@ -34,12 +34,6 @@ export function NutritionProfile() {
           ]}
         >
           <Table highlightOnHover>
-            <thead>
-              <tr>
-                <th> </th>
-                <th style={{ textAlign: 'center' }}>Totals</th>
-              </tr>
-            </thead>
             <tbody style={{ textAlign: 'center' }}>{tableRows}</tbody>
           </Table>
 
