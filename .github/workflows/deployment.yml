@@ -12,17 +12,6 @@ jobs:
   deployment_pipeline:
     runs-on: ubuntu-20.04
     steps:
-      - name: Create an .env file from github secrets
-        uses: appleboy/ssh-action@v1.0.0
-        with:
-          key: ${{ secrets.KEY }}
-          username: ${{ secrets.USERNAME }}
-          host: ${{ secrets.HOST }}
-          script: |
-            ENV_CONTENT="${{ secrets.MAIN_ENV }}"
-            printf '%s\n' "$ENV_CONTENT" > /mangify/.env
-            printf '%s\n' "$ENV_CONTENT" > /mangify/server/.env
-
       - name: SSH into VM and fetch latest source code
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -36,6 +25,18 @@ jobs:
             if git stash list | grep -q 'stash'; then
                 git stash pop
             fi
+      - name: Generate an .env file from github secrets
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          key: ${{ secrets.KEY }}
+          username: ${{ secrets.USERNAME }}
+          host: ${{ secrets.HOST }}
+          script: |
+            cd mangify
+            ENV_CONTENT="${{ secrets.MAIN_ENV }}"
+            echo "$ENV_CONTENT" > ./.env
+            echo "$ENV_CONTENT" > ./server/.env
+
       - name: SSH into VM and run deployment script
         uses: appleboy/ssh-action@v1.0.0
         with:
