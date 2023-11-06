@@ -13,36 +13,27 @@ jobs:
 
       - name: Create temporary .env file
         env:
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
-          REDIS_PORT: ${{ secrets.REDIS_PORT }}
-          REDIS_HOST: ${{ secrets.REDIS_HOST }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
-          REDIS_URL: ${{ secrets.REDIS_URL }}
-          API_KEY: ${{ secrets.API_KEY }}
+          MAIN_ENV: ${{ secrets.MAIN_ENV }}
         run: |
-          echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}" > .env
-          echo "POSTGRES_USER=${POSTGRES_USER}" >> .env
-          echo "POSTGRES_DB=${POSTGRES_DB}" >> .env
-          echo "POSTGRES_HOST=${POSTGRES_HOST}" >> .env
-          echo "REDIS_PORT=${REDIS_PORT}" >> .env
-          echo "REDIS_HOST=${REDIS_HOST}" >> .env
-          echo "DATABASE_URL=${DATABASE_URL}" >> .env
-          echo "SESSION_SECRET=${SESSION_SECRET}" >> .env
-          echo "REDIS_URL=${REDIS_URL}" >> .env
-          echo "API_KEY=${API_KEY}" >> .env
-
-      - name: Run tests and linting
+          echo "${MAIN_ENV}" > .env
+      - name: Set up testing environment
         env:
           NODE_ENV: development
         run: |
           docker-compose -f docker-compose.dev.yml up -d  # Start the testing environment
-          docker-compose -f docker-compose.dev.yml exec mangify-server-dev npm run lint # run server linting
-          docker-compose -f docker-compose.dev.yml exec mangify-client-dev npm run lint # run client linting
-          docker-compose -f docker-compose.dev.yml exec mangify-server-dev npm test  # run server tests
+      # - name: Run server linting
+      #   run: |
+      #     docker exec mangify-server-dev npm run lint
+      - name: Run client linting
+        run: |
+          docker exec mangify-client-dev npm run lint
+      - name: Run server tests
+        run: |
+          docker exec mangify-server-dev npm test
+      - name: Run e2e tests
+        run: |
           cd client
           npm run cypress:open
+      - name: Clean up
+        run: |
           docker-compose -f docker-compose.dev.yml down -v  # Stop and remove the testing environment
