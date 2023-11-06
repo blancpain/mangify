@@ -17,7 +17,7 @@ cd ..
 # remove old containers, images and volumes
 docker compose down
 docker stop $(docker ps -aq)
-docker system prune -a
+docker system prune -a -f
 docker volume rm $(docker volume ls -q)
 
 docker compose up -d
