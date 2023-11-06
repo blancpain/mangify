@@ -3,10 +3,10 @@ name: Deployment pipeline
 on:
   push:
     branches:
-      - testing-ci-cd
-  # pull_request:
-  #   branches: [main]
-  #   types: [opened, synchronize]
+      - main
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
 
 jobs:
   deployment_pipeline:
@@ -21,6 +21,7 @@ jobs:
           script: |
             cd mangify
             git stash 2>&1 | grep -v "No local changes to save"
+            git pull
             if git stash list | grep -q 'stash'; then
                 git stash pop
             fi
