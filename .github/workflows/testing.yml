@@ -20,9 +20,20 @@ jobs:
           host: ${{secrets.HOST}}
           script: |
             cd mangify
+            git checkout main
             git stash
-            git pull
+            git pull origin main
             git stash pop
+
+            # git stash 2>&1 | grep -v "No local changes to save"
+            # if git stash list | grep -q 'stash'; then
+            #     git stash pop
+            # fi
+            # cd mangify
+            # git stash 2>&1 | grep -v "No local changes to save" # to suppres regular git messages
+            # git pull
+            # git stash pop 2>&1 | grep -v "No stash entries found" #to suppress regular git message
+
   #     - name: SSH into VM and run deployment script
   #       uses: appleboy/ssh-action@v1.0.0
   #       with:
