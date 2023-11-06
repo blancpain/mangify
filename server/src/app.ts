@@ -25,7 +25,7 @@ const sharedLimiter = rateLimit({
 });
 
 export const app = express();
-app.set('trust proxy', true); // needed for rate limiter to work behind nginx
+app.set('trust proxy', 1); // needed for rate limiter to work behind nginx proxy
 app.use(helmet());
 
 // Augment express-session at root. For some reason having this as a separate *.d.ts file does not work globally
