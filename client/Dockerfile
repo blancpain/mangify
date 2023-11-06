@@ -5,6 +5,7 @@ COPY . .
 
 RUN npm ci
 ENV VITE_BACKEND_URL=/api
+ENV NODE_ENV production
 
 RUN npm run build
 
