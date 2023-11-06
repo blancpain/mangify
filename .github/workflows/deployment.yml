@@ -22,6 +22,18 @@ jobs:
             if git stash list | grep -q 'stash'; then
                 git stash pop
             fi
+      - name: Adjust db volume permissions and ownership
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          key: ${{ secrets.KEY }}
+          username: ${{ secrets.USERNAME }}
+          host: ${{ secrets.HOST }}
+          script: |
+            cd mangify
+            chmod -R 755 ./server/src/db/redis_data_prod
+            chown -R 1000:1000 ./server/src/db/redis_data_prod
+            chmod -R 755 ./server/src/db/postgres_data_prod
+            chown -R 1000:1000 ./server/src/db/postgres_data_prod
       - name: Generate an .env file from github secrets
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -33,7 +45,6 @@ jobs:
             ENV_CONTENT="${{ secrets.MAIN_ENV }}"
             echo "$ENV_CONTENT" > ./.env
             echo "$ENV_CONTENT" > ./server/.env
-
       - name: SSH into VM and run deployment script
         uses: appleboy/ssh-action@v1.0.0
         with:
