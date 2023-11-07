@@ -2,7 +2,7 @@ import { useLocalStorage } from 'usehooks-ts';
 import { nanoid } from '@reduxjs/toolkit';
 import { useEffect } from 'react';
 import { Avatar, Box, Container, ActionIcon, Flex, List, Text, Title } from '@mantine/core';
-import { IconCircleX } from '@tabler/icons-react';
+import { IconCircleX, IconShoppingCart } from '@tabler/icons-react';
 import { ShoppingListItem } from '@/types';
 import { capitalizeFirstLetterOfString } from '@/utils';
 import { emptyIngredientImage } from '@/assets';
@@ -93,7 +93,20 @@ export function ShoppingList() {
     </Box>
   ));
 
-  return (
+  return shoppingList.length === 0 ? (
+    <Flex
+      direction="column"
+      align="center"
+      justify="space-around"
+      gap="md"
+      sx={{ minHeight: '100vh' }}
+    >
+      <Title order={1} color="dimmed" sx={{ textAlign: 'center' }}>
+        Your shopping list is empty
+      </Title>
+      <IconShoppingCart size={250} color="#5C5F66" />
+    </Flex>
+  ) : (
     <Container ml={50} mr={50}>
       {shoppingListItems}
     </Container>
