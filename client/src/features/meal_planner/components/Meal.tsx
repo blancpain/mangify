@@ -1,23 +1,15 @@
-import {
-  Group,
-  Avatar,
-  Text,
-  Grid,
-  Title,
-  HoverCard,
-  Modal,
-  Flex,
-  Image,
-  Button,
-} from '@mantine/core';
+import { Group, Avatar, Text, Grid, Badge, Modal, Flex, Image, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { nanoid } from '@reduxjs/toolkit';
-import { IconShoppingCartPlus } from '@tabler/icons-react';
+import { IconCheck, IconShoppingCartPlus } from '@tabler/icons-react';
 import { FullNutritionProfile, MealIngredients } from 'mangify-shared-types';
 import { useLocalStorage } from 'usehooks-ts';
 import { ShoppingListItem } from '@/types';
 import { capitalizeFirstLetterOfString, covertStringToTitleCase } from '@/utils';
 import { emptyMealImage, emptyIngredientImage } from '@/assets';
+
+// TODO :add calories etc below the title in avatars with colors...
 
 type MealProps = {
   label: string;
@@ -77,8 +69,23 @@ export function Meal({
       } else if (!shoppingList) {
         setShoppingList((prevState) => [...prevState, shoppingListItem]);
       }
+
+      notifications.show({
+        id: 'add-to-shopping-list',
+        title: 'Items added to shopping list!',
+        icon: <IconCheck size="1rem" />,
+        color: 'teal',
+        message: '',
+        autoClose: 2000,
+        withCloseButton: false,
+      });
     }
   };
+
+  const calories = nutritionProfile?.calories?.toFixed(0);
+  const protein = nutritionProfile?.protein?.toFixed(1);
+  const carbs = nutritionProfile?.carbs?.toFixed(1);
+  const fats = nutritionProfile?.fats?.toFixed(1);
 
   return (
     <Group>
@@ -87,12 +94,20 @@ export function Meal({
         onClose={close}
         size="xl"
         title={
-          <Text size="xl" fw="bold" pl={20}>
-            {label}
-          </Text>
+          <Flex direction="column" align="start" gap={20}>
+            <Text size="xl" fw="bold" pl={20}>
+              {label}
+            </Text>
+            <Group ml={20}>
+              <Badge color="teal">Calories: {calories}</Badge>
+              <Badge color="grape">Protein: {protein}</Badge>
+              <Badge color="indigo">Carbs: {carbs}</Badge>
+              <Badge color="yellow">Fats: {fats}</Badge>
+            </Group>
+          </Flex>
         }
       >
-        <Grid pl={20} pr={20} gutter={80}>
+        <Grid pl={20} pr={20} pt={10} gutter={80}>
           <Grid.Col lg={6} md={9}>
             <Text pb={20} fw="bold">
               Ingredients:
@@ -116,40 +131,27 @@ export function Meal({
       </Modal>
 
       <Flex gap={30}>
-        <HoverCard shadow="md" radius="lg" position="right">
-          <HoverCard.Target>
-            <Group position="center">
-              {image ? (
-                <Avatar onClick={open} src={image} radius="xl" size="lg" />
-              ) : (
-                <Image onClick={open} src={emptyMealImage} radius="lg" maw={60} />
-              )}
-            </Group>
-          </HoverCard.Target>
-          <HoverCard.Dropdown>
-            <Title order={5}>Calories:</Title>
-            <Text>{nutritionProfile?.calories?.toFixed(0)}</Text>
-            <Title order={5}>Macros:</Title>
-            <Flex>
-              <Text pr={5}>Protein:</Text>
-              <Text>{nutritionProfile?.protein?.toFixed(1)} g</Text>
-            </Flex>
-            <Flex>
-              <Text pr={5}>Carbs:</Text>
-              <Text>{nutritionProfile?.carbs?.toFixed(1)} g</Text>
-            </Flex>
-            <Flex>
-              <Text pr={5}>Fats:</Text>
-              <Text>{nutritionProfile?.fats?.toFixed(1)} g</Text>
-            </Flex>
-          </HoverCard.Dropdown>
-        </HoverCard>
-        <div>
-          <Text fw={600}>{covertStringToTitleCase(label)}</Text>
-          <Text size="sm" color="dimmed" weight={400}>
+        <Group position="center">
+          {image ? (
+            <Avatar onClick={open} src={image} radius="xl" size="lg" sx={{ cursor: 'pointer' }} />
+          ) : (
+            <Image
+              onClick={open}
+              src={emptyMealImage}
+              radius="lg"
+              maw={60}
+              sx={{ cursor: 'pointer' }}
+            />
+          )}
+        </Group>
+        <Flex direction="column" align="start">
+          <Text fw={600} onClick={open}>
+            {covertStringToTitleCase(label)}
+          </Text>
+          <Text size="sm" color="dimmed" weight={400} onClick={open}>
             {description}
           </Text>
-        </div>
+        </Flex>
       </Flex>
     </Group>
   );

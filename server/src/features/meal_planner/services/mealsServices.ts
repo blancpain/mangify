@@ -71,7 +71,7 @@ const generateMultiDayMealPlan = async (
 
   // eslint-disable-next-line no-restricted-syntax
   for await (const meals of mealsGenerator) {
-    await timeout(100);
+    await timeout(1000);
     if (meals) {
       allMeals.push(...meals);
     }
