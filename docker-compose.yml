@@ -1,4 +1,27 @@
 services:
+  change-vol-ownership:
+    image: busybox:latest
+    volumes:
+      - /:/host
+    command: /bin/sh -c "mkdir -p /host/server/src/db/postgres_data_prod /host/server/src/db/redis_data_prod && chown -R 1000:1000 /host/server/src/db/postgres_data_prod /host/server/src/db/redis_data_prod"
+
+  # change-vol-ownership:
+  #   # We can use any image we want as long as we can chown
+  #   image: ubuntu:22.04
+  #   # Need a user priviliged enough to chown
+  #   user: "root"
+  #   # Specify the group in question
+  #   group_add:
+  #     - "1000"
+  #   volumes:
+  #     # The volume to chown
+  #     - /:/host
+  #   command: |
+  #     mkdir -p /host/server/src/db/postgres_data_prod
+  #     mkdir -p /host/server/src/db/redis_data_prod
+  #     chown -R 1000:1000 /host/server/src/db/postgres_data_prod
+  #     chown -R 1000:1000 /host/server/src/db/redis_data_prod
+
   # postgres db
   postgres:
     image: postgres:16
@@ -13,6 +36,9 @@ services:
     volumes:
       - ./server/src/db/postgres_data_prod:/var/lib/postgresql/data
     container_name: postgres-mangify
+    depends_on:
+      change-vol-ownership:
+        condition: service_completed_successfully
 
   # redis db
   redis:
@@ -22,6 +48,9 @@ services:
     volumes:
       - ./server/src/db/redis_data_prod:/data
     container_name: redis-mangify
+    depends_on:
+      change-vol-ownership:
+        condition: service_completed_successfully
 
   # server
   server:
