@@ -39,5 +39,5 @@ export const buildURL = (args: TBuildURL): string => {
     args.numberOfMeals
   }&diet=${args.diet?.toLowerCase()}&intolerances=${args.intolerances}&cuisine=${
     args.cuisine
-  }&minCalories=600&maxCalories=1000`;
+  }&minCalories=700&maxCalories=1100`;
 };

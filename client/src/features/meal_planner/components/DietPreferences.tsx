@@ -82,33 +82,14 @@ export function DietPreferences() {
           p="lg"
           onChange={handleFavoriteCuisinesInput}
           data={[
-            'African',
             'Asian',
             'American',
             'British',
-            'Cajun',
-            'Caribbean',
-            'Chinese',
-            'Eastern European',
-            'European',
             'French',
-            'German',
-            'Greek',
-            'Indian',
-            'Irish',
             'Italian',
-            'Japanese',
-            'Jewish',
-            'Korean',
-            'Latin American',
             'Mediterranean',
             'Mexican',
-            'Middle Eastern',
-            'Nordic',
-            'Southern',
             'Spanish',
-            'Thai',
-            'Vietnamese',
           ]}
         />
         <Title order={4}>Intolerances</Title>
