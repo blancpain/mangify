@@ -18,11 +18,11 @@ Mangify offers a seamless meal planning experience, from quick meal suggestions 
 
 Mangify leverages a cutting-edge tech stack to deliver a robust and efficient user experience:
 
-- 🛢️ **Postgres:** 
-- 📡 **Express:** 
-- ⚛️ **React:** 
-- 🖥️ **Node:** 
-- 🔄 **Typescript:** 
+- 📜 **Typescript**
+- 🛢️ **Postgres & Redis** 
+- 📡 **Express**
+- ⚛️ **React**
+- 🖥️ **Node** 
 
 ## User Authentication
 
@@ -43,15 +43,16 @@ Mangify ensures secure user authentication using Redis for session storage and e
 
 ## Backend Technologies
 
+- 🔄 **REST APIs:** The backend follows RESTful principles, offering a clear and standardized approach to designing APIs.
 - 🔒 **Bcrypt:** Ensures secure password encryption for user credentials.
 - 📈 **Express Rate Limit:** Sets limits to API calls. 
 - 🧹 **Helmet:** Enhances safety with HTTP header security.
 - 📊 **Winston and Morgan:** Logging tools for comprehensive log management.
-
+  
 ## Deployment and Containerization
 
 - 🐳 **Docker Compose:** Docker compose is used for orchestrating the containers for seamless deployment. The client, server, databases (Redis and Postgres) and Nginx are containerized for straightforward management and scalability. Separate Dockerfiles are included for the client and server.
-- 🚀 **Hetzner Cloud:** Hosted on a dedicated VPS for scalable performance.
+- ☁️ **Hetzner Cloud:** Hosted on a dedicated VPS for scalable performance.
 - 🌐 **Nginx:** Acts as a reverse proxy for enhanced server communication.
 
 ## Continuous Integration and Deployment (CI/CD)
@@ -73,9 +74,10 @@ Mangify is built with a strong emphasis on code quality and consistency:
 
 Mangify is continually evolving. Future features in the pipeline include:
 
-- 🌐 **Social Login:** Seamless registration with Facebook and Google.
-- 📧 **Email Sending:** Automated emails for registration and potentially daily updates.
-- 💾 **Meal Saving and Deletion:** Store and manage your favorite meals effortlessly.
+- 🌐 **Social Login:** Registration with Facebook and Google.
+- 📧 **Email Sending:** Automated emails for registration and potentially daily meal planning updates.
+- 💾 **Meal Saving and Deletion:** Save and unsave meals.
+- 🤖 **Automated testing integreated into CI/CD:** Add testing to the health-check pipeline, currently only linting is included. 
   
 ## Photo Credits
 
