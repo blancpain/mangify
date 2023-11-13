@@ -54,6 +54,9 @@ Mangify ensures secure user authentication using Redis for session storage and e
 - 🚀 **Hetzner Cloud:** Hosted on a dedicated VPS for scalable performance.
 - 🌐 **Nginx:** Acts as a reverse proxy for enhanced server communication.
 
+## Continuous Integration and Deployment (CI/CD)
+- 🤖 **GitHub Actions Workflow:** Utilizing GitHub Actions for CI/CD automation. The workflow streamlines the deployment process, ensuring efficiency and reliability.
+  
 ## Testing
 
 - 🧪 **Jest:** Backend testing for robust code coverage.
@@ -73,6 +76,12 @@ Mangify is continually evolving. Future features in the pipeline include:
 - 🌐 **Social Login:** Seamless registration with Facebook and Google.
 - 📧 **Email Sending:** Automated emails for registration and potentially daily updates.
 - 💾 **Meal Saving and Deletion:** Store and manage your favorite meals effortlessly.
+  
+## Photo Credits
+
+- [Landing page hero image by engin akyurt on Unsplash](https://unsplash.com/photos/red-green-and-yellow-chili-peppers-and-green-chili-peppers-Y5n8mCpvlZU)
+- [Missing meal images from flaticon](https://www.flaticon.com/free-icons/plate)
+- [Missing ingredient images from flaticon](https://www.flaticon.com/free-icons/harvest)
 
 ## Try It Out!
 
