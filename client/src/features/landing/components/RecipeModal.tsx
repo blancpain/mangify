@@ -31,7 +31,7 @@ export function RecipeModal({ recipe }: Props) {
       <Modal
         opened={opened}
         onClose={close}
-        size="auto"
+        size="xl"
         title={
           <Text size="xl" weight={900} pl={20}>
             {recipe.title}

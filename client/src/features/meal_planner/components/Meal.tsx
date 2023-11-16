@@ -9,8 +9,6 @@ import { ShoppingListItem } from '@/types';
 import { capitalizeFirstLetterOfString, covertStringToTitleCase } from '@/utils';
 import { emptyMealImage, emptyIngredientImage } from '@/assets';
 
-// TODO :add calories etc below the title in avatars with colors...
-
 type MealProps = {
   label: string;
   image: string | null | undefined;
@@ -107,7 +105,7 @@ export function Meal({
           </Flex>
         }
       >
-        <Grid pl={20} pr={20} pt={10} gutter={80}>
+        <Grid pl={{ base: 5, md: 20 }} pr={{ base: 5, md: 20 }} pt={10}>
           <Grid.Col lg={6} md={9}>
             <Text pb={20} fw="bold">
               Ingredients:
@@ -119,6 +117,7 @@ export function Meal({
               mt={20}
               color="teal"
               variant="light"
+              size="xs"
             >
               Add ingredients to shopping list
             </Button>
@@ -145,10 +144,10 @@ export function Meal({
           )}
         </Group>
         <Flex direction="column" align="start">
-          <Text fw={600} onClick={open}>
+          <Text fw={600} onClick={open} style={{ cursor: 'pointer' }}>
             {covertStringToTitleCase(label)}
           </Text>
-          <Text size="sm" color="dimmed" weight={400} onClick={open}>
+          <Text size="sm" color="dimmed" weight={400} onClick={open} style={{ cursor: 'pointer' }}>
             {description}
           </Text>
         </Flex>

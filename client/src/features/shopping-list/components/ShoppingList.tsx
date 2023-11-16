@@ -107,7 +107,7 @@ export function ShoppingList() {
       <IconShoppingCart size={250} color="#5C5F66" />
     </Flex>
   ) : (
-    <Container ml={50} mr={50}>
+    <Container ml={{ base: 10, md: 50 }} mr={{ base: 10, md: 50 }}>
       {shoppingListItems}
     </Container>
   );

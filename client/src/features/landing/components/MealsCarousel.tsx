@@ -19,7 +19,7 @@ export function MealsCarousel({ recipes }: Props) {
   ));
 
   return (
-    <Container size="lg" pt={30} pb={30}>
+    <Container pt={30} pb={30}>
       <Stack>
         <Title
           align="center"
