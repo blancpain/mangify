@@ -39,7 +39,7 @@ export function Dashboard() {
         </Navbar>
       }
       header={
-        <Header height={{ base: 70, md: 70 }} p={{ base: 10, md: 'md' }}>
+        <Header height={{ base: 70, md: 70 }} p={{ base: 5, md: 'md' }}>
           <Group sx={{ height: '100%' }} position="apart">
             <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
               <Burger opened={drawerOpened} onClick={toggleDrawer} size="md" mr="xl" />
