@@ -105,7 +105,7 @@ export function Meal({
           </Flex>
         }
       >
-        <Grid pl={{ base: 5, md: 20 }} pr={{ base: 5, md: 20 }} pt={10}>
+        <Grid pl={{ base: 8, md: 20 }} pr={{ base: 8, md: 20 }} pt={10}>
           <Grid.Col lg={6} md={9}>
             <Text pb={20} fw="bold">
               Ingredients:
@@ -124,7 +124,7 @@ export function Meal({
           </Grid.Col>
           <Grid.Col lg={6} md={9}>
             <Text fw="bold">Cooking instructions:</Text>
-            <ol style={{ padding: '0px' }}>{mealCookingDirections}</ol>
+            <ol style={{ padding: '10px' }}>{mealCookingDirections}</ol>
           </Grid.Col>
         </Grid>
       </Modal>
