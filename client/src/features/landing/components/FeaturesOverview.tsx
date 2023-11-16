@@ -28,9 +28,9 @@ const useStyles = createStyles((theme) => ({
 const features = [
   {
     icon: IconChecklist,
-    title: 'Multiple meal filters',
+    title: 'Personalized meal plans',
     description:
-      'Advanced meal searching filters to suit your particular eating habits and preferences',
+      'Create your own daily or weekly meal plan. Apply advanced meal searching filters to suit your particular eating habits and preferences',
   },
   {
     icon: IconShoppingCart,
@@ -75,9 +75,8 @@ export function FeaturesOverview() {
   ));
 
   return (
-    <Container size="lg" pt={50} pb={40}>
+    <Container pt={50} pb={40}>
       <Grid
-        gutter={80}
         sx={() => ({
           '@media (max-width: 40em)': {
             paddingLeft: 20,

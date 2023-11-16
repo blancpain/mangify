@@ -30,7 +30,7 @@ const useStyles = createStyles((theme) => ({
     width: '350px',
 
     [theme.fn.smallerThan('sm')]: {
-      width: '100%',
+      width: '125px',
       height: rem(60),
     },
   },
@@ -108,7 +108,7 @@ export function MealGenerator() {
                 withinPortal
                 data={['1', '2', '3', '4', '5']}
                 placeholder="Select"
-                label="Meals"
+                label="Meals per day"
                 classNames={classes}
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 {...field}
@@ -122,7 +122,7 @@ export function MealGenerator() {
               <Select
                 mt="md"
                 withinPortal
-                data={['vegetarian', 'keto', 'vegan']}
+                data={['Vegetarian', 'Keto', 'Vegan', 'Any']}
                 placeholder="Any"
                 label="Diet"
                 classNames={classes}
@@ -151,7 +151,7 @@ export function MealGenerator() {
       {recipes && (
         <>
           <MealsCarousel recipes={recipes} />
-          <Title align="center" pt={40} fw={900}>
+          <Title align="center" pt={40} fw={800}>
             Want to see more?
           </Title>
           <FeaturesOverview />
