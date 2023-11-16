@@ -18,7 +18,7 @@ export function MealSettings() {
       <Title order={1}>Meal planner settings</Title>
       <Space h="xl" />
       <Space h="xl" />
-      <Flex justify="space-between">
+      <Flex justify="space-between" direction={{ base: 'column', md: 'row' }}>
         <Title order={4}>Number of meals per day</Title>
         <Select
           value={profile.meals_per_day?.toString()}

@@ -7,8 +7,13 @@ type MealPlanHeaderProps = {
 };
 export function MealPlanHeader({ handleGeneration, date }: MealPlanHeaderProps) {
   return (
-    <Flex mb={30} align="start" justify="space-between">
-      <Title order={2} mb="md">
+    <Flex
+      mb={30}
+      align={{ base: 'center', md: 'start' }}
+      justify="space-between"
+      direction={{ base: 'column', md: 'row' }}
+    >
+      <Title order={2} mb="md" align="center">
         {date}
       </Title>
       <Button
@@ -16,7 +21,7 @@ export function MealPlanHeader({ handleGeneration, date }: MealPlanHeaderProps) 
         leftIcon={<IconReload />}
         onClick={handleGeneration}
         color="teal"
-        size="lg"
+        size="md"
       >
         Generate
       </Button>

@@ -110,8 +110,8 @@ export function SignUp(props: PaperProps) {
 
   return (
     <Box
-      h="100vh"
       sx={{
+        minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-start',

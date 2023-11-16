@@ -283,7 +283,6 @@ export const generateMeals = async (
       };
       const mainCoursesUrl = buildURL(mainCourseUrlDetails);
       const mainCourses = await fetchMeals(mainCoursesUrl, date);
-      // await timeout(1000);
 
       const breakfastUrlDetails: TBuildURL = {
         mealType: 'breakfast',

@@ -52,7 +52,7 @@ export function MultiDayMealPlan({ weekRange }: MultiDayMealPlanProps) {
 
   if (isLoading || areMealsLoading) {
     return (
-      <Center sx={{ height: '100%' }}>
+      <Center sx={{ minHeight: '100%' }}>
         <Loader color="teal" size="xl" variant="dots" />
       </Center>
     );

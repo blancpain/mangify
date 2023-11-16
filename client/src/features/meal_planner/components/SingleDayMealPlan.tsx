@@ -8,7 +8,7 @@ import { useGenerateSingleDayMealPlanMutation, useGetMealsQuery } from '@/featur
 import { useAppDispatch } from '@/hooks';
 import { setMeals } from '@/stores';
 import { capitalizeFirstLetterOfArray, extractSingleMealType, isTheSameDate } from '@/utils';
-import { MealAccordion } from './MealAccordion';
+import { MealStack } from './MealStack';
 import { PieChart } from '@/components';
 import { MealPlanHeader } from './MealPlanHeader';
 
@@ -90,7 +90,7 @@ export function SingleDayMealPlan({
         : 'Main course',
     }))
     .sort((a, b) => a.mealTypes.localeCompare(b.mealTypes))
-    .map((meal) => <MealAccordion key={nanoid()} meal={meal} />);
+    .map((meal) => <MealStack key={nanoid()} meal={meal} />);
 
   const totalMealCalories = userMeals
     ?.filter(isTheSameDate(currentDateJs))

@@ -15,44 +15,45 @@ export function PieChart({ title, calories, protein, carbs, fats }: PieChartProp
     <Flex direction="column" gap="md" align="center">
       <Title order={2}>{title}</Title>
       <Container>
-        <Pie
-          options={{
-            responsive: true,
-            elements: {
-              arc: {
-                borderColor: 'rgba(0,0,0,0)',
+        <div style={{ width: '250px', height: '250px' }}>
+          <Pie
+            options={{
+              elements: {
+                arc: {
+                  borderColor: 'rgba(0,0,0,0)',
+                },
               },
-            },
-            plugins: {
-              tooltip: {
-                enabled: true,
-              },
-              legend: {
-                position: 'bottom',
-                display: true,
-                labels: {
-                  padding: 10,
-                  textAlign: 'center',
-                  font: {
-                    weight: 'bold',
-                    family: 'Arial',
-                    size: 14,
+              plugins: {
+                tooltip: {
+                  enabled: true,
+                },
+                legend: {
+                  position: 'bottom',
+                  display: true,
+                  labels: {
+                    padding: 10,
+                    textAlign: 'center',
+                    font: {
+                      weight: 'bold',
+                      family: 'Arial',
+                      size: 14,
+                    },
                   },
                 },
               },
-            },
-          }}
-          data={{
-            labels: ['Protein', 'Carbs', 'Fats'],
-            datasets: [
-              {
-                data: [protein, carbs, fats],
-                backgroundColor: ['#bc5090', '#003f5c', '#ffa600'],
-                hoverOffset: 0,
-              },
-            ],
-          }}
-        />
+            }}
+            data={{
+              labels: ['Protein', 'Carbs', 'Fats'],
+              datasets: [
+                {
+                  data: [protein, carbs, fats],
+                  backgroundColor: ['#bc5090', '#003f5c', '#ffa600'],
+                  hoverOffset: 0,
+                },
+              ],
+            }}
+          />
+        </div>
       </Container>
       {calories && <Title order={3}>Calories: {calories}</Title>}
     </Flex>
