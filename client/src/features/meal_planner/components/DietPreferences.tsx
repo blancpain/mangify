@@ -1,28 +1,18 @@
 import { Title, Space, Flex, Radio, MultiSelect } from '@mantine/core';
 import { Diet } from '@/types';
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { selectUser, setCuisines, setDiet, setIntolerances } from '@/stores';
-import {
-  useSetCuisinesMutation,
-  useSetDietMutation,
-  useSetIntolerancesMutation,
-} from '@/features/api';
+import { selectUser, setDiet, setIntolerances } from '@/stores';
+import { useSetDietMutation, useSetIntolerancesMutation } from '@/features/api';
 
 export function DietPreferences() {
   const dispatch = useAppDispatch();
   const { profile } = useAppSelector(selectUser);
   const [setUserDiet] = useSetDietMutation();
-  const [setUserFavoriteCuisines] = useSetCuisinesMutation();
   const [setUserIntolerances] = useSetIntolerancesMutation();
 
   const handleDietInput = async (val: Diet) => {
     dispatch(setDiet(val));
     await setUserDiet({ diet: val });
-  };
-
-  const handleFavoriteCuisinesInput = async (val: string[]) => {
-    dispatch(setCuisines(val));
-    await setUserFavoriteCuisines({ cuisines: val });
   };
 
   const handleIntolerancesInput = async (val: string[]) => {
@@ -70,28 +60,6 @@ export function DietPreferences() {
             label="Pescetarian - No meat, but seafood is allowed."
           />
         </Radio.Group>
-        <Title order={4}>Cuisines</Title>
-        <MultiSelect
-          placeholder="Select your favorite cuisines or leave blank."
-          value={profile.favorite_cuisines ? profile.favorite_cuisines : []}
-          searchable
-          clearable
-          dropdownPosition="bottom"
-          radius="lg"
-          size="lg"
-          p="lg"
-          onChange={handleFavoriteCuisinesInput}
-          data={[
-            'Asian',
-            'American',
-            'British',
-            'French',
-            'Italian',
-            'Mediterranean',
-            'Mexican',
-            'Spanish',
-          ]}
-        />
         <Title order={4}>Intolerances</Title>
         <MultiSelect
           placeholder="Please add any introlerances you may have or leave blank."
