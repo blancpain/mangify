@@ -2,6 +2,7 @@ import { createStyles, Group, Text, rem, Box } from '@mantine/core';
 import { nanoid } from '@reduxjs/toolkit';
 import { NavLink } from 'react-router-dom';
 import { Logo } from '@/components/Logo';
+import { ScrollToTop } from '../Elements/ScrollToTop';
 
 const useStyles = createStyles((theme) => ({
   footer: {
@@ -44,6 +45,7 @@ export function Footer({ links }: FooterProps) {
   return (
     <Box className={classes.footer} component="footer">
       <Box className={classes.inner}>
+        <ScrollToTop />
         <Logo />
         <Group className={classes.links}>{items}</Group>
       </Box>
