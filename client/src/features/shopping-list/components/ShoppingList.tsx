@@ -2,7 +2,7 @@ import { useLocalStorage } from 'usehooks-ts';
 import { nanoid } from '@reduxjs/toolkit';
 import { useEffect } from 'react';
 import { Avatar, Box, Container, ActionIcon, Flex, List, Text, Title } from '@mantine/core';
-import { IconCircleX, IconShoppingCart } from '@tabler/icons-react';
+import { IconCircleMinus, IconShoppingCart, IconTrash } from '@tabler/icons-react';
 import { ShoppingListItem } from '@/types';
 import { capitalizeFirstLetterOfString } from '@/utils';
 import { emptyIngredientImage } from '@/assets';
@@ -44,18 +44,26 @@ export function ShoppingList() {
 
   const shoppingListItems = shoppingList?.map((item) => (
     <Box key={nanoid()} mb={55}>
-      <Flex gap={15}>
+      <Flex gap={15} align={{ base: 'center', md: 'start' }}>
         <Title order={2} mb={10}>
           {item.meal}
         </Title>
-        <ActionIcon
+        <Avatar
           color="red"
-          variant="transparent"
-          data-meal={item.meal}
+          size="md"
+          radius="xl"
           onClick={handleRemoveMeal}
+          data-meal={item.meal}
+          sx={{
+            cursor: 'pointer',
+
+            '&:hover': {
+              backgroundColor: 'rgba(0,0,0,.5)',
+            },
+          }}
         >
-          <IconCircleX />
-        </ActionIcon>
+          <IconTrash size="1rem" />
+        </Avatar>
       </Flex>
       <List type="unordered" sx={{ listStyleType: 'none' }}>
         {item.ingredients.map((ingredient) => (
@@ -68,7 +76,7 @@ export function ShoppingList() {
                 data-ingredient={ingredient.id}
                 onClick={handleRemoveIngredient}
               >
-                <IconCircleX />
+                <IconCircleMinus size="1.2rem" />
               </ActionIcon>
               <Avatar
                 src={
