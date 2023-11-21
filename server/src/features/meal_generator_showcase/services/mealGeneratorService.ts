@@ -5,10 +5,10 @@ import { extractCalories } from '@/utils';
 
 const getRecipes = async (
   numberOfMeals: number,
-  type: string,
+  diet: string,
 ): Promise<ShowCaseRecipe[] | null> => {
   const { data } = await axios.get<RecipeList>(
-    `https://api.spoonacular.com/recipes/random?apiKey=${process.env.API_KEY}&number=${numberOfMeals}&type=${type}`,
+    `https://api.spoonacular.com/recipes/random?apiKey=${process.env.API_KEY}&number=${numberOfMeals}&tags=${diet}`,
   );
 
   if (data.recipes) {
