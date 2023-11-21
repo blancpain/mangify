@@ -11,21 +11,23 @@ import {
   Group,
   PaperProps,
   Button,
-  Divider,
+  // Divider,
   Anchor,
   Stack,
   Container,
   Box,
   Title,
-  Flex,
+  // Flex,
 } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
 import { loginSchema, TLoginSchema } from '@/types';
-import { GoogleButton, FacebookButton } from '@/components/Buttons';
+// import { GoogleButton, FacebookButton } from '@/components/Buttons';
 import { useLoginMutation } from '@/features/api';
 import { isFetchBaseQueryError, isErrorWithMessage } from '@/utils';
 import { useAppDispatch } from '@/hooks';
 import { setUser } from '@/stores';
+
+// NOTE: social login is not implemented yet hence the commented code; planned for future release
 
 export function Login(props: PaperProps) {
   const {
@@ -104,7 +106,7 @@ export function Login(props: PaperProps) {
         justifyContent: 'flex-start',
         alignItems: 'center',
         paddingTop: '4rem',
-        gap: '2rem',
+        gap: '1rem',
       }}
       component="main"
     >
@@ -117,20 +119,20 @@ export function Login(props: PaperProps) {
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...props}
         >
-          <Text size="xl" weight={500} align="center">
-            Sign in with
-          </Text>
+          {/* <Text size="xl" weight={500} align="center" pb={30}> */}
+          {/*   Sign in with */}
+          {/* </Text> */}
 
-          <Flex mb="md" mt="md" gap="lg">
-            <GoogleButton radius="xl" disabled>
-              Google
-            </GoogleButton>
-            <FacebookButton radius="xl" disabled>
-              Facebook
-            </FacebookButton>
-          </Flex>
+          {/* <Flex mb="md" mt="md" gap="lg"> */}
+          {/*   <GoogleButton radius="xl" disabled> */}
+          {/*     Google */}
+          {/*   </GoogleButton> */}
+          {/*   <FacebookButton radius="xl" disabled> */}
+          {/*     Facebook */}
+          {/*   </FacebookButton> */}
+          {/* </Flex> */}
 
-          <Divider label="Or continue with email" labelPosition="center" my="lg" />
+          {/* <Divider label="Or continue with email" labelPosition="center" my="lg" /> */}
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack>

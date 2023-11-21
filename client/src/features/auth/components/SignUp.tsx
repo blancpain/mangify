@@ -11,7 +11,7 @@ import {
   Group,
   PaperProps,
   Button,
-  Divider,
+  // Divider,
   Anchor,
   Stack,
   Box,
@@ -20,9 +20,11 @@ import {
 } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
 import { signUpSchema, TSignUpSchema } from '@/types';
-import { GoogleButton, FacebookButton } from '@/components/Buttons';
+// import { GoogleButton, FacebookButton } from '@/components/Buttons';
 import { useRegisterUserMutation } from '@/features/api';
 import { isFetchBaseQueryError, isErrorWithMessage } from '@/utils';
+
+// NOTE: social login is not implemented yet hence the commented code; planned for future release
 
 export function SignUp(props: PaperProps) {
   const {
@@ -130,20 +132,20 @@ export function SignUp(props: PaperProps) {
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...props}
         >
-          <Text size="xl" weight={500} align="center">
-            Sign in with
-          </Text>
-
-          <Group grow mb="md" mt="md">
-            <GoogleButton radius="xl" disabled>
-              Google
-            </GoogleButton>
-            <FacebookButton radius="xl" disabled>
-              Facebook
-            </FacebookButton>
-          </Group>
-
-          <Divider label="Or register with email" labelPosition="center" my="lg" />
+          {/* <Text size="xl" weight={500} align="center"> */}
+          {/*   Sign in with */}
+          {/* </Text> */}
+          {/**/}
+          {/* <Group grow mb="md" mt="md"> */}
+          {/*   <GoogleButton radius="xl" disabled> */}
+          {/*     Google */}
+          {/*   </GoogleButton> */}
+          {/*   <FacebookButton radius="xl" disabled> */}
+          {/*     Facebook */}
+          {/*   </FacebookButton> */}
+          {/* </Group> */}
+          {/**/}
+          {/* <Divider label="Or register with email" labelPosition="center" my="lg" /> */}
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack>
