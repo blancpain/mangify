@@ -81,6 +81,8 @@ describe('Nutrition profile', function () {
       cy.get('#height').type('182');
       cy.get('#weight').type('89');
 
+      cy.get('#sync-profile').click();
+
       cy.contains('Nutrition Profile').click();
       cy.contains('Your nutrition profile');
     });
@@ -114,7 +116,7 @@ describe('Meal planning', function () {
       cy.intercept('POST', '/api/meals/one-meal', { statusCode: 502 });
       cy.get('#generate-meals').click();
 
-      cy.contains('Mini Ham Omelets').click();
+      cy.contains('Mini Ham Omelets');
       cy.get('#regenerate-meal').click();
 
       cy.contains('Something went wrong');

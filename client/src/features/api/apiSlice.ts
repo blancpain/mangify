@@ -37,7 +37,7 @@ export const mangifyApi = createApi({
   endpoints: (build) => ({
     generateShowcaseMeals: build.mutation<ShowCaseRecipe[], TMealGeneratorLandingSchema>({
       query: ({ numberOfMeals, diet }) => ({
-        url: `/meal-generator-showcase/?numberOfMeals=${numberOfMeals}&type=${diet}`,
+        url: `/meal-generator-showcase/?numberOfMeals=${numberOfMeals}&diet=${diet?.toLowerCase()}`,
         method: 'GET',
       }),
     }),

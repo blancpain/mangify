@@ -154,7 +154,7 @@ export function SingleDayMealPlan({
       {!allMeals || (allMeals && allMeals.length === 0) ? (
         <Flex direction="column" align="center" justify="center" gap="md">
           <Title order={3}>You have no meals</Title>
-          <IconSalad size={350} />
+          <IconSalad size={200} />
           <Text size="sm">Click the button above to generate some</Text>
         </Flex>
       ) : (

@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
-import { Title, Select, Space, Flex, NumberInput, Group, Text } from '@mantine/core';
-import { IconCheck } from '@tabler/icons-react';
+import { Title, Select, Space, Flex, NumberInput, Group, Text, Button } from '@mantine/core';
+import { IconCheck, IconCircleX } from '@tabler/icons-react';
 import { notifications } from '@mantine/notifications';
 import { ActivityLevel, Sex, Goal } from '@/types';
 import { useAppDispatch, useAppSelector } from '@/hooks';
@@ -51,55 +50,6 @@ export function UserSettings() {
   const [setUserCarbs] = useSetCarbsMutation();
   const [setUserFats] = useSetFatsMutation();
 
-  useEffect(() => {
-    if (allUserSettingsProvided(profile)) {
-      // NOTE: update Nutrition Profile based on changed user settings and trigger notification
-      const updateNutritionProfileNotification = async () => {
-        const userNumbers = validateUserSettings(profile);
-
-        if (userNumbers) {
-          const totalCalories = calculateDailyIntake(userNumbers);
-          if (totalCalories) {
-            const userMacros = calculateMacros(userNumbers.weight, totalCalories);
-            const finalNutritionProfile = {
-              calories: Math.trunc(totalCalories),
-              macros: userMacros,
-            };
-            dispatch(setCalories(finalNutritionProfile.calories));
-            dispatch(setProtein(finalNutritionProfile.macros.protein));
-            dispatch(setCarbs(finalNutritionProfile.macros.carbs));
-            dispatch(setFats(finalNutritionProfile.macros.fats));
-            await setUserCalories({ calories: finalNutritionProfile.calories });
-            await setUserProtein({ protein: finalNutritionProfile.macros.protein });
-            await setUserCarbs({ carbs: finalNutritionProfile.macros.carbs });
-            await setUserFats({ fats: finalNutritionProfile.macros.fats });
-          }
-        }
-
-        notifications.show({
-          id: 'load-data',
-          loading: true,
-          title: 'Syncing your nutritinon profile',
-          message: 'Please wait',
-          autoClose: false,
-          withCloseButton: false,
-        });
-
-        setTimeout(() => {
-          notifications.update({
-            id: 'load-data',
-            color: 'teal',
-            title: 'Profile successfully synced',
-            message: '',
-            icon: <IconCheck size="1rem" />,
-            autoClose: 2000,
-          });
-        }, 3000);
-      };
-      updateNutritionProfileNotification();
-    }
-  }, [profile, dispatch, setUserCarbs, setUserCalories, setUserFats, setUserProtein]);
-
   // NOTE: might have to do error handling for these in case of DB failure
   const handleHeightInput = async (val: unknown) => {
     if (isNumber(val)) {
@@ -137,6 +87,62 @@ export function UserSettings() {
     await setUserGoal({ goal: val });
   };
 
+  // NOTE: user settings are actually saved as the users types them
+  // we only include the Save button to sync the user's nutrition profile (macros etc) with the server
+  const handleSave = async () => {
+    if (allUserSettingsProvided(profile)) {
+      const userNumbers = validateUserSettings(profile);
+
+      if (userNumbers) {
+        const totalCalories = calculateDailyIntake(userNumbers);
+        if (totalCalories) {
+          const userMacros = calculateMacros(userNumbers.weight, totalCalories);
+          const finalNutritionProfile = {
+            calories: Math.trunc(totalCalories),
+            macros: userMacros,
+          };
+          dispatch(setCalories(finalNutritionProfile.calories));
+          dispatch(setProtein(finalNutritionProfile.macros.protein));
+          dispatch(setCarbs(finalNutritionProfile.macros.carbs));
+          dispatch(setFats(finalNutritionProfile.macros.fats));
+          await setUserCalories({ calories: finalNutritionProfile.calories });
+          await setUserProtein({ protein: finalNutritionProfile.macros.protein });
+          await setUserCarbs({ carbs: finalNutritionProfile.macros.carbs });
+          await setUserFats({ fats: finalNutritionProfile.macros.fats });
+        }
+      }
+
+      notifications.show({
+        id: 'load-data',
+        loading: true,
+        title: 'Syncing your nutritinon profile',
+        message: 'Please wait',
+        autoClose: false,
+        withCloseButton: false,
+      });
+
+      setTimeout(() => {
+        notifications.update({
+          id: 'load-data',
+          color: 'teal',
+          title: 'Profile successfully synced',
+          message: '',
+          icon: <IconCheck size="1rem" />,
+          autoClose: 2000,
+        });
+      }, 2500);
+    } else {
+      notifications.show({
+        id: 'insufficient-data',
+        color: 'red',
+        title: 'Please fill in all information',
+        message: '',
+        icon: <IconCircleX size="1rem" />,
+        autoClose: false,
+      });
+    }
+  };
+
   return (
     <>
       <Title order={1}>User Settings</Title>
@@ -147,7 +153,7 @@ export function UserSettings() {
           Sex
         </Title>
         <Select
-          w="40%"
+          w="245px"
           id="sex"
           value={profile.sex}
           placeholder="Your sex"
@@ -163,7 +169,7 @@ export function UserSettings() {
         </Title>
         <Group>
           <NumberInput
-            w="40%"
+            w="245px"
             id="age"
             value={profile.age ? profile.age : ''}
             onChange={handleAgeInput}
@@ -178,7 +184,7 @@ export function UserSettings() {
         <Group>
           <NumberInput
             id="height"
-            w="40%"
+            w="245px"
             value={profile.height ? profile.height : ''}
             onChange={handleHeightInput}
             min={10}
@@ -193,7 +199,7 @@ export function UserSettings() {
         <Group>
           <NumberInput
             id="weight"
-            w="40%"
+            w="245px"
             value={profile.weight ? profile.weight : ''}
             onChange={handleWeightInput}
             min={1}
@@ -206,7 +212,7 @@ export function UserSettings() {
           Activity Level
         </Title>
         <Select
-          w="40%"
+          w="245px"
           value={profile.activity_level}
           placeholder="Your activity level"
           onChange={handleActivityLevelInput}
@@ -221,7 +227,7 @@ export function UserSettings() {
           What is your goal?
         </Title>
         <Select
-          w="40%"
+          w="245px"
           value={profile.goal}
           placeholder="Your goal"
           onChange={handleGoalInput}
@@ -231,6 +237,10 @@ export function UserSettings() {
             { value: Goal.GAINWEIGHT, label: 'Gain weight' },
           ]}
         />
+        <Space h="xl" />
+        <Button id="sync-profile" color="teal" w="245px" mt="md" onClick={handleSave}>
+          Save
+        </Button>
       </Flex>
     </>
   );
