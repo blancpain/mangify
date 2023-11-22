@@ -3,6 +3,7 @@ import { useMediaQuery } from '@mantine/hooks';
 import { useMantineTheme, rem, Container, Stack, Title } from '@mantine/core';
 import { ShowCaseRecipe } from 'mangify-shared-types';
 import { nanoid } from '@reduxjs/toolkit';
+import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
 import { Meal } from './Meal';
 
 type Props = {
@@ -34,7 +35,19 @@ export function MealsCarousel({ recipes }: Props) {
         </Title>
         <Carousel
           slideSize="50%"
+          styles={{
+            control: {
+              marginTop: '35px',
+              '&[data-inactive]': {
+                opacity: 0,
+                cursor: 'default',
+              },
+            },
+          }}
+          controlsOffset={mobile ? 5 : 20}
           breakpoints={[{ maxWidth: 'sm', slideSize: '100%', slideGap: rem(2) }]}
+          nextControlIcon={<IconArrowRight size={25} color="black" />}
+          previousControlIcon={<IconArrowLeft size={25} color="black" />}
           slideGap="xl"
           align={recipes.length === 1 ? 'center' : 'start'}
           slidesToScroll={mobile ? 1 : 2}
