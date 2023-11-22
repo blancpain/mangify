@@ -238,7 +238,7 @@ export function UserSettings() {
           ]}
         />
         <Space h="xl" />
-        <Button color="teal" w="245px" mt="md" onClick={handleSave}>
+        <Button id="sync-profile" color="teal" w="245px" mt="md" onClick={handleSave}>
           Save
         </Button>
       </Flex>

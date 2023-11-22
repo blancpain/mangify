@@ -81,6 +81,8 @@ describe('Nutrition profile', function () {
       cy.get('#height').type('182');
       cy.get('#weight').type('89');
 
+      cy.get('#sync-profile').click();
+
       cy.contains('Nutrition Profile').click();
       cy.contains('Your nutrition profile');
     });
