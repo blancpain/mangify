@@ -62,13 +62,13 @@ export function DietPreferences() {
         </Radio.Group>
         <Title order={4}>Intolerances</Title>
         <MultiSelect
-          placeholder="Please add any introlerances you may have or leave blank."
+          placeholder="Your intolerances"
           value={profile.intolerances ? profile.intolerances : []}
           searchable
           clearable
           dropdownPosition="top"
           radius="lg"
-          size="lg"
+          size="md"
           p="lg"
           onChange={handleIntolerancesInput}
           data={[
