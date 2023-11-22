@@ -18,7 +18,7 @@ export function RecipeModal({ recipe }: Props) {
   const [opened, { open, close }] = useDisclosure(false);
   const recipeSteps = recipe.steps
     ? recipe.steps.map((step) => <li key={nanoid()}>{step}</li>)
-    : '';
+    : 'Just mix all the ingredients and enjoy!';
   const ingredients = recipe.extendedIngredients?.map((ingredient) => {
     const firstLetter = ingredient.charAt(0).toUpperCase();
     const restOfWord = ingredient.slice(1).toLowerCase();
