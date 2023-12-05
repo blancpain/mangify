@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { ZodSchemaGenericWrapper } from '@/types';
+import { extractUserEmailFromId } from './db';
 
 // type guards
 export const isNumber = (input: unknown): input is number => typeof input === 'number';
@@ -24,10 +25,16 @@ export const processUserSettingsUpdate = async <T>(
   schema: ZodSchemaGenericWrapper<T>,
   updateFunction: (email: string, data: T) => Promise<void>,
 ): Promise<void> => {
-  const { user } = req.session;
+  const { userId } = req;
 
-  if (!user || !user.email) {
-    res.status(400).json({ errors: 'Unauthorised' });
+  if (!userId) {
+    res.status(401).json({ errors: 'Unauthorized' });
+    return;
+  }
+
+  const userEmail = await extractUserEmailFromId(userId);
+  if (!userEmail) {
+    res.status(401).json({ errors: 'Unauthorized' });
     return;
   }
 
@@ -44,7 +51,7 @@ export const processUserSettingsUpdate = async <T>(
     return;
   }
 
-  await updateFunction(user.email, result.data);
+  await updateFunction(userEmail, result.data);
   res.status(200).json(result.data);
 };
 
