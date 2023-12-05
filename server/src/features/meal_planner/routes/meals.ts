@@ -3,18 +3,26 @@ import { mealsController } from '../controllers/mealsController';
 import { isAuthenticated } from '@/middleware';
 
 const mealsRouter = express.Router();
-mealsRouter.get('/', isAuthenticated, mealsController.refreshMeals as RequestHandler);
+mealsRouter.get(
+  '/',
+  isAuthenticated as RequestHandler,
+  mealsController.refreshMeals as RequestHandler,
+);
 mealsRouter.post(
   '/multi-day',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   mealsController.generateMultiDayMealPlan as RequestHandler,
 );
 mealsRouter.post(
   '/single-day',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   mealsController.generateSingleDayMealPlan as RequestHandler,
 );
-mealsRouter.post('/one-meal', isAuthenticated, mealsController.regenerateOneMeal as RequestHandler);
+mealsRouter.post(
+  '/one-meal',
+  isAuthenticated as RequestHandler,
+  mealsController.regenerateOneMeal as RequestHandler,
+);
 
 // NOTE: below two are saved for a future release
 // second endpoint needs to be post!

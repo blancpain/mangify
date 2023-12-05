@@ -6,85 +6,85 @@ const userSettingsRouter = express.Router();
 
 userSettingsRouter.post(
   '/sex',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   userSettingsController.updateSex as RequestHandler,
 );
 
 userSettingsRouter.post(
   '/goal',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   userSettingsController.updateGoal as RequestHandler,
 );
 
 userSettingsRouter.post(
   '/activity-level',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   userSettingsController.updateActivity as RequestHandler,
 );
 
 userSettingsRouter.post(
   '/weight',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   userSettingsController.updateWeight as RequestHandler,
 );
 
 userSettingsRouter.post(
   '/height',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   userSettingsController.updateHeight as RequestHandler,
 );
 
 userSettingsRouter.post(
   '/age',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   userSettingsController.updateAge as RequestHandler,
 );
 
 userSettingsRouter.post(
   '/number-of-meals',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   userSettingsController.updateNumberOfMeals as RequestHandler,
 );
 
 userSettingsRouter.post(
   '/diet',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   userSettingsController.updateDiet as RequestHandler,
 );
 
 userSettingsRouter.post(
   '/cuisines',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   userSettingsController.updateCuisines as RequestHandler,
 );
 
 userSettingsRouter.post(
   '/intolerances',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   userSettingsController.updateIntolerances as RequestHandler,
 );
 
 userSettingsRouter.post(
   '/calories',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   userSettingsController.updateCalories as RequestHandler,
 );
 
 userSettingsRouter.post(
   '/protein',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   userSettingsController.updateProtein as RequestHandler,
 );
 
 userSettingsRouter.post(
   '/fats',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   userSettingsController.updateFats as RequestHandler,
 );
 
 userSettingsRouter.post(
   '/carbs',
-  isAuthenticated,
+  isAuthenticated as RequestHandler,
   userSettingsController.updateCarbs as RequestHandler,
 );
 

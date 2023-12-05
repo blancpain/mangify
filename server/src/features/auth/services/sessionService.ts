@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import { TLoginSchema, FullUserForAuth, UserProfileForClient, UserForAuth } from '@/types';
-import { prisma, exclude } from '@/utils';
+import { prisma, exclude, extractUserProfile } from '@/utils';
 
 const login = async (user: TLoginSchema): Promise<FullUserForAuth | null> => {
   const { email, password } = user;
@@ -24,26 +24,13 @@ const login = async (user: TLoginSchema): Promise<FullUserForAuth | null> => {
 
   if (!(targetedUser && passwordCorrect)) return null;
 
+  // NOTE: filter out passwordHash
   const filteredUser: UserForAuth = exclude(targetedUser, ['passwordHash']);
 
-  // NOTE: select user profile
-  const targetedUserProfile = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-    select: {
-      profile: true,
-    },
-  });
+  const userProfile = await extractUserProfile(targetedUser.id);
 
-  // NOTE: below should be safe since a user always has a profile created at registration hence it can't be null
-  if (
-    targetedUserProfile &&
-    typeof targetedUserProfile === 'object' &&
-    'profile' in targetedUserProfile &&
-    targetedUserProfile.profile
-  ) {
-    const filteredUserProfile: UserProfileForClient = exclude(targetedUserProfile.profile, [
+  if (userProfile) {
+    const filteredUserProfile: UserProfileForClient = exclude(userProfile, [
       'id',
       'userId',
       'createdAt',
@@ -78,24 +65,10 @@ const authCheck = async (email: string): Promise<FullUserForAuth | null> => {
 
   if (!targetedUser) return null;
 
-  // NOTE: select user profile
-  const targetedUserProfile = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-    select: {
-      profile: true,
-    },
-  });
+  const userProfile = await extractUserProfile(targetedUser.id);
 
-  // NOTE: below should be safe since a user always has a profile created at registration hence it can't be null
-  if (
-    targetedUserProfile &&
-    typeof targetedUserProfile === 'object' &&
-    'profile' in targetedUserProfile &&
-    targetedUserProfile.profile
-  ) {
-    const filteredUserProfile: UserProfileForClient = exclude(targetedUserProfile.profile, [
+  if (userProfile) {
+    const filteredUserProfile: UserProfileForClient = exclude(userProfile, [
       'id',
       'userId',
       'createdAt',

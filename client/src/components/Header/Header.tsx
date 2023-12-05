@@ -101,7 +101,7 @@ export function HeaderMegaMenu() {
             <Button variant="default" component={NavLink} to="/login">
               Log in
             </Button>
-            <Button component={NavLink} to="/sign-up">
+            <Button component={NavLink} color="teal" to="/sign-up">
               Sign up
             </Button>
           </Group>
@@ -140,7 +140,7 @@ export function HeaderMegaMenu() {
             <Button variant="default" component={NavLink} to="/login" onClick={closeDrawer}>
               Log in
             </Button>
-            <Button component={NavLink} to="/sign-up" onClick={closeDrawer}>
+            <Button component={NavLink} to="/sign-up" color="teal" onClick={closeDrawer}>
               Sign up
             </Button>
           </Group>

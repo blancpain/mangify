@@ -31,8 +31,10 @@ jobs:
           script: |
             cd mangify
             ENV_CONTENT="${{ secrets.MAIN_ENV }}"
+            ENV_CONTENT_CLIENT="${{ secrets.CLIENT_ENV }}"
             echo "$ENV_CONTENT" > ./.env
             echo "$ENV_CONTENT" > ./server/.env
+            echo "$ENV_CONTENT_CLIENT" > ./client/.env
       - name: SSH into VM and run deployment script
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -49,7 +51,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # Add a step to bump version and push tags (if conditions are met - including skip in the commit will prevent tagging)
+      # Bump version and push tags (if conditions are met - including skip in the commit will prevent tagging)
       - name: Bump version and push tag
         if: ${{ github.event_name == 'push' && !contains(toJson(github.event.commits.*.message), '#skip')}}
         uses: anothrNick/github-tag-action@1.67.0

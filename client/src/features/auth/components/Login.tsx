@@ -11,23 +11,23 @@ import {
   Group,
   PaperProps,
   Button,
-  // Divider,
+  Divider,
   Anchor,
   Stack,
   Container,
   Box,
   Title,
-  // Flex,
+  Flex,
 } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
+import { signInWithPopup } from 'firebase/auth';
 import { loginSchema, TLoginSchema } from '@/types';
-// import { GoogleButton, FacebookButton } from '@/components/Buttons';
-import { useLoginMutation } from '@/features/api';
+import { GoogleButton, FacebookButton } from '@/components/Buttons';
+import { useFacebookLoginMutation, useGoogleLoginMutation, useLoginMutation } from '@/features/api';
 import { isFetchBaseQueryError, isErrorWithMessage } from '@/utils';
 import { useAppDispatch } from '@/hooks';
 import { setUser } from '@/stores';
-
-// NOTE: social login is not implemented yet hence the commented code; planned for future release
+import { googleProvider, auth, facebookProvider } from '@/firebase';
 
 export function Login(props: PaperProps) {
   const {
@@ -47,8 +47,35 @@ export function Login(props: PaperProps) {
   const [login] = useLoginMutation();
   const navigate = useNavigate();
   const [genericError, setGenericError] = useState('');
-
   const dispatch = useAppDispatch();
+  const [googleLogin] = useGoogleLoginMutation();
+  const [facebookLogin] = useFacebookLoginMutation();
+
+  const handleGoogleLogin = async () => {
+    try {
+      const res = await signInWithPopup(auth, googleProvider);
+      const token = await res.user?.getIdToken();
+      const user = await googleLogin(token).unwrap();
+      dispatch(setUser(user));
+      navigate('/', { replace: true });
+      reset();
+    } catch (error: unknown) {
+      setGenericError('Something went wrong. Please try again');
+    }
+  };
+
+  const handleFacebookLogin = async () => {
+    try {
+      const res = await signInWithPopup(auth, facebookProvider);
+      const token = await res.user?.getIdToken();
+      const user = await facebookLogin(token).unwrap();
+      dispatch(setUser(user));
+      navigate('/', { replace: true });
+      reset();
+    } catch (error: unknown) {
+      setGenericError('Something went wrong. Please try again');
+    }
+  };
 
   const onSubmit: SubmitHandler<TLoginSchema> = async (data) => {
     setGenericError('');
@@ -119,20 +146,20 @@ export function Login(props: PaperProps) {
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...props}
         >
-          {/* <Text size="xl" weight={500} align="center" pb={30}> */}
-          {/*   Sign in with */}
-          {/* </Text> */}
+          <Text size="xl" weight={500} align="center" pb={10}>
+            Sign in with
+          </Text>
 
-          {/* <Flex mb="md" mt="md" gap="lg"> */}
-          {/*   <GoogleButton radius="xl" disabled> */}
-          {/*     Google */}
-          {/*   </GoogleButton> */}
-          {/*   <FacebookButton radius="xl" disabled> */}
-          {/*     Facebook */}
-          {/*   </FacebookButton> */}
-          {/* </Flex> */}
+          <Flex mb="md" mt="md" gap="lg">
+            <GoogleButton radius="xl" onClick={handleGoogleLogin}>
+              Google
+            </GoogleButton>
+            <FacebookButton radius="xl" onClick={handleFacebookLogin}>
+              Facebook
+            </FacebookButton>
+          </Flex>
 
-          {/* <Divider label="Or continue with email" labelPosition="center" my="lg" /> */}
+          <Divider label="Or continue with email" labelPosition="center" my="lg" />
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack>
@@ -173,7 +200,13 @@ export function Login(props: PaperProps) {
               <Anchor component={NavLink} to="/sign-up" color="dimmed" size="xs">
                 No account? Register
               </Anchor>
-              <Button type="submit" radius="xl" id="login-button" disabled={isSubmitting}>
+              <Button
+                type="submit"
+                radius="xl"
+                id="login-button"
+                color="teal"
+                disabled={isSubmitting}
+              >
                 Login
               </Button>
             </Group>

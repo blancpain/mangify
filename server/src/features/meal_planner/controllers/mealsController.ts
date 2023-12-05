@@ -7,9 +7,9 @@ const generateMultiDayMealPlan = async (
   res: Response,
   _next: NextFunction,
 ): Promise<void> => {
-  const { user } = req.session;
+  const { userId } = req;
 
-  if (!user || !user.id) {
+  if (!userId) {
     res.status(401).json({ errors: 'Unauthorized' });
     return;
   }
@@ -24,7 +24,7 @@ const generateMultiDayMealPlan = async (
     });
     res.status(400).json({ errors: zodErrors });
   } else {
-    const data = await mealGeneratorService.generateMultiDayMealPlan(user.id, result.data);
+    const data = await mealGeneratorService.generateMultiDayMealPlan(userId, result.data);
     if (data) {
       res.json(data);
     } else {
@@ -38,8 +38,9 @@ const generateSingleDayMealPlan = async (
   res: Response,
   _next: NextFunction,
 ): Promise<void> => {
-  const { user } = req.session;
-  if (!user || !user.id) {
+  const { userId } = req;
+
+  if (!userId) {
     res.status(401).json({ errors: 'Unauthorized' });
     return;
   }
@@ -54,7 +55,7 @@ const generateSingleDayMealPlan = async (
     });
     res.status(400).json({ errors: zodErrors });
   } else {
-    const data = await mealGeneratorService.generateSingleDayMealPlan(user.id, result.data);
+    const data = await mealGeneratorService.generateSingleDayMealPlan(userId, result.data);
     if (data) {
       res.json(data);
     } else {
@@ -68,8 +69,9 @@ const regenerateOneMeal = async (
   res: Response,
   _next: NextFunction,
 ): Promise<void> => {
-  const { user } = req.session;
-  if (!user || !user.id) {
+  const { userId } = req;
+
+  if (!userId) {
     res.status(401).json({ errors: 'Unauthorized' });
     return;
   }
@@ -84,7 +86,7 @@ const regenerateOneMeal = async (
     });
     res.status(400).json({ errors: zodErrors });
   } else {
-    const data = await mealGeneratorService.regenerateOneMeal(user.id, result.data);
+    const data = await mealGeneratorService.regenerateOneMeal(userId, result.data);
     if (data) {
       res.json(data);
     } else {
@@ -94,14 +96,14 @@ const regenerateOneMeal = async (
 };
 
 const refreshMeals = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
-  const { user } = req.session;
+  const { userId } = req;
 
-  if (!user || !user.id) {
+  if (!userId) {
     res.status(401).json({ errors: 'Unauthorized' });
     return;
   }
 
-  const data = await mealGeneratorService.refreshMeals(user.id);
+  const data = await mealGeneratorService.refreshMeals(userId);
 
   if (data) {
     res.json(data);
@@ -112,15 +114,14 @@ const refreshMeals = async (req: Request, res: Response, _next: NextFunction): P
 
 // WARN: saveMeal and getFavoriteMeals are not currently in use, saved for a later release
 const saveMeal = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
-  const { user } = req.session;
+  const { userId } = req;
 
-  if (!user || !user.id) {
+  if (!userId) {
     res.status(401).json({ errors: 'Unauthorized' });
     return;
   }
-
   // WARN: change below to a query param as currently hardcoded
-  const data = await mealGeneratorService.saveMeal(user.id, 661250);
+  const data = await mealGeneratorService.saveMeal(userId, 661250);
 
   if (data) {
     res.json(data);
@@ -134,14 +135,14 @@ const getFavoriteMeals = async (
   res: Response,
   _next: NextFunction,
 ): Promise<void> => {
-  const { user } = req.session;
+  const { userId } = req;
 
-  if (!user || !user.id) {
+  if (!userId) {
     res.status(401).json({ errors: 'Unauthorized' });
     return;
   }
 
-  const data = await mealGeneratorService.getFavoriteMeals(user.id);
+  const data = await mealGeneratorService.getFavoriteMeals(userId);
 
   if (data) {
     res.json(data);

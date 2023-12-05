@@ -41,7 +41,6 @@ const userSlice = createSlice({
       state.user.name = null;
       state.user.email = null;
       state.profile = initialState.profile;
-      // state.meals = initialState.meals;
     },
     setActivityLevel: (state, action: PayloadAction<ActivityLevel>) => {
       state.profile.activity_level = action.payload;

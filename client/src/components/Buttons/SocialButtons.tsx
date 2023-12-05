@@ -1,6 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Button, ButtonProps, Group } from '@mantine/core';
-import { GithubIcon } from '@mantine/ds';
+import { Button, ButtonProps } from '@mantine/core';
+
+interface ExtendedButtonProps extends ButtonProps {
+  onClick: () => Promise<void>;
+}
 
 export function FacebookIcon(props: React.ComponentProps<'svg'>) {
   return (
@@ -55,11 +58,11 @@ export function GoogleIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   );
 }
 
-export function GoogleButton(props: ButtonProps) {
+export function GoogleButton(props: ExtendedButtonProps) {
   return <Button leftIcon={<GoogleIcon />} variant="default" color="gray" {...props} />;
 }
 
-export function FacebookButton(props: ButtonProps) {
+export function FacebookButton(props: ExtendedButtonProps) {
   return (
     <Button
       leftIcon={<FacebookIcon />}
@@ -72,31 +75,5 @@ export function FacebookButton(props: ButtonProps) {
       })}
       {...props}
     />
-  );
-}
-
-export function GithubButton(props: ButtonProps) {
-  return (
-    <Button
-      {...props}
-      leftIcon={<GithubIcon size="1rem" />}
-      sx={(theme) => ({
-        backgroundColor: theme.colors.dark[theme.colorScheme === 'dark' ? 9 : 6],
-        color: '#fff',
-        '&:hover': {
-          backgroundColor: theme.colors.dark[theme.colorScheme === 'dark' ? 9 : 6],
-        },
-      })}
-    />
-  );
-}
-
-export function SocialButtons() {
-  return (
-    <Group position="center" sx={{ padding: 15 }}>
-      <GoogleButton>Continue with Google</GoogleButton>
-      <FacebookButton>Sign in with Facebook</FacebookButton>
-      <GithubButton>Login with GitHub</GithubButton>
-    </Group>
   );
 }

@@ -237,8 +237,6 @@ export type UserForAuth = {
   disabled: boolean;
 };
 
-// export type FullUserProfile = Profile;
-
 export type FullUserForAuth = {
   user: UserForAuth;
   profile: UserProfileForClient;

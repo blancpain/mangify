@@ -26,6 +26,7 @@
     "chart.js": "^4.4.0",
     "date-fns": "^2.30.0",
     "dayjs": "^1.11.10",
+    "firebase": "^10.7.0",
     "framer-motion": "^10.16.4",
     "luxon": "^3.4.3",
     "mangify-shared-types": "^1.0.7",
