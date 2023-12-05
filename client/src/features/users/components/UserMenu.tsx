@@ -10,7 +10,7 @@ import {
   IconCheck,
 } from '@tabler/icons-react';
 import { useAppSelector, useAppDispatch } from '@/hooks';
-import { selectUser, logout } from '@/stores';
+import { selectUser, logout, setMeals } from '@/stores';
 import { useLogoutMutation } from '@/features/api';
 
 export function UserMenu() {
@@ -23,6 +23,7 @@ export function UserMenu() {
   const handleLogout = async () => {
     await processLogout();
     dispatch(logout());
+    dispatch(setMeals([]));
     navigate('/', { replace: true });
     notifications.show({
       id: 'logout',
