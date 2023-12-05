@@ -42,6 +42,19 @@ export const extractUserIdFromEmail = async (email: string): Promise<string | nu
   return null;
 };
 
+export const extractUserEmailFromId = async (id: string): Promise<string | null> => {
+  const userEmail = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      email: true,
+    },
+  });
+  if (userEmail) return userEmail.email;
+  return null;
+};
+
 export const getUserMeals = async (id: string) => {
   const userMeals = await prisma.meal.findMany({
     where: {
