@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+import { auth } from 'firebase-admin';
 import { loginSchema, FullUserForClient } from '@/types';
 import { sessionService } from '../services/sessionService';
 import { Logger } from '@/lib';
@@ -55,14 +56,46 @@ const login = async (req: Request, res: Response, _next: NextFunction): Promise<
 const logout = (req: Request, res: Response, _next: NextFunction): void => {
   req.session.destroy((err: unknown) => {
     if (err) {
-      Logger.error('Error when destroying session');
+      Logger.error('Error destroying session');
     }
   });
+  res.clearCookie('firebaseSession');
+  res.clearCookie('connect.sid');
+  req.userId = '';
   res.status(204).end();
 };
 
 const authCheck = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
   const { user } = req.session;
+
+  // social login cookies
+  const firebaseSessionCookie = req.cookies.firebaseSession as string;
+
+  if (firebaseSessionCookie) {
+    const decodedToken = await auth().verifySessionCookie(firebaseSessionCookie, true);
+    const { email } = decodedToken;
+
+    if (!email) {
+      res.status(401).json({ errors: 'Unauthorized' });
+      return;
+    }
+
+    const userInDB = await sessionService.authCheck(email);
+
+    if (userInDB) {
+      const userToBeReturned: FullUserForClient = {
+        user: {
+          name: userInDB.user.email,
+          email: userInDB.user.email,
+        },
+        profile: userInDB.profile,
+      };
+      res.status(200).json(userToBeReturned);
+      return;
+    }
+    res.status(401).json({ errors: 'Unauthorized' });
+    return;
+  }
 
   if (user) {
     const userInDB = await sessionService.authCheck(user.email);
@@ -89,7 +122,43 @@ const authCheck = async (req: Request, res: Response, _next: NextFunction): Prom
 const refreshSession = async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
   const { user } = req.session;
 
-  //* we add the below check is well to ensure that users deleted from the DB cannot continue to have an active session
+  // TODO: consider breaking this and the auth functions up into separate functions for social login and email login...
+
+  // WARN:
+  // this doesn't actually refresh the firebase session cookie, it just checks if it's valid
+  // to refresh we actually need to create a new cookie with a new expiration date
+  // but not needed for now since expiration is set to a long time (5 days)
+
+  const firebaseSessionCookie = req.cookies.firebaseSession as string;
+
+  if (firebaseSessionCookie) {
+    const decodedToken = await auth().verifySessionCookie(firebaseSessionCookie, true);
+    const { email } = decodedToken;
+
+    if (!email) {
+      res.status(401).json({ errors: 'Unauthorized' });
+      return;
+    }
+
+    const userInDB = await sessionService.authCheck(email);
+
+    // NOTE: we add the below checks for user in db as well to ensure that users
+    // deleted from the DB cannot continue to have an active session
+    if (userInDB) {
+      const userToBeReturned: FullUserForClient = {
+        user: {
+          name: userInDB.user.email,
+          email: userInDB.user.email,
+        },
+        profile: userInDB.profile,
+      };
+      res.status(200).json(userToBeReturned);
+      return;
+    }
+    res.status(401).json({ errors: 'Unauthorized' });
+    return;
+  }
+
   if (user) {
     const userInDB = await prisma.user.findUnique({
       where: {
