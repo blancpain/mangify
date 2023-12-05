@@ -11,7 +11,7 @@ import {
   Group,
   PaperProps,
   Button,
-  // Divider,
+  Divider,
   Anchor,
   Stack,
   Box,
@@ -19,12 +19,18 @@ import {
   Container,
 } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
+import { signInWithPopup } from 'firebase/auth';
 import { signUpSchema, TSignUpSchema } from '@/types';
-// import { GoogleButton, FacebookButton } from '@/components/Buttons';
-import { useRegisterUserMutation } from '@/features/api';
+import { GoogleButton, FacebookButton } from '@/components/Buttons';
+import {
+  useFacebookLoginMutation,
+  useGoogleLoginMutation,
+  useRegisterUserMutation,
+} from '@/features/api';
 import { isFetchBaseQueryError, isErrorWithMessage } from '@/utils';
-
-// NOTE: social login is not implemented yet hence the commented code; planned for future release
+import { googleProvider, auth, facebookProvider } from '@/firebase';
+import { setUser } from '@/stores';
+import { useAppDispatch } from '@/hooks';
 
 export function SignUp(props: PaperProps) {
   const {
@@ -46,6 +52,36 @@ export function SignUp(props: PaperProps) {
   const [registerUser] = useRegisterUserMutation();
   const navigate = useNavigate();
   const [genericError, setGenericError] = useState('');
+  const [googleLogin] = useGoogleLoginMutation();
+  const [facebookLogin] = useFacebookLoginMutation();
+  const dispatch = useAppDispatch();
+
+  const handleGoogleLogin = async () => {
+    try {
+      const res = await signInWithPopup(auth, googleProvider);
+      const token = await res.user?.getIdToken();
+      const user = await googleLogin(token).unwrap();
+      dispatch(setUser(user));
+      navigate('/', { replace: true });
+      reset();
+    } catch (error: unknown) {
+      setGenericError('Something went wrong at Google. Please try again');
+    }
+  };
+
+  const handleFacebookLogin = async () => {
+    try {
+      const res = await signInWithPopup(auth, facebookProvider);
+      const token = await res.user?.getIdToken();
+
+      const user = await facebookLogin(token).unwrap();
+      dispatch(setUser(user));
+      navigate('/', { replace: true });
+      reset();
+    } catch (error: unknown) {
+      setGenericError('Something went wrong at Facebook. Please try again');
+    }
+  };
 
   const onSubmit: SubmitHandler<TSignUpSchema> = async (data) => {
     setGenericError('');
@@ -132,20 +168,20 @@ export function SignUp(props: PaperProps) {
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...props}
         >
-          {/* <Text size="xl" weight={500} align="center"> */}
-          {/*   Sign in with */}
-          {/* </Text> */}
-          {/**/}
-          {/* <Group grow mb="md" mt="md"> */}
-          {/*   <GoogleButton radius="xl" disabled> */}
-          {/*     Google */}
-          {/*   </GoogleButton> */}
-          {/*   <FacebookButton radius="xl" disabled> */}
-          {/*     Facebook */}
-          {/*   </FacebookButton> */}
-          {/* </Group> */}
-          {/**/}
-          {/* <Divider label="Or register with email" labelPosition="center" my="lg" /> */}
+          <Text size="xl" weight={500} align="center" pb={10}>
+            Sign in with
+          </Text>
+
+          <Group grow mb="md" mt="md">
+            <GoogleButton radius="xl" onClick={handleGoogleLogin}>
+              Google
+            </GoogleButton>
+            <FacebookButton radius="xl" onClick={handleFacebookLogin}>
+              Facebook
+            </FacebookButton>
+          </Group>
+
+          <Divider label="Or register with email" labelPosition="center" my="lg" />
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <Stack>
@@ -208,7 +244,7 @@ export function SignUp(props: PaperProps) {
               <Anchor component={NavLink} to="/login" color="dimmed" size="xs">
                 Already have an account? Login
               </Anchor>
-              <Button type="submit" radius="xl" disabled={isSubmitting}>
+              <Button type="submit" radius="xl" color="teal" disabled={isSubmitting}>
                 Register
               </Button>
             </Group>
