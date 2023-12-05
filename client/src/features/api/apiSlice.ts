@@ -85,6 +85,23 @@ export const mangifyApi = createApi({
         method: 'POST',
         body: user,
       }),
+      invalidatesTags: ['Meals'],
+    }),
+    googleLogin: build.mutation<FullUserForClient, string>({
+      query: (idToken) => ({
+        url: '/users/google-signin',
+        method: 'POST',
+        body: { idToken },
+      }),
+      invalidatesTags: ['Meals'],
+    }),
+    facebookLogin: build.mutation<FullUserForClient, string>({
+      query: (idToken) => ({
+        url: '/users/facebook-signin',
+        method: 'POST',
+        body: { idToken },
+      }),
+      invalidatesTags: ['Meals'],
     }),
     authCheck: build.mutation<FullUserForClient, void>({
       query: () => ({
@@ -94,6 +111,7 @@ export const mangifyApi = createApi({
     }),
     logout: build.mutation<void, void>({
       query: () => '/session/logout',
+      invalidatesTags: ['Meals'],
     }),
     setSex: build.mutation<Sex, TSexSchema>({
       query: (userSex) => ({
@@ -220,4 +238,6 @@ export const {
   useGenerateMultiDayMealPlanMutation,
   useRegenerateOneMealMutation,
   useGetMealsQuery,
+  useGoogleLoginMutation,
+  useFacebookLoginMutation,
 } = mangifyApi;
