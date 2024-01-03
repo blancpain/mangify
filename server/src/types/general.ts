@@ -227,6 +227,7 @@ export type NonSensitiveUser = {
   email: string;
   id: string;
   role: TRole;
+  verificationToken: string;
 };
 
 export type UserForAuth = {
