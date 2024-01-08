@@ -6,5 +6,3 @@ export const mailgunClient = mailgun.client({
   username: 'api',
   key: process.env.MAILGUN_API as string,
 });
-
-// TODO: update env file in github secrets
