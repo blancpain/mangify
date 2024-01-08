@@ -236,6 +236,7 @@ export type UserForAuth = {
   id: string;
   role: TRole;
   disabled: boolean;
+  verified: boolean;
 };
 
 export type FullUserForAuth = {
