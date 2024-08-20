@@ -5,3 +5,4 @@ export * from './sign-up';
 export * from './about';
 export * from './learn';
 export * from './verification';
+export * from './underConstruction';
